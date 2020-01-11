@@ -395,9 +395,9 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
 	
 #### 7.2 播放器生命周期逻辑
-	7.2.1、对于视频播放，提供单利模式，整个APP周期只创建一次播放器，当APP周期结束时，再释放整个实例即可。</br>
-	7.2.2、对于音频，单例和new对象都可以。</br>
-	7.3.3、常规播放流程（具体可看demo）：</br>
+	7.2.1、对于视频播放，提供单利模式，整个APP周期只创建一次播放器，当APP周期结束时，再释放整个实例即可。
+	7.2.2、对于音频，单例和new对象都可以。
+	7.3.3、常规播放流程（具体可看demo）：
 	如：APP启动->startactivity->WlMedia.getInstance()->播放中各种操作->关闭播放页面(stop->complete/orerror->activityfinish)->App退出（WlMedia.releaseAndExit()）
 	
 
