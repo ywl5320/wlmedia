@@ -49,6 +49,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 ## 4、接入代码
 
 #### 4.1、视频surface选择
+```java
 	// WlSurfaceView 一般播放使用
 	<com.ywl5320.wlmedia.surface.WlSurfaceView
         android:layout_width="match_parent"
@@ -58,6 +59,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
     <com.ywl5320.wlmedia.surface.WlTextureView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+```
         
 #### 4.2、创建播放器
 
@@ -120,7 +122,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
     wlMedia.prepared();
 ```
 ##### 4.2.3 播放加密视频文件
-    
+```java
     WlMedia wlMedia = WlMedia.getInstance();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
     wlSurfaceView.setWlMedia(wlMedia);
@@ -156,7 +158,9 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
                 wlMedia.seek(value);
             }
         });
+```
 ##### 4.2.4 播放byte[]音视频数据
+```java
     wlMedia = WlMedia.getInstance();
     wlMedia.setBufferSource(true, false);//必须第一个为true,第二个为false
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_VIDEO);//根据byte类型来设置（可以音频、视频、音视频）
@@ -238,11 +242,13 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
         }
     });
+```
 	
 ##### 4.2.5 获取视频图片（类似于缩略图）
+```java
 	WlMediaUtil wlMediaUtil = new WlMediaUtil();//可以用单利模式，自己封装图片加载库
 	Bitmap bitmap = wlMediaUtil.getVideoPic(url);
-    
+```
 
 
 	
@@ -251,6 +257,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
 #### 5.1 播放器API
     
+```java
     public WlMedia();//构造函数，不依赖上下文
 	
 	public static WlMedia.getInstance();//单例模式 用于APP周期内只创建一次播放器实例（主要视频），当APP退出时调用WlMedia.releaseAndExit();释放surface资源
@@ -337,6 +344,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
     public void setAudioChannel(int index);//设置播放音轨，index为getAudioChannels中得到音轨的索引
 	
 	public void setDelayOffsetTime(double offsetTime);//用于单独播放视频（buffer）时动态调整视频渲染速率，单位秒。
+```
     
 #### 5.2 WlSurfaceView和WlTextureView
     SDK自带这2个自定义surfaceview，通过setWlMedia方法与播放器关联，updateMedia方法用于播放中切换显示surface；WlOnVideoViewListener为surface初始化完成回调。
@@ -345,15 +353,17 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
     
     ***注：***
     自定义surface必须调用方法：
-    
+```java
     public void onSurfaceCreate(Surface surface);
     
     public void onSurfaceChange(int width, int height, Surface surface);
     
     public void onSurfaceDestroy();
+```
     
     
 #### 5.3 回调函数
+```java
     public interface WlOnPreparedListener; //异步准备完成回调
     
     public interface WlOnTimeInfoListener; //播放时间回调
@@ -371,6 +381,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
     public interface WlOnTakePictureListener; //截图回调
     
     public interface WlOnVideoViewListener; //surface 初始化完成回调
+```
     
     
 ## 6、混淆
