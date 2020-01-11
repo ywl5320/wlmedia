@@ -392,7 +392,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 7.1 播放器activity配置：
 	
 	android:configChanges="orientation|keyboardHidden|screenSize"
-	android:launchMode="singleTask"//(建议)
+
 	
 #### 7.2 播放器生命周期逻辑
 	7.2.1、对于视频播放，提供单利模式，整个APP周期只创建一次播放器，当APP周期结束时，再释放整个实例即可。</br>
