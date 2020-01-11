@@ -11,7 +11,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 <img width="640" height="313" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/play_memery.png"/>
 
 
-## 1、Usage
+## 1、Usage（可用手机（我是移动）分享热点的方式加速下载）
 
 ### Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.0.5) ](https://bintray.com/ywl5320/maven/wlmedia/1.0.5/link)
 
