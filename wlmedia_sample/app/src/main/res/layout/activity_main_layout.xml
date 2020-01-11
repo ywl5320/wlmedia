@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="常规播放"
+                android:onClick="play_normal"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="加密播放"
+                android:onClick="play_encrypt"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="byte[]播放"
+                android:onClick="play_buffert"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="只播放音频"
+                android:onClick="play_audio"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="获取视频图片"
+                android:onClick="get_video_pic"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
