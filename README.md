@@ -62,7 +62,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 4.2、创建播放器
 
 ##### 4.2.1 播放视频
-	```java
+```java
 	WlMedia wlMedia = WlMedia.getInstance();//单例模式主要用于视频，音频可以new对象
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);//同时播放音频视频
 	wlSurfaceView.setWlMedia(wlMedia);//给视频surface设置播放器
@@ -104,10 +104,10 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
                 "}";
     wlMedia.setfShader(fs);
     wlMedia.changeFilter();
-	```
+```
     
 ##### 4.2.2 播放音频
-	```java
+```java
     WlMedia wlMedia = WlMedia.getInstance();//或 new WlMedia();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_AUDIO);//设置只播放音频（必须）
     wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(this, "mydream.m4a"));//设置数据源
@@ -118,7 +118,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
         }
     });
     wlMedia.prepared();
-	```
+```
 ##### 4.2.3 播放加密视频文件
     
     WlMedia wlMedia = WlMedia.getInstance();
