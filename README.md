@@ -12,9 +12,9 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
 ## 1、Usage
 
-### Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.0.4) ](https://bintray.com/ywl5320/maven/wlmedia/1.0.4/link)
+### Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.0.5) ](https://bintray.com/ywl5320/maven/wlmedia/1.0.5/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.0.4'
+    implementation 'ywl.ywl5320:wlmedia:1.0.5'
 
 
 ## 2、实例图片
@@ -62,8 +62,8 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 4.2、创建播放器
 
 ##### 4.2.1 播放视频
-	
-	WlMedia wlMedia = new WlMedia();
+	```java
+	WlMedia wlMedia = WlMedia.getInstance();//单例模式主要用于视频，音频可以new对象
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);//同时播放音频视频
 	wlSurfaceView.setWlMedia(wlMedia);//给视频surface设置播放器
 	
@@ -104,9 +104,11 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
                 "}";
     wlMedia.setfShader(fs);
     wlMedia.changeFilter();
+	```
     
 ##### 4.2.2 播放音频
-    WlMedia wlMedia = new WlMedia();
+	```java
+    WlMedia wlMedia = WlMedia.getInstance();//或 new WlMedia();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_AUDIO);//设置只播放音频（必须）
     wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(this, "mydream.m4a"));//设置数据源
     wlMedia.setOnPreparedListener(new WlOnPreparedListener() {
@@ -116,9 +118,10 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
         }
     });
     wlMedia.prepared();
+	```
 ##### 4.2.3 播放加密视频文件
     
-    WlMedia wlMedia = new WlMedia();
+    WlMedia wlMedia = WlMedia.getInstance();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
     wlSurfaceView.setWlMedia(wlMedia);
     wlMedia.setBufferSource(true, true);//必须都为true
@@ -154,7 +157,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
             }
         });
 ##### 4.2.4 播放byte[]音视频数据
-    wlMedia = new WlMedia();
+    wlMedia = WlMedia.getInstance();
     wlMedia.setBufferSource(true, false);//必须第一个为true,第二个为false
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_VIDEO);//根据byte类型来设置（可以音频、视频、音视频）
     wlTextureView.setWlMedia(wlMedia);
@@ -249,6 +252,10 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 5.1 播放器API
     
     public WlMedia();//构造函数，不依赖上下文
+	
+	public static WlMedia.getInstance();//单例模式 用于APP周期内只创建一次播放器实例（主要视频），当APP退出时调用WlMedia.releaseAndExit();释放surface资源
+	
+	public static void releaseAndExit();//退出APP时调用，释放surface资源
     
     public void setSource(String source);//设置数据源（可以是file、url）
     
@@ -376,8 +383,12 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 	android:launchMode="singleTask"//(建议)
 	
 #### 7.2 播放器生命周期逻辑
-	播放器结束有2个回调：error和complete，二者只可能回调其中一个，所以回收回收资源可以在这个2个回调里面进行。
-	如：activity：back->stop->error/complete->release->finish
+	7.2.1、对于视频播放，提供单利模式，整个APP周期只创建一次播放器，当APP周期结束时，再释放整个实例即可。</br>
+	7.2.2、对于音频，单例和new对象都可以。</br>
+	7.3.3、常规播放流程（具体可看demo）：</br>
+	如：APP启动->startactivity->WlMedia.getInstance()->播放中各种操作->关闭播放页面(stop->complete/orerror->activityfinish)->App退出（WlMedia.releaseAndExit()）
+	
+
 #### 7.3 高本版系统后台播放音频卡顿问题
 	建议在新的进程中播放音频，比如：
 	<service android:name=".AudioService"
@@ -390,12 +401,9 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |	……	|
 |---|---|---|
 
-## 9、TODO
 
-##### 优化变速变调，减低音频失真问题
-##### 优化高版本系统快速播放退出导致的底层奔溃问题
 
-## 10、参考资料
+## 9、参考资料
 ### [我的视频课程（基础）：《（NDK）FFmpeg打造Android万能音频播放器》](https://edu.csdn.net/course/detail/6842)
 ### [我的视频课程（进阶）：《（NDK）FFmpeg打造Android视频播放器》](https://edu.csdn.net/course/detail/8036)
 ### [我的视频课程（编码直播推流）：《Android视频编码和直播推流》](https://edu.csdn.net/course/detail/8942)
