@@ -2,7 +2,7 @@
 android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### [视频演示](http://www.iqiyi.com/w_19sb5nsu7x.html)
 ## 功能
-##### **支持：http、https、rtsp、rtp、rtmp、byte[]、加密视频和各种文件格式视频；
+##### **支持：http、https、rtsp、rtp、rtmp、byte[]、加密视频、多路音视频播放和各种文件格式视频；
 ##### **截图、音轨选择、自定义视频滤镜、变速变调、声道切换、无缝切换surface（surfaceview和textureview）、视频比例设置等；
 ##### **目前包含全部FFmpeg音视频解码器，故SDK包比较大；如需定制大小，可联系我~（Email：ywl5320@163.com）
 
@@ -13,9 +13,9 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
 ## 1、Usage（可用手机（我是移动）分享热点的方式加速下载）
 
-### Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.0.5) ](https://bintray.com/ywl5320/maven/wlmedia/1.0.5/link)
+### Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.0.6) ](https://bintray.com/ywl5320/maven/wlmedia/1.0.6/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.0.5'
+    implementation 'ywl.ywl5320:wlmedia:1.0.6'
 
 
 ## 2、实例图片
@@ -31,7 +31,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
     defaultConfig {
         ...
-		ndk {
+    	ndk {
 		    abiFilter("arm64-v8a")
 		    abiFilter("armeabi-v7a")
 		    abiFilter("x86")
@@ -66,7 +66,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
 ##### 4.2.1 播放视频
 ```java
-	WlMedia wlMedia = WlMedia.getInstance();//单例模式主要用于视频，音频可以new对象
+	WlMedia wlMedia = new WlMedia();//创建一个播放实例
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);//同时播放音频视频
 	wlSurfaceView.setWlMedia(wlMedia);//给视频surface设置播放器
 	
@@ -111,7 +111,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
     
 ##### 4.2.2 播放音频
 ```java
-    WlMedia wlMedia = WlMedia.getInstance();//或 new WlMedia();
+    WlMedia wlMedia = new WlMedia();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_AUDIO);//设置只播放音频（必须）
     wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(this, "mydream.m4a"));//设置数据源
     wlMedia.setOnPreparedListener(new WlOnPreparedListener() {
@@ -124,7 +124,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 ```
 ##### 4.2.3 播放加密视频文件
 ```java
-    WlMedia wlMedia = WlMedia.getInstance();
+    WlMedia wlMedia = new WlMedia();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
     wlSurfaceView.setWlMedia(wlMedia);
     wlMedia.setBufferSource(true, true);//必须都为true
@@ -162,7 +162,7 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 ```
 ##### 4.2.4 播放byte[]音视频数据
 ```java
-    wlMedia = WlMedia.getInstance();
+    wlMedia = new WlMedia();
     wlMedia.setBufferSource(true, false);//必须第一个为true,第二个为false
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_VIDEO);//根据byte类型来设置（可以音频、视频、音视频）
     wlTextureView.setWlMedia(wlMedia);
@@ -260,10 +260,6 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
     
 ```java
     public WlMedia();//构造函数，不依赖上下文
-	
-	public static WlMedia.getInstance();//单例模式 用于APP周期内只创建一次播放器实例（主要视频），当APP退出时调用WlMedia.releaseAndExit();释放surface资源
-	
-	public static void releaseAndExit();//退出APP时调用，释放surface资源
     
     public void setSource(String source);//设置数据源（可以是file、url）
     
@@ -395,10 +391,10 @@ android 音视频播放SDK，几句代码即可实现音视频播放功能~
 
 	
 #### 7.2 播放器生命周期逻辑
-	7.2.1、对于视频播放，提供单利模式，整个APP周期只创建一次播放器，当APP周期结束时，再释放整个实例即可。
-	7.2.2、对于音频，单例和new对象都可以。
+	7.2.1、对于视频播放，new一个对象就对应播放一路视频，在退出播放页面时，调用release才能销毁surfaceview资源（音频则不需要）。
+	7.2.2、对于音频，new一个对象就对应播放一个音频，PlayModel设置为：WlPlayModel.PLAYMODEL_ONLY_AUDIO 即可。
 	7.3.3、常规播放流程（具体可看demo）：
-	如：APP启动->startactivity->WlMedia.getInstance()->播放中各种操作->关闭播放页面(stop->complete/orerror->activityfinish)->App退出（WlMedia.releaseAndExit()）
+	如：APP启动->startactivity->new WlMedia()->播放中各种操作->关闭播放页面(stop->complete/orerror->activityfinish(release))
 	
 
 #### 7.3 高本版系统后台播放音频卡顿问题
