@@ -11,7 +11,7 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 <img width="640" height="360" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/play_video.png"/><br/>
 <img width="640" height="313" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/play_memery.png"/>
 ### 电视盒子播放
-<img width="640" height="313" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/tv_play.jpg"/>
+<img width="640" height="480" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/tv_play.jpg"/>
 
 
 ## 1、Usage（可用手机（我是移动）分享热点的方式加速下载）
