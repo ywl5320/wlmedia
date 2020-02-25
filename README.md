@@ -1,5 +1,6 @@
 # wlmedia
-android 音视频播放SDK，几句代码即可实现音视频播放功能~
+Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
+支撑手机、电视盒子等设备。
 #### [视频演示](http://www.iqiyi.com/w_19sb5nsu7x.html)
 ## 功能
 ##### **支持：http、https、rtsp、rtp、rtmp、byte[]、加密视频、多路音视频播放和各种文件格式视频；
