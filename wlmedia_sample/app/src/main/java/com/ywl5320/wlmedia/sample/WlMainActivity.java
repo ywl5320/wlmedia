@@ -47,9 +47,8 @@ public class WlMainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        WlMedia.releaseAndExit();
+    public void mut_play(View view) {
+        Intent intent = new Intent(this, WlMutPlayActivity.class);
+        startActivity(intent);
     }
 }

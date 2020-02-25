@@ -31,7 +31,7 @@ public class WlEncryptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_encrypt_layout);
         wlSurfaceView = findViewById(R.id.wlsurfaceview);
 
-        wlMedia = WlMedia.getInstance();
+        wlMedia = new WlMedia();
         wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
         wlSurfaceView.setWlMedia(wlMedia);
         wlMedia.setBufferSource(true, true);
@@ -91,6 +91,15 @@ public class WlEncryptActivity extends AppCompatActivity {
                 wlMedia.seek(value);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(wlMedia != null)
+        {
+            wlMedia.release();
+        }
     }
 
     @Override

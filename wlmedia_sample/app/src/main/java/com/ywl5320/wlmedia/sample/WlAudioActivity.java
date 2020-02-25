@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ywl5320.wlmedia.WlMedia;
 import com.ywl5320.wlmedia.enums.WlPlayModel;
+import com.ywl5320.wlmedia.enums.WlSampleRate;
 import com.ywl5320.wlmedia.listener.WlOnCompleteListener;
 import com.ywl5320.wlmedia.listener.WlOnPreparedListener;
 import com.ywl5320.wlmedia.listener.WlOnTimeInfoListener;
@@ -27,6 +28,7 @@ public class WlAudioActivity extends AppCompatActivity {
         wlMedia = new WlMedia();
         wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_AUDIO);
         wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(this, "mydream.m4a"));
+        wlMedia.setSampleRate(WlSampleRate.SAMPLE_RATE_48000);
         wlMedia.setOnPreparedListener(new WlOnPreparedListener() {
             @Override
             public void onPrepared() {
@@ -50,6 +52,13 @@ public class WlAudioActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        wlMedia.stop();
+        if(wlMedia.isPlay())
+        {
+            wlMedia.stop();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.ywl5320.wlmedia.surface.WlSurfaceView
+        android:id="@+id/wlsurfaceview1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+    <com.ywl5320.wlmedia.surface.WlSurfaceView
+        android:id="@+id/wlsurfaceview2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+    <com.ywl5320.wlmedia.surface.WlSurfaceView
+        android:id="@+id/wlsurfaceview3"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+</LinearLayout>

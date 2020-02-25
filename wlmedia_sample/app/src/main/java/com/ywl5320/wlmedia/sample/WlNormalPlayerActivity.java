@@ -63,7 +63,7 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
         ivPic = findViewById(R.id.iv_pic);
         lyChannels = findViewById(R.id.ly_channels);
 
-        wlMedia = WlMedia.getInstance();
+        wlMedia = new WlMedia();
         wlMedia.setCodecType(WlCodecType.CODEC_MEDIACODEC);
         wlSurfaceView.setWlMedia(wlMedia);
         wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
@@ -173,6 +173,15 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
     public void video_two(View view) {
         wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(WlNormalPlayerActivity.this, "xjzw_cut.mkv"));
         wlMedia.next();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(wlMedia != null)
+        {
+            wlMedia.release();
+        }
     }
 
     @Override

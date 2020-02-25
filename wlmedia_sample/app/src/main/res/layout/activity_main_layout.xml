@@ -17,7 +17,11 @@
                 android:layout_height="45dp"
                 android:text="常规播放"
                 android:onClick="play_normal"/>
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="多路播放"
+                android:onClick="mut_play"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -40,6 +44,7 @@
                 android:layout_height="45dp"
                 android:text="获取视频图片"
                 android:onClick="get_video_pic"/>
+
         </LinearLayout>
     </ScrollView>
 

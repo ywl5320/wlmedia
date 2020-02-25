@@ -29,7 +29,7 @@ public class WlBufferActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buffer_layout);
         wlTextureView = findViewById(R.id.wltextureveiw);
-        wlMedia = WlMedia.getInstance();
+        wlMedia = new WlMedia();
         wlMedia.setBufferSource(true, false);
         wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_VIDEO);
         wlTextureView.setWlMedia(wlMedia);
@@ -121,7 +121,23 @@ public class WlBufferActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(wlMedia != null)
+        {
+            wlMedia.release();
+        }
+    }
+
+    @Override
     public void onBackPressed() {
-        exit = true;
+        if(wlMedia.isPlay())
+        {
+            exit = true;
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 }
