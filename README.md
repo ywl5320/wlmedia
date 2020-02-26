@@ -424,6 +424,12 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 ### [我的视频课程（编码直播推流）：《Android视频编码和直播推流》](https://edu.csdn.net/course/detail/8942)
 ### [我的视频课程（C++ OpenGL）：《Android C++ OpenGL》](https://edu.csdn.net/course/detail/19367)
 
+## 10、核心三方库
+[FFmpeg](http://ffmpeg.org/)
+[OpenSSL](https://github.com/openssl/openssl)
+[SoundTouch](http://www.surina.net/soundtouch/)
+
+
 ### Create By：ywl5320 2019-12-16
 
 
