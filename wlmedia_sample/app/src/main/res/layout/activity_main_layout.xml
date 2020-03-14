@@ -45,6 +45,12 @@
                 android:text="获取视频图片"
                 android:onClick="get_video_pic"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="电视直播测试"
+                android:onClick="play_live"/>
+
         </LinearLayout>
     </ScrollView>
 

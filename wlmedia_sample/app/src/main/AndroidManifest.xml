@@ -13,6 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_https_config"
         android:theme="@style/AppTheme">
         <activity android:name=".WlMainActivity">
             <intent-filter>
@@ -43,6 +44,9 @@
         <activity android:name=".WlMutPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"/>
+        <activity android:name=".WlLiveActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"/>
 
     </application>
 

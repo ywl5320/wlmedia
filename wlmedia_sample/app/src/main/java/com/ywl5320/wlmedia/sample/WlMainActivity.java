@@ -51,4 +51,9 @@ public class WlMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WlMutPlayActivity.class);
         startActivity(intent);
     }
+
+    public void play_live(View view) {
+        Intent intent = new Intent(this, WlLiveActivity.class);
+        startActivity(intent);
+    }
 }

@@ -7,10 +7,12 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSeekBar;
 
 import com.ywl5320.wlmedia.WlMediaUtil;
 
@@ -18,6 +20,8 @@ public class WlGetVideoPicActivity extends AppCompatActivity {
     private ImageView ivImg;
     private ImageView ivImg2;
     private ImageView ivImg3;
+    private AppCompatSeekBar seekBar;
+    private boolean durationGetImg = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +29,35 @@ public class WlGetVideoPicActivity extends AppCompatActivity {
         ivImg = findViewById(R.id.iv_img);
         ivImg2 = findViewById(R.id.iv_img2);
         ivImg3 = findViewById(R.id.iv_img3);
+        seekBar = findViewById(R.id.seek_bar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                double time = 180.0 * i / 100;//模拟播放视频时seek获取图片
+                if(durationGetImg)
+                {
+                    return;
+                }
+                durationGetImg = true;
+                getbitmap(ivImg2, WlAssetsUtil.getAssetsFilePath(WlGetVideoPicActivity.this, "fcrs.1080p.mp4"), time, false);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     public void getvideopic(View view) {
-        getbitmap(ivImg, WlAssetsUtil.getAssetsFilePath(this, "mytest.h264"), 10);
-        getbitmap(ivImg2, WlAssetsUtil.getAssetsFilePath(this, "fcrs.1080p.mp4"), 1);
-        getbitmap(ivImg3, WlAssetsUtil.getAssetsFilePath(this, "xjzw_cut.mkv"), 1);
+        getbitmap(ivImg, WlAssetsUtil.getAssetsFilePath(this, "mytest.h264"), 2, true);
+        getbitmap(ivImg2, WlAssetsUtil.getAssetsFilePath(this, "fcrs.1080p.mp4"), 12, false);
+        getbitmap(ivImg3, WlAssetsUtil.getAssetsFilePath(this, "xjzw_cut.mkv"), 30, false);
     }
 
     class BitmapData
@@ -44,13 +71,13 @@ public class WlGetVideoPicActivity extends AppCompatActivity {
         }
     }
 
-    private void getbitmap(final ImageView imageView, final String url, final int index)
+    private void getbitmap(final ImageView imageView, final String url, final double index, final boolean keyframe)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 WlMediaUtil wlMediaUtil = new WlMediaUtil();
-                Bitmap bitmap = wlMediaUtil.getVideoPic(url, index);
+                Bitmap bitmap = wlMediaUtil.getVideoPic(url, index, keyframe);
                 if(bitmap != null)
                 {
                     Log.d("ywl5320", url + " : bitmap w:" + bitmap.getWidth() + ",h:" + bitmap.getHeight());
@@ -69,6 +96,7 @@ public class WlGetVideoPicActivity extends AppCompatActivity {
             super.handleMessage(msg);
             BitmapData bitmapData = (BitmapData) msg.obj;
             bitmapData.imageView.setImageBitmap(bitmapData.bitmap);
+            durationGetImg = false;
         }
     };
 }

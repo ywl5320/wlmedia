@@ -6,8 +6,8 @@ android {
         applicationId "com.ywl5320.wlmedia.sample"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 22
-        versionName "1.0.6"
+        versionCode 23
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 	    ndk {
@@ -41,6 +41,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-//    implementation(name: 'wlmedia-1.0.6', ext: 'aar')
-    implementation 'ywl.ywl5320:wlmedia:1.0.6'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'ywl.ywl5320:wlmedia:1.0.7'
 }
