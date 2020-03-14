@@ -17,6 +17,9 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 ### 电视盒子播放
 <img width="640" height="480" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/tv_play.jpg"/>
 
+### 电视直播
+<img width="640" height="320" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/live_tv.jpg"/>
+
 ### 多路视频播放
 <img width="360" height="640" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/mut_play.gif"/>
 
