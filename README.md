@@ -4,7 +4,7 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 ## **注意 重点重点重点**
 ### 如果你使用了本库，请务必告知我一下，不然我更新版本可能会删除某些历史库，可能会给你带来不必要的麻烦，请悉知！！！
 ### [演示视频](https://www.iqiyi.com/v_19rxk5o7ac.html)
-### [下载测试音视频文件] (链接：https://pan.baidu.com/s/1Gkm9cgmsvk4dXGPZVyHgZw)提取码：ivbh)
+### [下载测试音视频文件](https://pan.baidu.com/s/1Gkm9cgmsvk4dXGPZVyHgZw) 提取码：ivbh
 
 ## 功能
 ##### **支持：http、https、rtsp、rtp、rtmp、byte[]、加密视频、多路音视频播放和各种文件格式视频；
