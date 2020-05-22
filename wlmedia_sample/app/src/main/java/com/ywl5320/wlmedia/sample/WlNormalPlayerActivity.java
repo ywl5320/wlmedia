@@ -17,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ywl5320.wlmedia.WlMedia;
 import com.ywl5320.wlmedia.enums.WlCodecType;
+import com.ywl5320.wlmedia.enums.WlComplete;
 import com.ywl5320.wlmedia.enums.WlMute;
 import com.ywl5320.wlmedia.enums.WlPlayModel;
+import com.ywl5320.wlmedia.enums.WlSourceType;
 import com.ywl5320.wlmedia.listener.WlOnCompleteListener;
 import com.ywl5320.wlmedia.listener.WlOnErrorListener;
 import com.ywl5320.wlmedia.listener.WlOnLoadListener;
@@ -38,7 +40,6 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
     private FrameLayout flView;
 
     private WlMedia wlMedia;
-    private boolean exit = false;
 
     private TextView tvTime;
     private TextView tvTotalTime;
@@ -65,11 +66,13 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
 
         wlMedia = new WlMedia();
         wlMedia.setCodecType(WlCodecType.CODEC_MEDIACODEC);
+        wlMedia.setSourceType(WlSourceType.NORMAL);
         wlSurfaceView.setWlMedia(wlMedia);
         wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
         wlMedia.setVolume(100);
         tvVolume.setText("音量：" + wlMedia.getVolume() + "%");
         seekBar.setProgress(wlMedia.getVolume());
+        wlMedia.setClearLastPicture(false);
 
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -102,19 +105,15 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
         });
         wlMedia.setOnTimeInfoListener(new WlOnTimeInfoListener() {
             @Override
-            public void onTimeInfo(double currentTime) {
+            public void onTimeInfo(double currentTime, double bufferTime) {
                 WlLog.d("time is :" + currentTime);
                 tvTime.setText(WlTimeUtil.secdsToDateFormat((int) Math.floor(currentTime)));
             }
         });
         wlMedia.setOnCompleteListener(new WlOnCompleteListener() {
             @Override
-            public void onComplete() {
+            public void onComplete(WlComplete type) {
                 WlLog.d("onComplete");
-                if(exit)
-                {
-                    WlNormalPlayerActivity.this.finish();
-                }
             }
         });
 
@@ -154,13 +153,28 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void moveSlide(double value) {
-                tvTime.setText(WlTimeUtil.secdsToDateFormat((int) Math.floor(value)));
+            public void moveX(double value, int move_type) {
+
             }
 
             @Override
-            public void movdFinish(double value) {
-                wlMedia.seek(value);
+            public void onSingleClick() {
+
+            }
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+
+            @Override
+            public void moveLeft(double value, int move_type) {
+
+            }
+
+            @Override
+            public void moveRight(double value, int move_type) {
+
             }
         });
     }
@@ -176,29 +190,12 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(wlMedia != null)
-        {
-            wlMedia.release();
-        }
-    }
-
-    @Override
     public void onBackPressed() {
-        exit = true;
-        if(wlMedia.isPlay())
-        {
-            wlMedia.stop();
-        }
-        else
-        {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
+        wlMedia.exit();
     }
 
     public void stop(View view) {
-        wlMedia.setClearLastPicture(true);
         wlMedia.stop();
     }
 
@@ -215,7 +212,7 @@ public class WlNormalPlayerActivity extends AppCompatActivity {
     }
 
     public void scale_normal(View view) {
-        wlMedia.scaleVideo(wlMedia.getVideoWidth(), wlMedia.getVideoHeight());
+        wlMedia.scaleVideo(wlMedia.getDefaultVideoScaleWidth(), wlMedia.getDefaultVideoScaleHeight());
     }
 
     public void scale_16_9(View view) {

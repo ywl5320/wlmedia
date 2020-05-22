@@ -45,12 +45,27 @@ public class WlMutPlayActivity extends AppCompatActivity {
             }
 
             @Override
-            public void moveSlide(double value) {
+            public void moveX(double value, int move_type) {
 
             }
 
             @Override
-            public void movdFinish(double value) {
+            public void onSingleClick() {
+
+            }
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+
+            @Override
+            public void moveLeft(double value, int move_type) {
+
+            }
+
+            @Override
+            public void moveRight(double value, int move_type) {
 
             }
         });
@@ -74,12 +89,27 @@ public class WlMutPlayActivity extends AppCompatActivity {
             }
 
             @Override
-            public void moveSlide(double value) {
+            public void moveX(double value, int move_type) {
 
             }
 
             @Override
-            public void movdFinish(double value) {
+            public void onSingleClick() {
+
+            }
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+
+            @Override
+            public void moveLeft(double value, int move_type) {
+
+            }
+
+            @Override
+            public void moveRight(double value, int move_type) {
 
             }
         });
@@ -103,30 +133,38 @@ public class WlMutPlayActivity extends AppCompatActivity {
             }
 
             @Override
-            public void moveSlide(double value) {
+            public void moveX(double value, int move_type) {
 
             }
 
             @Override
-            public void movdFinish(double value) {
+            public void onSingleClick() {
+
+            }
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+
+            @Override
+            public void moveLeft(double value, int move_type) {
+
+            }
+
+            @Override
+            public void moveRight(double value, int move_type) {
 
             }
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        wlMedia1.release();
-        wlMedia2.release();
-        wlMedia3.release();
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        wlMedia1.stop();
-        wlMedia2.stop();
-        wlMedia3.stop();
+        wlMedia1.exit();
+        wlMedia2.exit();
+        wlMedia3.exit();
     }
 }

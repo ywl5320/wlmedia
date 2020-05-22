@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.reflect.TypeToken;
 import com.ywl5320.wlmedia.WlMedia;
 import com.ywl5320.wlmedia.enums.WlCodecType;
+import com.ywl5320.wlmedia.enums.WlComplete;
 import com.ywl5320.wlmedia.enums.WlPlayModel;
 import com.ywl5320.wlmedia.listener.WlOnCompleteListener;
 import com.ywl5320.wlmedia.listener.WlOnErrorListener;
@@ -49,8 +50,6 @@ public class WlLiveActivity extends AppCompatActivity {
     private View vShow;
     private View vHide;
 
-    private boolean exit = false;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +78,7 @@ public class WlLiveActivity extends AppCompatActivity {
         });
         wlMedia.setOnCompleteListener(new WlOnCompleteListener() {
             @Override
-            public void onComplete() {
-                if(exit)
-                {
-                    wlMedia.release();
-                }
+            public void onComplete(WlComplete type) {
             }
         });
         wlSurfaceView.setOnVideoViewListener(new WlOnVideoViewListener() {
@@ -93,12 +88,27 @@ public class WlLiveActivity extends AppCompatActivity {
             }
 
             @Override
-            public void moveSlide(double value) {
+            public void moveX(double value, int move_type) {
 
             }
 
             @Override
-            public void movdFinish(double value) {
+            public void onSingleClick() {
+
+            }
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+
+            @Override
+            public void moveLeft(double value, int move_type) {
+
+            }
+
+            @Override
+            public void moveRight(double value, int move_type) {
 
             }
         });
@@ -181,14 +191,6 @@ public class WlLiveActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(wlMedia.isPlay())
-        {
-            exit = true;
-            wlMedia.stop();
-        }
-        else
-        {
-            wlMedia.release();
-        }
+        wlMedia.exit();
     }
 }

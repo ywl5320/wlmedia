@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ywl5320.wlmedia.WlMedia;
+import com.ywl5320.wlmedia.enums.WlComplete;
 import com.ywl5320.wlmedia.enums.WlPlayModel;
 import com.ywl5320.wlmedia.enums.WlSampleRate;
 import com.ywl5320.wlmedia.listener.WlOnCompleteListener;
@@ -37,13 +38,13 @@ public class WlAudioActivity extends AppCompatActivity {
         });
         wlMedia.setOnTimeInfoListener(new WlOnTimeInfoListener() {
             @Override
-            public void onTimeInfo(double currentTime) {
+            public void onTimeInfo(double currentTime, double bufferTime) {
                 tvTime.setText(WlTimeUtil.secdsToDateFormat((int) currentTime) + "/" + WlTimeUtil.secdsToDateFormat((int) wlMedia.getDuration()));
             }
         });
         wlMedia.setOnCompleteListener(new WlOnCompleteListener() {
             @Override
-            public void onComplete() {
+            public void onComplete(WlComplete type) {
                 WlAudioActivity.this.finish();
             }
         });
@@ -52,13 +53,7 @@ public class WlAudioActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(wlMedia.isPlay())
-        {
-            wlMedia.stop();
-        }
-        else
-        {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
+        wlMedia.exit();
     }
 }

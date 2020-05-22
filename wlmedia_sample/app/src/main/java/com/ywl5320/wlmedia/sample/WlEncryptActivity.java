@@ -7,7 +7,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ywl5320.wlmedia.WlMedia;
+import com.ywl5320.wlmedia.enums.WlComplete;
 import com.ywl5320.wlmedia.enums.WlPlayModel;
+import com.ywl5320.wlmedia.enums.WlSourceType;
 import com.ywl5320.wlmedia.listener.WlOnCompleteListener;
 import com.ywl5320.wlmedia.listener.WlOnDecryptListener;
 import com.ywl5320.wlmedia.listener.WlOnErrorListener;
@@ -23,7 +25,6 @@ public class WlEncryptActivity extends AppCompatActivity {
 
     private WlSurfaceView wlSurfaceView;
     private WlMedia wlMedia;
-    private boolean exit = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,8 +34,8 @@ public class WlEncryptActivity extends AppCompatActivity {
 
         wlMedia = new WlMedia();
         wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
+        wlMedia.setSourceType(WlSourceType.ENCRYPT_FILE);
         wlSurfaceView.setWlMedia(wlMedia);
-        wlMedia.setBufferSource(true, true);
         wlMedia.setOnDecryptListener(new WlOnDecryptListener() {
             @Override
             public byte[] decrypt(byte[] encrypt_data) {
@@ -64,12 +65,8 @@ public class WlEncryptActivity extends AppCompatActivity {
         });
         wlMedia.setOnCompleteListener(new WlOnCompleteListener() {
             @Override
-            public void onComplete() {
+            public void onComplete(WlComplete type) {
                 WlLog.d("onComplete");
-                if(exit)
-                {
-                    WlEncryptActivity.this.finish();
-                }
             }
         });
 
@@ -82,36 +79,35 @@ public class WlEncryptActivity extends AppCompatActivity {
             }
 
             @Override
-            public void moveSlide(double value) {
+            public void moveX(double value, int move_type) {
 
             }
 
             @Override
-            public void movdFinish(double value) {
-                wlMedia.seek(value);
+            public void onSingleClick() {
+
+            }
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+
+            @Override
+            public void moveLeft(double value, int move_type) {
+
+            }
+
+            @Override
+            public void moveRight(double value, int move_type) {
+
             }
         });
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(wlMedia != null)
-        {
-            wlMedia.release();
-        }
-    }
-
-    @Override
     public void onBackPressed() {
-        exit = true;
-        if(wlMedia.isPlay())
-        {
-            wlMedia.stop();
-        }
-        else
-        {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
+        wlMedia.exit();
     }
 }
