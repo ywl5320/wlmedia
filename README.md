@@ -327,9 +327,9 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
     
     public void setSource(String source);//设置数据源（可以是file、url）
 	
-	wlMedia.setSourceType(WlSourceType);//url、加密、byte[]模式
+	public wlMedia.setSourceType(WlSourceType);//url、加密、byte[]模式
 	
-	wlMedia.setLoopPlay(bool loop);//是否循环播放
+	public wlMedia.setLoopPlay(bool loop);//是否循环播放
     
     public void setPlayModel(WlPlayModel playModel);//设置音视频播放模式（可以独立播放音频和视频或者同时播放音视频，默认同时播放音视频）
     
