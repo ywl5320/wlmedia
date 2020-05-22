@@ -27,6 +27,12 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 ### 多屏视频切换
 <img width="360" height="600" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/change_mut_video.gif"/>
 
+### 一般播放器效果
+<img width="640" height="300" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/play_1.jpg"/><br/>
+<img width="640" height="300" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/play_2.jpg"/><br/>
+<img width="640" height="300" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/play_3.jpg"/><br/>
+<img width="640" height="300" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/play_4.jpg"/>
+
 ## 1、Usage（可用手机（我是移动）分享热点的方式加速下载）
 
 ### Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.0.8) ](https://bintray.com/ywl5320/maven/wlmedia/1.0.8/link)
