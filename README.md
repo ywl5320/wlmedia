@@ -8,7 +8,7 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 
 ## 功能
 ##### **支持：http、https、rtsp、rtp、rtmp、byte[]、加密视频、多路音视频播放和各种文件格式视频；
-##### **截图、音轨切换、自定义视频滤镜、变速变调、声道切换、无缝切换surface（surfaceview和textureview）、视频比例自定义设置等；
+##### **截图、音轨切换、自定义视频滤镜、变速变调、声道切换、音轨选择、字幕选择（目前是文本字幕）、无缝切换surface（surfaceview和textureview）、视频比例自定义设置、断流自动重连机制、循环播放等；
 ##### **目前包含全部FFmpeg音视频解码器，故SDK包比较大；如需定制大小，可联系我~（Email：ywl5320@163.com）
 
 ### 连续播放10小时直播内存情况
@@ -83,6 +83,8 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 ##### 4.2.1 播放视频
 ```java
 	WlMedia wlMedia = new WlMedia();//创建一个播放实例
+	wlMedia.setLoopPlay(true);//是否循环播放
+	wlMedia.setSourceType(WlSourceType.NORMAL);//url源模式
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);//同时播放音频视频
 	wlSurfaceView.setWlMedia(wlMedia);//给视频surface设置播放器
 	
@@ -93,22 +95,102 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
                 wlMedia.start();//开始播放
             }
         });
+		
+	wlMedia.setOnCompleteListener(new WlOnCompleteListener() {
+            @Override
+            public void onComplete(WlComplete type) {
+                WlLog.d("complete type is :" + type);
+                if(type == WlComplete.WL_COMPLETE_EOF)
+                {
+                    WlLog.d("正常播放结束");
+                }
+                else if(type == WlComplete.WL_COMPLETE_NEXT)
+                {
+                    WlLog.d("切换下一首，导致当前结束");
+                }
+                else if(type == WlComplete.WL_COMPLETE_HANDLE)
+                {
+                    WlLog.d("手动结束");
+                }
+                else if(type == WlComplete.WL_COMPLETE_ERROR)
+                {
+                    WlLog.d("播放出现错误结束");
+                }
+            }
+        });
+		
+	wlMedia.setOnTimeInfoListener(new WlOnTimeInfoListener() {
+            @Override
+            public void onTimeInfo(double currentTime, double buffetTime) {
+                //当前时间戳和缓存时间戳
+            }
+        });
+		
     //surface初始化好了后 开始播放视频（用于一打开activity就播放场景）
     wlSurfaceView.setOnVideoViewListener(new WlOnVideoViewListener() {
             @Override
-            public void initSuccess() {
-                wlMedia.setSource("/storage/sdcard1/fcrs.1080p.mp4");//设置数据源
-                wlMedia.prepared();//异步开始准备播放
+            public void initSuccess() {//surface初始化完成回调
+                wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(WlNormalPlayerActivity.this, "fcrs.1080p.mp4"));
+                wlMedia.prepared();
             }
 
             @Override
-            public void moveSlide(double value) {
-
+            public void moveX(double value, int move_type) {
+				if(move_status == WlSurfaceView.MOVE_START)//seek滑动前 显示UI
+                {
+                    wlMedia.seekTimeCallBack(false);
+                    
+                }
+                else if(move_status == WlSurfaceView.MOVE_ING)//seek 滑动中
+                {
+                    
+                }
+                else if(move_status == WlSurfaceView.MOVE_STOP)//seek 滑动结束
+                {
+                    wlMedia.seek(value);
+                }
             }
 
             @Override
-            public void movdFinish(double value) {
-                wlMedia.seek(value);//seek
+            public void onSingleClick() {
+				//单击事件
+            }
+
+            @Override
+            public void onDoubleClick() {
+				//双击事件
+            }
+
+            @Override
+            public void moveLeft(double value, int move_type) {
+				if(move_type == WlSurfaceView.MOVE_START)
+                {
+                    //显示亮度调节UI
+                }
+                else if(move_type == WlSurfaceView.MOVE_ING)
+                {
+                    //动态调整亮度
+                }
+                else if(move_type == WlSurfaceView.MOVE_STOP)
+                {
+                    //隐藏亮度调节UI
+                }
+            }
+
+            @Override
+            public void moveRight(double value, int move_type) {
+				if(move_type == WlSurfaceView.MOVE_START)
+                {
+                    //显示音量调节UI
+                }
+                else if(move_type == WlSurfaceView.MOVE_ING)
+                {
+                    //动态调整音量
+                }
+                else if(move_type == WlSurfaceView.MOVE_STOP)
+                {
+                    //隐藏音量调节UI
+                }
             }
         });
     //自定义滤镜方式
@@ -129,6 +211,7 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 ```java
     WlMedia wlMedia = new WlMedia();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_AUDIO);//设置只播放音频（必须）
+	wlMedia.setSourceType(WlSourceType.NORMAL);//url源模式
     wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(this, "mydream.m4a"));//设置数据源
     wlMedia.setOnPreparedListener(new WlOnPreparedListener() {
         @Override
@@ -143,7 +226,7 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
     WlMedia wlMedia = new WlMedia();
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
     wlSurfaceView.setWlMedia(wlMedia);
-    wlMedia.setBufferSource(true, true);//必须都为true
+    wlMedia.setSourceType(WlSourceType.ENCRYPT_FILE);//加密文件播放模式
     wlMedia.setOnDecryptListener(new WlOnDecryptListener() {
     
         //解密算法
@@ -165,21 +248,14 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
                 wlMedia.prepared();
             }
 
-            @Override
-            public void moveSlide(double value) {
-
-            }
-
-            @Override
-            public void movdFinish(double value) {
-                wlMedia.seek(value);
-            }
+            ...
+			
         });
 ```
 ##### 4.2.4 播放byte[]音视频数据
 ```java
     wlMedia = new WlMedia();
-    wlMedia.setBufferSource(true, false);//必须第一个为true,第二个为false
+    wlMedia.setSourceType(WlSourceType.BUFFER);//byte[]播放模式
     wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_ONLY_VIDEO);//根据byte类型来设置（可以音频、视频、音视频）
     wlTextureView.setWlMedia(wlMedia);
     wlMedia.setOnPreparedListener(new WlOnPreparedListener() {
@@ -188,77 +264,43 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
                 wlMedia.start();
             }
         });
-    wlTextureView.setOnVideoViewListener(new WlOnVideoViewListener() {
-        @Override
-        public void initSuccess() {
-            new Thread(new Runnable() {
-                long length = 0;
-                @Override
-                public void run() {
-                    try {
-                        //从文件模拟byte[]数据
-                        File file = new File(WlAssetsUtil.getAssetsFilePath(WlBufferActivity.this, "mytest.h264"));
-                        FileInputStream fi = new FileInputStream(file);
-                        byte[] buffer = new byte[1024 * 64];
-                        int buffersize = 0;
-                        int bufferQueueSize = 0;
-                        exit = false;
-                        while(true)
-                        {
-                            if(exit)
-                            {
-                                break;
-                            }
-                            if(wlMedia.isPlay())
-                            {
-                                WlLog.d("read thread " + bufferQueueSize);
-                                if(bufferQueueSize < 20)//控制队列大小，不然内存可能会增大溢出
-                                {
-                                    buffersize = fi.read(buffer);
-                                    if(buffersize <= 0)
-                                    {
-                                        WlLog.d("read thread ==============================  read buffer exit ...");
-                                        wlMedia.putBufferSource(null, -1);
-                                        break;
-                                    }
-                                    bufferQueueSize = wlMedia.putBufferSource(buffer, buffersize);//返回值为底层buffer队列个数
-                                    while(bufferQueueSize < 0)
-                                    {
-                                        bufferQueueSize = wlMedia.putBufferSource(buffer, buffersize);
-                                    }
-                                }
-                                else
-                                {
-                                    bufferQueueSize = wlMedia.putBufferSource(null, 0);
-                                }
-                                sleep(10);
-                            }
-                            else
-                            {
-                                WlLog.d("buffer exit");
-                                break;
-                            }
+	wlSurfaceView.setOnVideoViewListener(new WlOnVideoViewListener() {
+            @Override
+            public void initSuccess() {
+                wlMedia.setSource(WlAssetsUtil.getAssetsFilePath(WlEncryptActivity.this, "fhcq-ylgzy-dj-encrypt.mkv"));//加密视频源
+                wlMedia.prepared();
+            }
 
-                        }
-                        wlMedia.stop();
-                    } catch (Exception e) {
+            ...
+			
+        });
+    wlMedia.setOnBufferListener(new WlOnBufferListener() {//才用回调方式 为播放器提供byte[]数据 （播放器会主动拉取）
+            @Override
+            public byte[] buffer(int read_size) {
+                WlLog.d("read buffer " + read_size);
+                if(fi == null)
+                {
+                    File file = new File(WlAssetsUtil.getAssetsFilePath(WlBufferActivity.this, "mytest.h264"));
+                    try {
+                        fi = new FileInputStream(file);
+                    } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
-            }).start();
-            wlMedia.prepared();
-        }
-
-        @Override
-        public void moveSlide(double value) {
-
-        }
-
-        @Override
-        public void movdFinish(double value) {
-
-        }
-    });
+                byte[] buffer = new byte[1024];
+                int buffersize = 0;
+                try {
+                    buffersize = fi.read(buffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(buffersize > 0)
+                {
+                    return buffer;
+                }
+                return null;
+            }
+        });
 ```
 	
 ##### 4.2.5 获取视频图片（类似于缩略图）
@@ -278,6 +320,10 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
     public WlMedia();//构造函数，不依赖上下文
     
     public void setSource(String source);//设置数据源（可以是file、url）
+	
+	wlMedia.setSourceType(WlSourceType);//url、加密、byte[]模式
+	
+	wlMedia.setLoopPlay(bool loop);//是否循环播放
     
     public void setPlayModel(WlPlayModel playModel);//设置音视频播放模式（可以独立播放音频和视频或者同时播放音视频，默认同时播放音视频）
     
@@ -293,7 +339,11 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
     
     public void resume();//暂停后恢复播放
     
-    public boolean isPlay();//判断是否在播放中
+    public boolean isPlaying();//判断是否在播放中
+	
+	public void stop();//停止播放
+	
+	public void exit();//退出并消耗资源
     
     public void setMute(WlMute mute);//设置声道（立体声、左声道、右声道）
     
@@ -324,8 +374,6 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
     public void onSurfaceChange(int width, int height, Surface surface);//surface大小改变
     
     public void onSurfaceDestroy();//surface销毁
-    
-    public void release();//回收surface底层opengl资源
     
     public void setTransportModel(WlTransportModel transportModel);//设置播放rtsp的方式（UDP/TCP）
     
@@ -394,6 +442,10 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
     public interface WlOnTakePictureListener; //截图回调
     
     public interface WlOnVideoViewListener; //surface 初始化完成回调
+	
+	public interface WlOnBufferListener;//byte[]播放模式 数据提供回调
+	
+	public interface WlOnPauseListener;//暂停回调
 ```
     
     
@@ -407,10 +459,10 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
 
 	
 #### 7.2 播放器生命周期逻辑
-	7.2.1、对于视频播放，new一个对象就对应播放一路视频，在退出播放页面时，调用release才能销毁surfaceview资源（音频则不需要）。
-	7.2.2、对于音频，new一个对象就对应播放一个音频，PlayModel设置为：WlPlayModel.PLAYMODEL_ONLY_AUDIO 即可。
+	7.2.1、对于视频播放，new一个对象就对应播放一路视频，在退出播放页面时，调用exit停止并销毁资源。
+	7.2.2、对于音频，new一个对象就对应播放一个音频，PlayModel设置为：WlPlayModel.PLAYMODEL_ONLY_AUDIO 即可。在退出播放页面时，调用exit停止并销毁资源。
 	7.3.3、常规播放流程（具体可看demo）：
-	如：APP启动->startactivity->new WlMedia()->播放中各种操作->关闭播放页面(stop->complete/orerror->activityfinish(release))
+	如：APP启动->startactivity->new WlMedia()->播放中各种操作->关闭播放页面(exit())
 	
 
 #### 7.3 高本版系统后台播放音频卡顿问题
