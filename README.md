@@ -410,7 +410,24 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br>
     
     public void setAudioChannel(int index);//设置播放音轨，index为getAudioChannels中得到音轨的索引
 	
-	public void setDelayOffsetTime(double offsetTime);//用于单独播放视频（buffer）时动态调整视频渲染速率，单位秒。
+	public boolean isPause();//获取暂停状态
+	
+	public int getVideoRealWidth();//得到视频实际宽
+	
+	public int getVideoRealHeight();//得到视频实际高
+	
+	public int getSurfaceWidth();//得到surface宽度
+	
+	public int getSurfaceHeight();//得到surface高度
+	
+	public void setSmoothTime(boolean smooth);//设置是否平滑回调时间戳
+	
+	public String[] getSubTitleChannels();//获取包含的字幕名称
+	
+	public void setSubTitleChannel(int index);//设置当前显示的字幕
+	
+	public String getSubTitleName();//得到当前选择的字幕的名称
+	
 ```
     
 #### 5.2 WlSurfaceView和WlTextureView
