@@ -218,6 +218,8 @@
         WlLog.d("java width:" + wlVideoImgBean.getWidth() + ",height:" + wlVideoImgBean.getHeight() + ",time:" + wlVideoImgBean.getTime());
     }
     wlMediaUtil.release();
+	
+	//更多功能可见Demo
 
 ```
 
