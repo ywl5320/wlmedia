@@ -1,9 +1,10 @@
 # Built application files
 *.apk
-*.ap_
+*.ap_ 
 
 # Files for the ART/Dalvik VM
-*.dex
+*.dex 
+
 
 # Java class files
 *.class
