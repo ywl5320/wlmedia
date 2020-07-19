@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSeekBar;
 
 import com.ywl5320.wlmedia.WlMediaUtil;
+import com.ywl5320.wlmedia.bean.WlVideoImgBean;
 
 public class WlGetVideoPicActivity extends AppCompatActivity {
     private ImageView ivImg;
@@ -22,6 +23,9 @@ public class WlGetVideoPicActivity extends AppCompatActivity {
     private ImageView ivImg3;
     private AppCompatSeekBar seekBar;
     private boolean durationGetImg = false;
+
+    private WlMediaUtil wlMediaUtil;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,12 +80,18 @@ public class WlGetVideoPicActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WlMediaUtil wlMediaUtil = new WlMediaUtil();
-                Bitmap bitmap = wlMediaUtil.getVideoPic(url, index, keyframe);
-                if(bitmap != null)
+                if(wlMediaUtil == null)
                 {
-                    Log.d("ywl5320", url + " : bitmap w:" + bitmap.getWidth() + ",h:" + bitmap.getHeight());
-                    BitmapData bitmapData = new BitmapData(imageView, bitmap);
+                    wlMediaUtil = new WlMediaUtil();
+                    wlMediaUtil.setSource(url);
+                    wlMediaUtil.init();
+                    wlMediaUtil.openCodec();
+                }
+                WlVideoImgBean wlVideoImgBean = wlMediaUtil.getVideoImg(index, keyframe);
+                if(wlVideoImgBean != null)
+                {
+                    Log.d("ywl5320", url + " : bitmap w:" + wlVideoImgBean.getBitmap().getWidth() + ",h:" + wlVideoImgBean.getBitmap().getHeight());
+                    BitmapData bitmapData = new BitmapData(imageView, wlVideoImgBean.getBitmap());
                     Message message = Message.obtain();
                     message.obj = bitmapData;
                     handler.sendMessage(message);
@@ -99,4 +109,13 @@ public class WlGetVideoPicActivity extends AppCompatActivity {
             durationGetImg = false;
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(wlMediaUtil != null)
+        {
+            wlMediaUtil.release();
+        }
+    }
 }
