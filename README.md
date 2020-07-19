@@ -52,7 +52,7 @@
     defaultConfig {
         ...
         ndk {
-    	    abiFilter("arm64-v8a")
+            abiFilter("arm64-v8a")
             abiFilter("armeabi-v7a")
             abiFilter("x86")
             abiFilter("x86_64")
@@ -217,6 +217,7 @@
     {
         WlLog.d("java width:" + wlVideoImgBean.getWidth() + ",height:" + wlVideoImgBean.getHeight() + ",time:" + wlVideoImgBean.getTime());
     }
+    wlMediaUtil.release();
 
 ```
 
