@@ -30,8 +30,7 @@
 - [ ] 在线视频下载（缓存）
 
 ## 二、实例展示 ([测试APK下载](https://outexp-beta.cdn.qq.com/outbeta/2020/07/19/comvvideoplayer_1.0.3_ed6a14a8-07a6-5145-84fb-149c6729b0d6.apk))
-<img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia.gif"/>
-<img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg"/><br/>
+<img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia.gif"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg"/><br/>
 
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_2.jpg"/>
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_3.jpg"/><br/>
@@ -197,6 +196,28 @@
     wlMedia.exit();
     
 
+    //获取媒体基本信息(耗时操作)
+    WlMediaUtil wlMediaUtil = new WlMediaUtil();
+    wlMediaUtil.setSource(url);
+    if(wlMediaUtil.init() == 0)
+    {
+        WlMediaInfoBean wlMediaInfoBean = wlMediaUtil.getMediaInfo();
+    }
+    else{
+    
+    }
+    wlMediaUtil.release();
+    
+    //获取视频指定帧数据(耗时操作)
+    WlMediaUtil wlMediaUtilImg = new WlMediaUtil();
+    wlMediaUtilImg.setSource(url);
+    wlMediaUtilImg.init();
+    wlMediaUtilImg.openCodec();
+    WlVideoImgBean wlVideoImgBean = wlMediaUtilImg.getVideoImg(1000, false);
+    if(wlVideoImgBean != null)
+    {
+        WlLog.d("java width:" + wlVideoImgBean.getWidth() + ",height:" + wlVideoImgBean.getHeight() + ",time:" + wlVideoImgBean.getTime());
+    }
 
 ```
 
