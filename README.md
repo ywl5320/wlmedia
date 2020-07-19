@@ -3,7 +3,8 @@ Android 音视频播放SDK，几句代码即可实现音视频播放功能~<br/>
 支持手机、电视盒子等设备。<br/>
 ### 讨论群（1085618246）
 <img width="238" height="250" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia_ercode.png"/><br/>
-![image](https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg@w=360h=640)
+<img width="360" height="640" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg"/>
+<img width="360" height="640" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_2.jpg"/><br/>
 ## **注意 重点重点重点**
 ### 如果你使用了本库，请务必告知我一下，不然我更新版本可能会删除某些历史库，可能会给你带来不必要的麻烦，请悉知！！！
 ### [演示视频](https://www.iqiyi.com/v_19rxk5o7ac.html)
