@@ -66,7 +66,7 @@
 
 ```java
     // WlSurfaceView 一般播放使用
-	<com.ywl5320.wlmedia.surface.WlSurfaceView
+    <com.ywl5320.wlmedia.surface.WlSurfaceView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     
