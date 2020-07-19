@@ -76,7 +76,7 @@
         android:layout_height="match_parent" />
 ```
 
-#### 3.3.2 调用代码
+#### 3.3.2 基础调用代码（更多功能见Demo）
 
 ```java
 
@@ -218,8 +218,6 @@
         WlLog.d("java width:" + wlVideoImgBean.getWidth() + ",height:" + wlVideoImgBean.getHeight() + ",time:" + wlVideoImgBean.getTime());
     }
     wlMediaUtil.release();
-	
-	//更多功能可见Demo
 
 ```
 
