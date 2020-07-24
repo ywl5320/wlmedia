@@ -4,6 +4,7 @@
 
 ## 一、功能特点
 
+- [x] 兼容androidx和support库
 - [x] 基本信息获取（音频：采样率、声道数、时长等，视频：宽、高、fps、时长等）
 - [x] 支持file、http、https、rtmp、rtp、rtsp等
 - [x] 可选音频、视频、音视频播放模式
