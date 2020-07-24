@@ -10,16 +10,17 @@
 - [x] 软解硬解设置
 - [x] 无缝切换surface（也可自定义surfaceview、textureview）
 - [x] 支持多实例播放
-- [x] 支持媒体切换
-- [x] 支持播放rtsp/rtp切换udp/tcp模式
+- [x] 支持媒体自由切换
+- [x] 支持播放rtsp/rtp设置udp/tcp模式
 - [x] 支持byte[]数据解码
+- [x] 支撑音视频变速变调
+- [x] 支撑透明视频播放（可实现不错的视觉效果）
 - [x] 字幕选择
 - [x] 内置循环播放
 - [x] 链接超时设置
 - [x] 音视频加密播放
 - [x] 网络流内部断线重连
 - [x] 音轨选择
-- [x] 音频变速变调
 - [x] 音频声道选择
 - [x] 音频PCM数据获取
 - [x] 音频指定采样率设置
@@ -27,6 +28,7 @@
 - [x] 视频首帧图片或指定时间图片获取
 - [x] 视频任意比例设置
 - [x] 视频shader自定义视频滤镜（动态设置）
+- [x] 视频背景颜色设置（默认黑色）
 - [ ] 在线视频下载（缓存）
 
 ## 二、实例展示 ([测试APK下载](https://outexp-beta.cdn.qq.com/outbeta/2020/07/19/comvvideoplayer_1.0.3_ed6a14a8-07a6-5145-84fb-149c6729b0d6.apk))
@@ -38,9 +40,9 @@
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_5.jpg"/>
 
 ## 三、集成使用
-### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.0.9) ](https://bintray.com/ywl5320/maven/wlmedia/1.0.9/link)
+### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.0) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.0/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.0.9'
+    implementation 'ywl.ywl5320:wlmedia:1.1.0'
 ### 3.2 权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>//（可选）
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -70,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     
-	// WlTextureView 需要做透明、移动、旋转等使用
+    // WlTextureView 需要做透明、移动、旋转等使用
     <com.ywl5320.wlmedia.surface.WlTextureView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -218,6 +220,20 @@
         WlLog.d("java width:" + wlVideoImgBean.getWidth() + ",height:" + wlVideoImgBean.getHeight() + ",time:" + wlVideoImgBean.getTime());
     }
     wlMediaUtil.release();
+    
+    
+    //自定义滤镜（以黑白滤镜为例）
+    String fs = "precision mediump float;" +
+                "varying vec2 ft_Position;" +
+                "uniform sampler2D sTexture; " +
+                "void main() " +
+                "{ " +
+                "vec4 v=texture2D(sTexture, ft_Position); " +
+                "float average = (v.r + v.g + v.b) / 3.0;" +
+                "gl_FragColor = vec4(average, average, average, v.a);" +
+                "}";
+    wlMedia.setfShader(fs);
+    wlMedia.changeFilter();
 
 ```
 
