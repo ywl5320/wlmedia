@@ -38,7 +38,8 @@
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_2.jpg"/><br/>
 
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_4.jpg"/><br/>
-<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_5.jpg"/>
+<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_5.jpg"/><br/>
+<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/trans_video.gif"/>
 
 ## 三、集成使用
 ### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.0) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.0/link)
@@ -258,7 +259,7 @@
     
 ## 五、混淆
     -keep class com.ywl5320.wlmedia.* {*;} 
-	
+    
 ## 六、注意事项
 #### 6.1 播放器activity配置：
 	
