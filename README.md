@@ -130,20 +130,29 @@
         
                 if(type == WlComplete.WL_COMPLETE_NEXT)
                 {
-                    
+                    //切歌时回调
                 }
                 else if(type == WlComplete.WL_COMPLETE_TIMEOUT)
                 {
-                    
+                    //超时回调
                 }
                 else if(type == WlComplete.WL_COMPLETE_ERROR)
                 {
-                    
+                    //错误回调
                 }
                 else if(type == WlComplete.WL_COMPLETE_EOF)
                 {
-                    
+                    //播放到文件结尾回调
                 }
+                else if(type == WlComplete.WL_COMPLETE_HANDLE)
+                {
+                    //手动触发停止回调
+                }
+                else if(type == WlComplete.WL_COMPLETE_LOOP)
+                {
+                    //循环播放回调
+                }
+                
             }
         });
         
