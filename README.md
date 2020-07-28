@@ -273,7 +273,7 @@
 	如：APP启动->startactivity->new WlMedia()->播放中各种操作->关闭播放页面(exit())
 	
 
-#### 6.3 高本版系统后台播放音频卡顿问题
+#### 6.3 高版本系统后台播放音频卡顿问题
 	建议在新的进程中播放音频，比如：
 	<service android:name=".AudioService"
             android:process=":wlmedia"/>
