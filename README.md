@@ -33,7 +33,7 @@
 - [x] 视频背景颜色设置（默认黑色）
 - [ ] 在线视频下载（缓存）
 
-## 二、实例展示 ([测试APK下载](https://outexp-beta.cdn.qq.com/outbeta/2020/08/15/comvvideoplayer_1.0.5_f2b18433-5a66-550c-8404-c160065c630e.apk))
+## 二、实例展示 ([测试APK下载](https://outexp-beta.cdn.qq.com/outbeta/2020/08/15/comvvideoplayer_1.0.5_646ab078-c8ed-5920-8129-655c280fe633.apk))
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia.gif"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_3.jpg"/><br/>
 
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_2.jpg"/><br/>
