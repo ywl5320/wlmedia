@@ -28,6 +28,7 @@
 - [x] 视频截屏
 - [x] 视频首帧图片或指定时间图片获取
 - [x] 视频任意比例设置
+- [x] 视频旋转角度设置（0,90,180,270）
 - [x] 视频shader自定义视频滤镜（动态设置）
 - [x] 视频背景颜色设置（默认黑色）
 - [ ] 在线视频下载（缓存）
@@ -44,7 +45,7 @@
 ## 三、集成使用
 ### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.0) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.0/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.1.0'
+    implementation 'ywl.ywl5320:wlmedia:1.1.1'
 ### 3.2 权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>//（可选）
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
