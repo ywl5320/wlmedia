@@ -43,7 +43,7 @@
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/trans_video.gif"/>
 
 ## 三、集成使用
-### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.0) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.0/link)
+### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.1) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.1/link)
 
     implementation 'ywl.ywl5320:wlmedia:1.1.1'
 ### 3.2 权限
