@@ -37,7 +37,7 @@
 
 
 
-## 二、实例展示 ([测试APK下载](https://outexp-beta.cdn.qq.com/outbeta/2020/08/15/comvvideoplayer_1.0.5_646ab078-c8ed-5920-8129-655c280fe633.apk))
+## 二、实例展示 ([测试APK下载](https://outexp-beta.cdn.qq.com/outbeta/2020/09/08/comvvideoplayer_1.0.6_e31f530f-8aa7-58ad-a786-dbdc12b1027d.apk))
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia.gif"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_3.jpg"/><br/>
 
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_2.jpg"/><br/>
