@@ -1,6 +1,7 @@
 # wlmedia
 #### Android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 功能丰富，支持手机、电视盒子等设备。<br/>
+#### 如有疑问可联系：ywl5320@163.com
 
 ## 一、功能特点
 
@@ -19,6 +20,7 @@
 - [x] 字幕选择
 - [x] 内置循环播放
 - [x] 链接超时设置
+- [x] 缓存大小设置（按时间、内存和队列设置）
 - [x] 音视频加密播放
 - [x] 网络流内部断线重连
 - [x] 音轨选择
@@ -33,6 +35,8 @@
 - [x] 视频背景颜色设置（默认黑色）
 - [ ] 在线视频下载（缓存）
 
+
+
 ## 二、实例展示 ([测试APK下载](https://outexp-beta.cdn.qq.com/outbeta/2020/08/15/comvvideoplayer_1.0.5_646ab078-c8ed-5920-8129-655c280fe633.apk))
 <img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia.gif"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_3.jpg"/><br/>
 
@@ -44,9 +48,9 @@
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/trans_video.gif"/>
 
 ## 三、集成使用
-### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.1) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.1/link)
+### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.2) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.2/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.1.1'
+    implementation 'ywl.ywl5320:wlmedia:1.1.2'
 ### 3.2 权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>//（可选）
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -250,6 +254,54 @@
 
 ```
 
+#### 3.3.3 常用API
+
+```java
+
+    public WlMedia()    //构造函数（支撑多实例）
+    public void setSource(String source)    //设置数据源
+    public void setSourceType(WlSourceType sourceType)  //设置数据源类型（常规播放、byte[]播放或加密播放）
+    public boolean isPlaying()  //是否在播放中
+    public void prepared()  //异步准备
+    public void start() //异步准备好后开始播放
+    public void stop()  //停止播放（不会释放全部资源，适用于页面内停止）
+    public void exit()  //退出播放器（会释放所有资源）
+    public void pause()     //暂停
+    public void resume()    //播放（对应暂停）
+    public void next()  //播放下一曲（切歌）
+    public void setSampleRate(WlSampleRate wlSampleRate)    //设置音频重采样采用率
+    public void setSpeed(float speed)   //设置音视频播放速度
+    public void setPitch(float pitch)   //设置音频播放音调
+    public void setUseSoundTouch(boolean useSoundTouch)     //设置是否启用SoundTouch（若不启用变速变调不生效，默认启用）
+    public void setVolume(int percent)  //设置音量大小
+    public void setMute(WlMute mute)    //设置声道
+    public void scaleVideo(int w, int h, WlVideoRotate videoRotate)    //设置视频画面比例和旋转角度
+    public String[] getAudioChannels()  //获取所有音轨
+    public String[] getSubTitleChannels()   //获取所有字幕
+    public double getDuration()     //获取总时长
+    public void setLoopPlay(boolean loopPlay)   //是否开启循环播放
+    public void setPlayModel(WlPlayModel playModel)     //设置播放模式（只播放音频、只播放视频或音频视频都播放）
+    public double getNowClock()     //获取当前播放时间戳
+    public void seek(double secds)  // seek到指定位置
+    public void setAudioChannel(int index)  //切换对应音轨
+    public void setSubTitleChannel(int index) //切换对应字幕
+    public void setShowPcm(boolean showPcm) //是否返回PCM数据
+    public void takePicture()   //截屏
+    public void setfShader(String fShader)  //设置滤镜
+    public void changeFilter()  //应用滤镜
+    public void setTransportModel(WlTransportModel transportModel)  //设置rtsp播放模式（UDP或TCP）
+    public void setSmoothTime(boolean smooth) //是否把每一帧时间戳返回（默认一秒返回一次）
+    public void setClearLastPicture(boolean clearLastPicture)   //播放完后是否清屏（false：将保留视频最后一帧）
+    public void setTimeOut(int timeOut) //设置超时时间
+    public void setVideoClearColor(float rgba_r, float rgba_g, float rgba_b, float rgba_a)  //设置视频播放背景为指定颜色（默认黑色）
+    public void setBufferSize(WlBufferType bufferType, double bufferValue)  //设置底层缓存模式（队列大小、文件大小或指定时间以内）
+    
+    public WlMediaUtil()    //音视频工具类
+    public WlMediaInfoBean getMediaInfo()   //获取音视频基础信息
+    public WlVideoImgBean getVideoImg(double time, boolean keyFrame) //获取视频指定时间的图片
+    
+
+```
 
 
 
@@ -264,7 +316,7 @@
     
 ## 六、注意事项
 #### 6.1 播放器activity配置：
-	
+    
 	android:configChanges="orientation|keyboardHidden|screenSize"
 
 	
