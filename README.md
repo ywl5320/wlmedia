@@ -44,7 +44,6 @@
 
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_4.jpg"/><br/>
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/90.jpg"/><br/>
-<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/180.jpg"/><br/>
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/trans_video.gif"/>
 
 ## 三、集成使用
