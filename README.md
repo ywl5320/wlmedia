@@ -44,7 +44,7 @@
 
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_4.jpg"/><br/>
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/90.jpg"/><br/>
-<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/trans_video.gif"/>
+<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/alphvideo.gif"/>
 
 ## 三、集成使用
 ### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.3) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.3/link)
@@ -256,6 +256,7 @@
 	wlSurfaceView.enableTransBg(true); //设置surface背景透明
 	wlMedia.setVideoClearColor(0, 0, 0, 0); //设置背景颜色为透明
 	wlMedia.enableTransVideo(WlVideoTransType.VIDEO_TRANS_LEFT_ALPHA); //设置透明视频模式（alpha通道位置）
+    
 
 ```
 
@@ -300,6 +301,7 @@
     public void setTimeOut(int timeOut) //设置超时时间
     public void setVideoClearColor(float rgba_r, float rgba_g, float rgba_b, float rgba_a)  //设置视频播放背景为指定颜色（默认黑色）
     public void setBufferSize(WlBufferType bufferType, double bufferValue)  //设置底层缓存模式（队列大小、文件大小或指定时间以内）
+    public void enableTransVideo(WlVideoTransType transType) //设置透明视频
     
     public WlMediaUtil()    //音视频工具类
     public WlMediaInfoBean getMediaInfo()   //获取音视频基础信息
