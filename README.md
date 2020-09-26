@@ -7,7 +7,7 @@
 
 - [x] 兼容androidx和support库
 - [x] 基本信息获取（音频：采样率、声道数、时长等，视频：宽、高、fps、时长等）
-- [x] 支持file、http、https、rtmp、rtp、rtsp等
+- [x] 支持file、http、https、rtmp、rtp、rtsp、byte[]等
 - [x] 可选音频、视频、音视频播放模式
 - [x] 软解硬解设置
 - [x] 无缝切换surface（也可自定义surfaceview、textureview）
@@ -49,8 +49,8 @@
 ## 三、集成使用
 ### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.2) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.2/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.1.2'
-### 3.2 权限
+    implementation 'ywl.ywl5320:wlmedia:1.1.3'
+### 3.2 常用权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>//（可选）
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -174,8 +174,9 @@
         
     //如果单独播放音频直接调用
     wlMedia.prepared();//wlMedia.next();
-    
+    // or
     //播放视频需要在surface创建好回调里面开始播放
+	wlSurfaceView.setWlMedia(wlMedia);
     wlSurfaceView.setOnVideoViewListener(new WlOnVideoViewListener() {
             @Override
             public void initSuccess() {
@@ -250,6 +251,11 @@
                 "}";
     wlMedia.setfShader(fs);
     wlMedia.changeFilter();
+	
+	//透明视频播放
+	wlSurfaceView.enableTransBg(true); //设置surface背景透明
+	wlMedia.setVideoClearColor(0, 0, 0, 0); //设置背景颜色为透明
+	wlMedia.enableTransVideo(WlVideoTransType.VIDEO_TRANS_LEFT_ALPHA); //设置透明视频模式（alpha通道位置）
 
 ```
 
@@ -338,15 +344,16 @@
 | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |	……	|
 |---|---|---|
 
+## 八、相关实例博客
+#### [Android获取（网络和本地）视频缩略图](https://blog.csdn.net/ywl5320/article/details/107576410)
 
-
-## 八、参考资料
+## 九、参考资料
 #### [我的视频课程（基础）：《（NDK）FFmpeg打造Android万能音频播放器》](https://edu.csdn.net/course/detail/6842)
 #### [我的视频课程（进阶）：《（NDK）FFmpeg打造Android视频播放器》](https://edu.csdn.net/course/detail/8036)
 #### [我的视频课程（编码直播推流）：《Android视频编码和直播推流》](https://edu.csdn.net/course/detail/8942)
 #### [我的视频课程（C++ OpenGL）：《Android C++ OpenGL》](https://edu.csdn.net/course/detail/19367)
 
-## 九、核心三方库
+## 十、核心三方库
 [FFmpeg](http://ffmpeg.org/)
 [OpenSSL](https://github.com/openssl/openssl)
 [SoundTouch](http://www.surina.net/soundtouch/)
