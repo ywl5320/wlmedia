@@ -47,7 +47,7 @@
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/trans_video.gif"/>
 
 ## 三、集成使用
-### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.2) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.2/link)
+### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.3) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.3/link)
 
     implementation 'ywl.ywl5320:wlmedia:1.1.3'
 ### 3.2 常用权限
@@ -176,7 +176,7 @@
     wlMedia.prepared();//wlMedia.next();
     // or
     //播放视频需要在surface创建好回调里面开始播放
-	wlSurfaceView.setWlMedia(wlMedia);
+    wlSurfaceView.setWlMedia(wlMedia);
     wlSurfaceView.setOnVideoViewListener(new WlOnVideoViewListener() {
             @Override
             public void initSuccess() {
