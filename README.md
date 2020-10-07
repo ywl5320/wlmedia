@@ -33,7 +33,6 @@
 - [x] 视频旋转角度设置（0,90,180,270）
 - [x] 视频shader自定义视频滤镜（动态设置）
 - [x] 视频背景颜色设置（默认黑色）
-- [ ] 在线视频下载（缓存）
 
 
 
@@ -47,9 +46,11 @@
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/alphvideo.gif"/>
 
 ## 三、集成使用
-### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.3) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.3/link)
+### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.4) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.4/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.1.3'
+    implementation 'ywl.ywl5320:wlmedia:1.1.4' //(全平台约26M)
+	implementation 'ywl.ywl5320:wlmedia:1.1.4-small' //(全平台约13M)
+	
 ### 3.2 常用权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>//（可选）
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
