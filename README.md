@@ -49,7 +49,8 @@
 ### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.4) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.4/link)
 
     implementation 'ywl.ywl5320:wlmedia:1.1.4' //(全平台约26M)
-	implementation 'ywl.ywl5320:wlmedia:1.1.4-small' //(全平台约13M)
+	
+	implementation 'ywl.ywl5320:wlmedia:1.1.4-small' //(全平台约13M，只包含常用格式)
 	
 ### 3.2 常用权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>//（可选）
