@@ -151,7 +151,9 @@ public class WlLiveActivity extends AppCompatActivity {
         setRecyclerViewGridManager(rvMenu, RecyclerView.VERTICAL, 2);
         rvMenu.setAdapter(videoAdapter);
     }
-
+    链接：
+    提取码：ivbh
+    复制这段内容后打开百度网盘手机App，操作更方便哦
     /**
      * grid类型的列表
      * @param recyclerView
