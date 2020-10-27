@@ -46,9 +46,9 @@
 <img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/alphvideo.gif"/>
 
 ## 三、集成使用
-### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.4) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.4/link)
+### 3.1 Gradle: [ ![Download](https://api.bintray.com/packages/ywl5320/maven/wlmedia/images/download.svg?version=1.1.5) ](https://bintray.com/ywl5320/maven/wlmedia/1.1.5/link)
 
-    implementation 'ywl.ywl5320:wlmedia:1.1.4' //(全平台约26M)
+    implementation 'ywl.ywl5320:wlmedia:1.1.5' //(全平台约26M)
 	
 	implementation 'ywl.ywl5320:wlmedia:1.1.4-small' //(全平台约13M，只包含常用格式)
 	
