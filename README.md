@@ -52,7 +52,6 @@
 	
 	implementation 'ywl.ywl5320:wlmedia:1.1.4-small' //(全平台约13M，只包含常用格式)
 	
-	[测试音视频文件地址（提取码：ivbh）](https://pan.baidu.com/s/1Gkm9cgmsvk4dXGPZVyHgZw)
 	
 ### 3.2 常用权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>//（可选）
@@ -358,6 +357,7 @@
 #### [我的视频课程（进阶）：《（NDK）FFmpeg打造Android视频播放器》](https://edu.csdn.net/course/detail/8036)
 #### [我的视频课程（编码直播推流）：《Android视频编码和直播推流》](https://edu.csdn.net/course/detail/8942)
 #### [我的视频课程（C++ OpenGL）：《Android C++ OpenGL》](https://edu.csdn.net/course/detail/19367)
+#### [测试音视频文件地址（提取码：ivbh）](https://pan.baidu.com/s/1Gkm9cgmsvk4dXGPZVyHgZw)
 
 ## 十、核心三方库
 [FFmpeg](http://ffmpeg.org/)
