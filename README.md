@@ -346,7 +346,7 @@
 	bindService(intent,serviceConnection,BIND_WAIVE_PRIORITY);//注意第三个参数BIND_WAIVE_PRIORITY
 	
 ## 七、使用本库APP（如果你的APP使用了本库，也可以告诉我哦~）
-| [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |[<img width="100" height="100" src="" alt="录音转文字助手"/>](https://appgallery.huawei.com/#/app/C100432201 "录音转文字助手")|
+| [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |[<img width="100" height="100" src="https://img-blog.csdnimg.cn/20201028121927255.png" alt="录音转文字助手"/>](https://appgallery.huawei.com/#/app/C100432201 "录音转文字助手")|
 |---|---|---|
 
 ## 八、相关实例博客
