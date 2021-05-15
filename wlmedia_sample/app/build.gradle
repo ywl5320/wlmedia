@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.ywl5320.wlmedia.sample"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 23
         versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -44,5 +44,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'ywl.ywl5320:wlmedia:1.1.5'
+//    implementation 'ywl.ywl5320:wlmedia:1.1.5'
+    implementation project(path: ':wlmedia')
 }

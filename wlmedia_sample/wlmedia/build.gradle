@@ -10,7 +10,6 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.ywl5320.wlmedia"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -30,13 +29,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    repositories {
-        flatDir {
-            dirs 'libs'
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['jniLibs']
         }
     }
 }
 
 dependencies {
-    api (name: 'wlmedia-2.0.0', ext: 'aar')
 }

@@ -23,37 +23,23 @@ public class WlMainActivity extends AppCompatActivity {
     }
 
     public void play_normal(View view) {
-        Intent intent = new Intent(this, WlNormalPlayerActivity.class);
-        startActivity(intent);
     }
 
     public void play_encrypt(View view) {
-        Intent intent = new Intent(this, WlEncryptActivity.class);
-        startActivity(intent);
     }
 
     public void play_buffert(View view) {
-        Intent intent = new Intent(this, WlBufferActivity.class);
-        startActivity(intent);
     }
 
     public void play_audio(View view) {
-        Intent intent = new Intent(this, WlAudioActivity.class);
-        startActivity(intent);
     }
 
     public void get_video_pic(View view) {
-        Intent intent = new Intent(this, WlGetVideoPicActivity.class);
-        startActivity(intent);
     }
 
     public void mut_play(View view) {
-        Intent intent = new Intent(this, WlMutPlayActivity.class);
-        startActivity(intent);
     }
 
     public void play_live(View view) {
-        Intent intent = new Intent(this, WlLiveActivity.class);
-        startActivity(intent);
     }
 }
