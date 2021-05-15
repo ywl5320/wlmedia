@@ -1,7 +1,7 @@
 # wlmedia
 #### Android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 功能丰富，支持手机、电视盒子、手表等智能设备。<br/>
-#### 如有疑问可联系：ywl5320@163.com
+#### 如有疑问请联系：ywl5320@163.com
 
 ## 一、功能特点
 
@@ -346,7 +346,7 @@
 	bindService(intent,serviceConnection,BIND_WAIVE_PRIORITY);//注意第三个参数BIND_WAIVE_PRIORITY
 	
 ## 七、使用本库APP（如果你的APP使用了本库，也可以告诉我哦~）
-| [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |	……	|
+| [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |[<img width="100" height="100" src="https://img-blog.csdnimg.cn/20201028121927255.png" alt="录音转文字助手"/>](https://appgallery.huawei.com/#/app/C100432201 "录音转文字助手")|
 |---|---|---|
 
 ## 八、相关实例博客
