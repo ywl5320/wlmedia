@@ -19,9 +19,13 @@ public class WlMainActivity extends AppCompatActivity {
         }
     }
 
+    public void custom_view(View view) {
+        Intent intent = new Intent(this, WlCustomViewActivity.class);
+        startActivity(intent);
+    }
+
     public void play_normal(View view) {
         Intent intent = new Intent(this, WlNormalActivity.class);
         startActivity(intent);
     }
-
 }

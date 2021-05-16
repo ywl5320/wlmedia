@@ -10,8 +10,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="常用自定义View"
+                android:onClick="custom_view"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="45dp"

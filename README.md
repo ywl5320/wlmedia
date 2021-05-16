@@ -98,37 +98,41 @@
 	wlMedia.setOnMediaInfoListener(new WlOnMediaInfoListener() {
 		@Override
 		public void onPrepared() {
+			//异步准备好后开始播放
 			wlMedia.start();
 		}
 
 		@Override
 		public void onError(int code, String msg) {
+			//错误回调，主要用于查看错误信息
 
 		}
 
 		@Override
 		public void onComplete(WlComplete type, String msg) {
+			//播放完成（包含：正常播放完成、超时播放完成、手动触发播放完成等）
 
 		}
 
 		@Override
 		public void onTimeInfo(double currentTime, double bufferTime) {
+			//时间回调，当前时间和缓冲时间
 
 		}
 
 		@Override
 		public void onSeekFinish() {
-
+			//seek完成后回调，可用于类似iptv这种快进快退
 		}
 
 		@Override
 		public void onLoopPlay(int loopCount) {
-
+			//循环播放此时回调
 		}
 
 		@Override
 		public void onLoad(boolean load) {
-			
+			//加载状态回调
 		}
 
 		@Override
@@ -143,47 +147,47 @@
 
 		@Override
 		public void onPause(boolean pause) {
-
+			//暂停回调
 		}
 	});
 
 	wlSurfaceView.setOnVideoViewListener(new WlOnVideoViewListener() {
 		@Override
 		public void initSuccess() {
+			//surfaceview初始化完成
 			wlMedia.prepared();
 		}
 
 		@Override
 		public void onSurfaceChange(int width, int height) {
-
+			//surfaceview大小改变
 		}
 
 		@Override
 		public void moveX(double value, int move_type) {
-
+			//surfaceview横向左右滑动
 		}
 
 		@Override
 		public void onSingleClick() {
-
+			//surfaceview单击事件
 		}
 
 		@Override
 		public void onDoubleClick() {
-
+			//surfaceview双击事件
 		}
 
 		@Override
 		public void moveLeft(double value, int move_type) {
-
+			//surfaceview左侧上下滑动事件
 		}
 
 		@Override
 		public void moveRight(double value, int move_type) {
-
+			//surfaceview右侧上下滑动事件
 		}
 	});
-    
 
 ```
 
@@ -213,8 +217,9 @@
 | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |[<img width="100" height="100" src="https://img-blog.csdnimg.cn/20201028121927255.png" alt="录音转文字助手"/>](https://appgallery.huawei.com/#/app/C100432201 "录音转文字助手")|
 |---|---|---|
 
-## 八、相关实例博客
+## 八、相关实例
 #### [Android获取（网络和本地）视频缩略图](https://blog.csdn.net/ywl5320/article/details/107576410)
+#### 更多例子正在编写中
 
 ## 九、参考资料
 #### [我的视频课程（基础）：《（NDK）FFmpeg打造Android万能音频播放器》](https://edu.csdn.net/course/detail/6842)

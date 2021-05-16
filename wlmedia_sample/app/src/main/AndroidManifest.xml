@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".WlCustomViewActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".WlNormalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"/>
