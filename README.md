@@ -203,10 +203,10 @@
 
 	
 #### 6.2 播放器生命周期逻辑
-	6.2.1、对于视频播放，new一个对象就对应播放一路视频，在退出播放页面时，调用exit停止并销毁资源。
-	6.2.2、对于音频，new一个对象就对应播放一个音频，PlayModel设置为：WlPlayModel.PLAYMODEL_ONLY_AUDIO 即可。在退出播放页面时，调用exit停止并销毁资源。
+	6.2.1、对于视频播放，new一个对象就对应播放一路视频，在退出播放页面时，调用release停止并销毁资源。
+	6.2.2、对于音频，new一个对象就对应播放一个音频，PlayModel设置为：WlPlayModel.PLAYMODEL_ONLY_AUDIO 即可。在退出播放页面时，调用release停止并销毁资源。
 	6.3.3、常规播放流程（具体可看demo）：
-	如：APP启动->startactivity->new WlMedia()->播放中各种操作->关闭播放页面(exit())
+	如：APP启动->startactivity->new WlMedia()->播放中各种操作->关闭播放页面(release())
 	
 	
 ## 七、使用本库APP（如果你的APP使用了本库，请告诉我哦~）
