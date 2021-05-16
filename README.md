@@ -188,7 +188,7 @@
 ```
 
 ## 四、讨论群（1085618246）
-<img width="238" height="250" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia_ercode.png"/><br/>
+<img width="238" height="250" src="https://img-blog.csdnimg.cn/20210516155929425.png"/><br/>
 
 
     
