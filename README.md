@@ -35,17 +35,11 @@
 
 
 
-## 二、实例展示 ([测试APK《V视-1.0.7》下载](https://outexp-beta.cdn.qq.com/outbeta/2020/10/04/comvvideoplayer_1.0.7_79abd6b8-6b98-5236-94cd-54729615c77f.apk))
-<img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/wlmedia.gif"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_3.jpg"/><br/>
-
-<img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_1.jpg"/><img width="300" height="560" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_2.jpg"/><br/>
-
-<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/video_4.jpg"/><br/>
-<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/90.jpg"/><br/>
-<img width="610" height="270" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/alphvideo.gif"/>
+## 二、实例展示
+<img width="300" height="560" src="https://img-blog.csdnimg.cn/20210516155358862.jpg"/>
 
 ## 三、集成使用
-### 3.1 Gradle:
+### 3.1 当前版本: V-2.0.0
 
     allprojects {
 		repositories {

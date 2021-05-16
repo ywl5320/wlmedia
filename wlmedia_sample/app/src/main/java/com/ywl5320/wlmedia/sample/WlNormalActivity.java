@@ -63,9 +63,6 @@ public class WlNormalActivity extends AppCompatActivity {
         wlMedia.setUseSoundTouch(true);
         wlMedia.setClearLastPicture(true);
         wlMedia.setLoopPlay(true);
-        wlMedia.setVideoClearColor(1, 0, 0, 1);
-        wlMedia.setPlayModel(WlPlayModel.PLAYMODEL_AUDIO_VIDEO);
-        wlMedia.setBufferSize(WlBufferType.BUFFER_TIME, 5);
         wlSeeVolume.setProgress(wlMedia.getVolume() / 200);
         tvVolume.setText(((int)wlMedia.getVolume()) + "%");
         wlSurfaceView.setWlMedia(wlMedia);
@@ -232,7 +229,7 @@ public class WlNormalActivity extends AppCompatActivity {
             wlMedia.setSource("http://otttv.bj.chinamobile.com/TVOD/88888888/224/3221226469/1.m3u8");
         }
         else{
-            wlMedia.setSource("http://otttv.bj.chinamobile.com/TVOD/88888888/224/3221226550/1.m3u8");
+            wlMedia.setSource("https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218093206z8V1JuPlpe.mp4");
         }
         wlMedia.next();
     }
