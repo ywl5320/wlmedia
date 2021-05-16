@@ -39,7 +39,7 @@
 <img width="300" height="560" src="https://img-blog.csdnimg.cn/20210516155358862.jpg"/>
 
 ## 三、集成使用
-### 3.1 当前版本: V-2.0.0
+### 3.1 [![](https://jitpack.io/v/wanliyang1990/wlmedia.svg)](https://jitpack.io/#wanliyang1990/wlmedia)
 
     allprojects {
 		repositories {
