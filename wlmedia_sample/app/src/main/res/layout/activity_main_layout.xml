@@ -15,6 +15,11 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:text="集成检测"
+                android:onClick="get_test"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
                 android:text="常用自定义View"
                 android:onClick="custom_view"/>
             <Button

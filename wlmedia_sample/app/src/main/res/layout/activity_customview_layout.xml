@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load View :"
+        android:text="WlCircleLoadView :"
         android:textSize="20dp"
         android:textColor="#333333"
         android:textStyle="bold"/>
@@ -34,7 +34,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SeekBar View :"
+        android:text="WlSeekBar :"
         android:textSize="20dp"
         android:textColor="#333333"
         android:textStyle="bold"

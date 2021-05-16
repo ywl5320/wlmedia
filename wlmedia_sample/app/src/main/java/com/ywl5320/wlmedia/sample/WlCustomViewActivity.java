@@ -35,6 +35,11 @@ public class WlCustomViewActivity extends AppCompatActivity {
         wlSeekBar1.setColorBg(R.color.teal_700);
         wlSeekBar1.setColorBuffer(R.color.teal_200);
         wlSeekBar1.setColorProgress(R.color.purple_200);
+        wlSeekBar1.setColorThumbNormal(R.color.purple_200);
+        wlSeekBar1.setColorThumbTouch(R.color.colorAccent);
+        wlSeekBar1.setBgHeight(10);
+        wlSeekBar1.setRound(true);
+        wlSeekBar1.setThumbRadius(8);
         wlSeekBar1.setProgress(0.6, 0.8);
         wlSeekBar1.setOnWlSeekBarChangeListener(new WlSeekBar.OnWlSeekBarChangeListener() {
             @Override
