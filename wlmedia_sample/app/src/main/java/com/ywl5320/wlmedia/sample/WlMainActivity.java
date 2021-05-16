@@ -1,6 +1,7 @@
 package com.ywl5320.wlmedia.sample;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -19,23 +20,8 @@ public class WlMainActivity extends AppCompatActivity {
     }
 
     public void play_normal(View view) {
+        Intent intent = new Intent(this, WlNormalActivity.class);
+        startActivity(intent);
     }
 
-    public void play_encrypt(View view) {
-    }
-
-    public void play_buffert(View view) {
-    }
-
-    public void play_audio(View view) {
-    }
-
-    public void get_video_pic(View view) {
-    }
-
-    public void mut_play(View view) {
-    }
-
-    public void play_live(View view) {
-    }
 }
