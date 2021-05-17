@@ -190,48 +190,29 @@
 	});
 
 ```
+## 四、博客详解
+#### [wlmedia播放器集成（1）— 播放器集成](https://blog.csdn.net/ywl5320/article/details/116899303)
+#### [wlmedia播放器集成（2）— 常用自定义view](https://blog.csdn.net/ywl5320/article/details/116901140)
+#### [wlmedia播放器集成（3）— 常用api](https://blog.csdn.net/ywl5320/article/details/116945049)
 
-## 四、讨论群（1085618246）
+## 五、讨论群（1085618246）
 <img width="238" height="250" src="https://img-blog.csdnimg.cn/20210516155929425.png"/><br/>
 
-
-    
-    
-## 五、混淆
+## 六、混淆
     -keep class com.ywl5320.wlmedia.* {*;} 
-    
-## 六、注意事项
-#### 6.1 播放器activity配置：
-    
-	android:configChanges="orientation|keyboardHidden|screenSize"
 
-	
-#### 6.2 播放器生命周期逻辑
-	6.2.1、对于视频播放，new一个对象就对应播放一路视频，在退出播放页面时，调用release停止并销毁资源。
-	6.2.2、对于音频，new一个对象就对应播放一个音频，PlayModel设置为：WlPlayModel.PLAYMODEL_ONLY_AUDIO 即可。在退出播放页面时，调用release停止并销毁资源。
-	6.3.3、常规播放流程（具体可看demo）：
-	如：APP启动->startactivity->new WlMedia()->播放中各种操作->关闭播放页面(release())
-	
-	
-## 七、使用本库APP（如果你的APP使用了本库，请告诉我哦~）
-| [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_huisheng.png" alt="荟声"/>](http://app.mi.com/details?id=com.vada.huisheng "荟声") | [<img width="100" height="100" src="https://github.com/wanliyang1990/wlmedia/blob/master/img/app_ruixin.png" alt="睿芯智能"/>](http://app.mi.com/details?id=com.zhituan.ruixin "睿芯智能") |[<img width="100" height="100" src="https://img-blog.csdnimg.cn/20201028121927255.png" alt="录音转文字助手"/>](https://appgallery.huawei.com/#/app/C100432201 "录音转文字助手")|
-|---|---|---|
 
-## 八、相关实例
-#### [Android获取（网络和本地）视频缩略图](https://blog.csdn.net/ywl5320/article/details/107576410)
-#### 更多例子正在编写中
-
-## 九、参考资料
+## 七、参考资料
 #### [我的视频课程（基础）：《（NDK）FFmpeg打造Android万能音频播放器》](https://edu.csdn.net/course/detail/6842)
 #### [我的视频课程（进阶）：《（NDK）FFmpeg打造Android视频播放器》](https://edu.csdn.net/course/detail/8036)
 #### [我的视频课程（编码直播推流）：《Android视频编码和直播推流》](https://edu.csdn.net/course/detail/8942)
 #### [我的视频课程（C++ OpenGL）：《Android C++ OpenGL》](https://edu.csdn.net/course/detail/19367)
 #### [测试音视频文件地址（提取码：ivbh）](https://pan.baidu.com/s/1Gkm9cgmsvk4dXGPZVyHgZw)
 
-## 十、核心三方库
-[FFmpeg](http://ffmpeg.org/)
-[OpenSSL](https://github.com/openssl/openssl)
-[SoundTouch](http://www.surina.net/soundtouch/)
+## 八、核心三方库
+#### [FFmpeg](http://ffmpeg.org/)
+#### [OpenSSL](https://github.com/openssl/openssl)
+#### [SoundTouch](http://www.surina.net/soundtouch/)
 
 
 ### Create By：ywl5320 2019-12-16
