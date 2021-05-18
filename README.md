@@ -194,6 +194,7 @@
 #### [wlmedia播放器集成（1）— 播放器集成](https://blog.csdn.net/ywl5320/article/details/116899303)
 #### [wlmedia播放器集成（2）— 常用自定义view](https://blog.csdn.net/ywl5320/article/details/116901140)
 #### [wlmedia播放器集成（3）— 常用api](https://blog.csdn.net/ywl5320/article/details/116945049)
+#### [wlmedia播放器集成（4）— 实现视频播放](https://blog.csdn.net/ywl5320/article/details/117000589)
 
 ## 五、讨论群（1085618246）
 <img width="238" height="250" src="https://img-blog.csdnimg.cn/20210516155929425.png"/><br/>
