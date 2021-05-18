@@ -50,6 +50,7 @@ public class WlNormalActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_normal_player_layout);
         url = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218093206z8V1JuPlpe.mp4";
+        url = "http://zhibo.hkstv.tv/livestream/mutfysrq.flv";
         wlSurfaceView = findViewById(R.id.wlsurface);
         wlCircleLoadView = findViewById(R.id.circleview);
         wlSeekBar = findViewById(R.id.seekbar);

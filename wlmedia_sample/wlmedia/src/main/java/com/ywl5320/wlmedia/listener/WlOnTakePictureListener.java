@@ -7,6 +7,10 @@ import android.graphics.Bitmap;
  */
 public interface WlOnTakePictureListener {
 
+    /**
+     * 截图回调
+     * @param bitmap
+     */
     void takePicture(Bitmap bitmap);
 
 }

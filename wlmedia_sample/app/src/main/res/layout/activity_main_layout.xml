@@ -25,6 +25,11 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:text="播放视频"
+                android:onClick="play_video"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
                 android:text="常规播放"
                 android:onClick="play_normal"/>
         </LinearLayout>

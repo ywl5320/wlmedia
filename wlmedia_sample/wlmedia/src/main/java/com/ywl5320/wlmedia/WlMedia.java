@@ -678,13 +678,11 @@ public class WlMedia {
         return surfaceHeight;
     }
 
-    public boolean destroy = false;
     /**
      * surface销毁
      */
     public void onSurfaceDestroy()
     {
-        destroy = true;
         n_surfaceDestroy();
     }
 

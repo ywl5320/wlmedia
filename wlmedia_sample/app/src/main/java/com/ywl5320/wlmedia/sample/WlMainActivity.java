@@ -54,4 +54,9 @@ public class WlMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WlNormalActivity.class);
         startActivity(intent);
     }
+
+    public void play_video(View view) {
+        Intent intent = new Intent(this, WlVideoPlayActivity.class);
+        startActivity(intent);
+    }
 }

@@ -19,6 +19,7 @@ public interface WlOnPcmDataListener {
      * 如果需要耗时操作，建议使用队列缓存后处理！
      * @param size pcm数据大小
      * @param data pcm数据 （播放时间计算：double time = size / (samplerate * 2 * 2))
+     * @param db 音频实时分贝值
      */
     void onPcmData(int size, byte[] data, double db);
 
