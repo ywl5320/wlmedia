@@ -2,8 +2,8 @@
 #### Android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 使用简单，功能丰富，支持手机、车机系统、电视盒子、手表等智能设备
 #### 全新架构，增加稳定性
-#### ==HarmonyOS Coming Soon==
-#### ==iOS Coming Soon==
+<span style="color: gray; font-size: 20px;">HarmonyOS Coming Soon</span></br>
+<span style="color: gray; font-size: 20px;">iOS Coming Soon</span>
 ## 一 功能&特点
 - [x] 支持系统：Android 4.4+（api 19+）
 - [x] 支持架构：armeabi-v7a、arm64-v8a、x86、x86_64
