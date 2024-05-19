@@ -1,38 +1,46 @@
 package com.ywl5320.wlmedia.enums;
 
 /**
- * Created by ywl5320 on 2018-3-16.
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2024/2/25
  */
 public enum WlPlayModel {
+    WL_PLAY_MODEL_AUDIO_VIDEO("WL_PLAY_MODEL_AUDIO_VIDEO", 0, "play audio and video, if the media have audio and video, play both, if only have audio, play audio, if only have video, play video"),
 
-    PLAYMODEL_AUDIO_VIDEO("PLAYMODEL_AUDIO_VIDEO", 0),
-    PLAYMODEL_ONLY_AUDIO("PLAYMODEL_ONLY_AUDIO", 1),
-    PLAYMODEL_ONLY_VIDEO("PLAYMODEL_ONLY_VIDEO", 2);
+    WL_PLAY_MODEL_ONLY_AUDIO("WL_PLAY_MODEL_ONLY_AUDIO", 1, "only play audio, if the media not have audio, then play nothing"),
 
-    private String playModel;
+    WL_PLAY_MODEL_ONLY_VIDEO("WL_PLAY_MODEL_ONLY_VIDEO", 2, "only play video, if the media not have video, then play nothing");
+
+    private String key;
     private int value;
+    private String desc;
 
-    WlPlayModel(String playModel, int value)
-    {
-        this.playModel = playModel;
+    WlPlayModel(String key, int value, String desc) {
+        this.key = key;
         this.value = value;
+        this.desc = desc;
     }
 
-    public String getPlayModel() {
-        return playModel;
-    }
-
-    public void setPlayModel(String playModel) {
-        this.playModel = playModel;
+    public String getKey() {
+        return key;
     }
 
     public int getValue() {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public String getDesc() {
+        return desc;
     }
 
-
+    public static WlPlayModel find(int value) {
+        for (WlPlayModel playModel : WlPlayModel.values()) {
+            if (playModel.value == value) {
+                return playModel;
+            }
+        }
+        return null;
+    }
 }

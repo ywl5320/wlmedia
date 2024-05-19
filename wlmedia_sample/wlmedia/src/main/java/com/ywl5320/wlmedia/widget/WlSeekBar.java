@@ -9,9 +9,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 /**
- * Created by ywl5320 on 2020/3/16
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2024/1/21
  */
 public class WlSeekBar extends View {
 
@@ -62,47 +64,38 @@ public class WlSeekBar extends View {
         color_thumb_touch = Color.parseColor("#FFFF9800");
     }
 
-    public void setBgHeight(int bgheight)
-    {
-        if(bgheight <= 0)
-        {
+    public void setBgHeight(int bgheight) {
+        if (bgheight <= 0) {
             return;
         }
         this.w_bg = dip2px(getContext(), bgheight);
     }
 
-    public void setThumbRadius(int radius)
-    {
-        if(radius <= 0)
-        {
+    public void setThumbRadius(int radius) {
+        if (radius <= 0) {
             return;
         }
         this.radius = dip2px(getContext(), radius);
     }
 
 
-    public void setColorBg(int color)
-    {
+    public void setColorBg(int color) {
         color_bg = getResources().getColor(color);
     }
 
-    public void setColorBuffer(int colorBuffer)
-    {
+    public void setColorBuffer(int colorBuffer) {
         color_buffer = getResources().getColor(colorBuffer);
     }
 
-    public void setColorProgress(int color)
-    {
+    public void setColorProgress(int color) {
         color_progress = getResources().getColor(color);
     }
 
-    public void setColorThumbNormal(int color)
-    {
+    public void setColorThumbNormal(int color) {
         color_thumb_normal = getResources().getColor(color);
     }
 
-    public void setColorThumbTouch(int color)
-    {
+    public void setColorThumbTouch(int color) {
         color_thumb_touch = getResources().getColor(color);
     }
 
@@ -115,11 +108,10 @@ public class WlSeekBar extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = getMeasuredWidth();
         height = getMeasuredHeight();
-        top = (height-w_bg) / 2;
-        bottom = (height-w_bg) / 2 + w_bg;
+        top = (height - w_bg) / 2;
+        bottom = (height - w_bg) / 2 + w_bg;
         cy = height / 2;
-        if(rectF == null)
-        {
+        if (rectF == null) {
             rectF = new RectF(0, top, width, bottom);
         }
     }
@@ -133,11 +125,9 @@ public class WlSeekBar extends View {
         rectF.top = top;
         rectF.right = width;
         rectF.bottom = bottom;
-        if(!isRound)
-        {
+        if (!isRound) {
             canvas.drawRect(rectF, paint);
-        }
-        else{
+        } else {
             canvas.drawRoundRect(rectF, w_bg, w_bg, paint);
         }
 
@@ -147,11 +137,9 @@ public class WlSeekBar extends View {
         rectF.top = top;
         rectF.right = progress_buffer * width;
         rectF.bottom = bottom;
-        if(!isRound)
-        {
+        if (!isRound) {
             canvas.drawRect(rectF, paint);
-        }
-        else{
+        } else {
             canvas.drawRoundRect(rectF, w_bg, w_bg, paint);
         }
 
@@ -161,32 +149,22 @@ public class WlSeekBar extends View {
         rectF.top = top;
         rectF.right = progress * width;
         rectF.bottom = bottom;
-        if(!isRound)
-        {
+        if (!isRound) {
             canvas.drawRect(rectF, paint);
-        }
-        else{
+        } else {
             canvas.drawRoundRect(rectF, w_bg, w_bg, paint);
         }
 
-        if(!touch)
-        {
+        if (!touch) {
             paint.setColor(color_thumb_normal);
-        }
-        else
-        {
+        } else {
             paint.setColor(color_thumb_touch);
         }
-        if(progress * width < radius)
-        {
+        if (progress * width < radius) {
             canvas.drawCircle(radius, cy, radius, paint);
-        }
-        else if(progress * width > (width - radius))
-        {
+        } else if (progress * width > (width - radius)) {
             canvas.drawCircle(width - radius, cy, radius, paint);
-        }
-        else
-        {
+        } else {
             canvas.drawCircle(progress * width, cy, radius, paint);
         }
 
@@ -199,26 +177,23 @@ public class WlSeekBar extends View {
             case MotionEvent.ACTION_DOWN:
                 touch = true;
                 moveX = event.getX();
-                setProgress(moveX / width);
-                if(onWlSeekBarChangeListener != null)
-                {
+                setProgressInner(moveX / width);
+                if (onWlSeekBarChangeListener != null) {
                     onWlSeekBarChangeListener.onStart(progress);
                 }
 
             case MotionEvent.ACTION_MOVE:
                 moveX = event.getX();
-                setProgress(moveX / width);
-                if(onWlSeekBarChangeListener != null)
-                {
+                setProgressInner(moveX / width);
+                if (onWlSeekBarChangeListener != null) {
                     onWlSeekBarChangeListener.onMove(progress);
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 moveX = event.getX();
-                setProgress(moveX / width);
-                if(onWlSeekBarChangeListener != null)
-                {
+                setProgressInner(moveX / width);
+                if (onWlSeekBarChangeListener != null) {
                     onWlSeekBarChangeListener.onEnd(progress);
                 }
                 touch = false;
@@ -227,34 +202,37 @@ public class WlSeekBar extends View {
         return true;
     }
 
-    public void setRound(boolean isRound)
-    {
+    public void setRound(boolean isRound) {
         this.isRound = isRound;
         invalidate();
     }
 
-    public void setProgress(double progress)
-    {
+    public void setProgress(double progress) {
         setProgress(progress, progress_buffer);
     }
 
-    public void setProgress(double progress, double progress_buffer)
-    {
-        if(progress < 0f)
-        {
+    public void setProgress(double progress, double progress_buffer) {
+        if (!touch) {
+            setProgressInner(progress, progress_buffer);
+        }
+    }
+
+    private void setProgressInner(double progress) {
+        setProgressInner(progress, progress_buffer);
+    }
+
+    private synchronized void setProgressInner(double progress, double progress_buffer) {
+        if (progress < 0f) {
             progress = 0f;
         }
-        if(progress > 1f)
-        {
+        if (progress > 1f) {
             progress = 1f;
         }
 
-        if(progress_buffer < 0f)
-        {
+        if (progress_buffer < 0f) {
             progress_buffer = 0f;
         }
-        if(progress_buffer > 1f)
-        {
+        if (progress_buffer > 1f) {
             progress_buffer = 1f;
         }
         this.progress_buffer = (float) progress_buffer;
@@ -262,13 +240,12 @@ public class WlSeekBar extends View {
         invalidate();
     }
 
-    public interface OnWlSeekBarChangeListener
-    {
-        void onStart(float value);
+    public interface OnWlSeekBarChangeListener {
+        void onStart(double value);
 
-        void onMove(float value);
+        void onMove(double value);
 
-        void onEnd(float value);
+        void onEnd(double value);
     }
 
     public static int dip2px(Context context, float dipValue) {

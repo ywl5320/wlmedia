@@ -1,7 +1,10 @@
 package com.ywl5320.wlmedia.listener;
 
 /**
- * Created by ywl5320 on 2020/4/15
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2024/3/25
  */
 public interface WlOnVideoViewListener {
 
@@ -12,14 +15,15 @@ public interface WlOnVideoViewListener {
 
     /**
      * surface大小改变
+     *
      * @param width
      * @param height
      */
     void onSurfaceChange(int width, int height);
 
-
     /**
      * 左右滑动
+     *
      * @param value
      * @param move_type
      */
@@ -37,6 +41,7 @@ public interface WlOnVideoViewListener {
 
     /**
      * 左边上下滑动
+     *
      * @param value
      * @param move_type
      */
@@ -44,6 +49,7 @@ public interface WlOnVideoViewListener {
 
     /**
      * 右边上下滑动
+     *
      * @param value
      * @param move_type
      */

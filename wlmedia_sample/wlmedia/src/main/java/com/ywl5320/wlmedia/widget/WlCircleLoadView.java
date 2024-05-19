@@ -8,10 +8,11 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 
-
 /**
- * @author ywl5320
- * @date 2020/6/30
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2024/3/17
  */
 public class WlCircleLoadView extends View {
 
@@ -50,9 +51,8 @@ public class WlCircleLoadView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.rotate(count, centerX, centerY);
-        for(int i = 0; i < 9; i++)
-        {
-            canvas.drawCircle(centerX + minLen - dip2px(getContext(),9 + 1), centerY, dip2px(getContext(), 1.0f + 0.3f * i), paint);
+        for (int i = 0; i < 9; i++) {
+            canvas.drawCircle(centerX + minLen - dip2px(getContext(), 9 + 1), centerY, dip2px(getContext(), 1.0f + 0.3f * i), paint);
             canvas.rotate(40, centerX, centerY);
         }
     }
@@ -75,13 +75,11 @@ public class WlCircleLoadView extends View {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if(exit)
-            {
+            if (exit) {
                 return;
             }
-            count+=5;
-            if(count >= 360)
-            {
+            count += 5;
+            if (count >= 360) {
                 count = 0;
             }
             invalidate();
@@ -89,8 +87,7 @@ public class WlCircleLoadView extends View {
         }
     };
 
-    public void startAnimal()
-    {
+    public void startAnimal() {
         handler.postDelayed(runnable, 0);
     }
 
@@ -99,10 +96,8 @@ public class WlCircleLoadView extends View {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    public void setColor(int color)
-    {
-        if(paint != null)
-        {
+    public void setColor(int color) {
+        if (paint != null) {
             paint.setColor(getResources().getColor(color));
         }
     }

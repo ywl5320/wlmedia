@@ -1,18 +1,20 @@
-# wlmedia
+## &#x1F680;wlmedia&#x1F680;
 #### Android 音视频播放SDK，几句代码即可实现音视频播放功能~
-#### 功能丰富，支持手机、电视盒子、手表等智能设备。<br/>
-## **有意[购买源码](https://github.com/wanliyang1990/wlmedia)请联系：ywl5320@163.com**
-
-
-## 一、功能特点
-
-- [x] 兼容androidx和support库
+#### 使用简单，功能丰富，支持手机、车机系统、电视盒子、手表等智能设备
+#### 全新架构，增加稳定性
+#### ==HarmonyOS Coming Soon==
+#### ==iOS Coming Soon==
+## 一 功能&特点
+- [x] 支持系统：Android 4.4+（api 19+）
+- [x] 支持架构：armeabi-v7a、arm64-v8a、x86、x86_64
 - [x] 基本信息获取（音频：采样率、声道数、时长等，视频：宽、高、fps、时长等）
 - [x] 支持file、http、https、rtmp、rtp、rtsp、byte[]等
+- [x] 支持AV1解码
 - [x] 可选音频、视频、音视频播放模式
 - [x] 软解硬解设置
 - [x] 无缝切换surface（也可自定义surfaceview、textureview）
 - [x] 支持多实例播放
+- [x] 支持播放完成（EOF）后，再次seek又继续播放
 - [x] 支持媒体自由切换
 - [x] 支持FFmpeg参数设置
 - [x] 支持byte[]数据解码
@@ -21,205 +23,190 @@
 - [x] 字幕选择
 - [x] 内置循环播放
 - [x] 链接超时设置
-- [x] 缓存大小设置（按时间、内存和队列设置）
+- [x] 缓存大小设置（时间维度）
 - [x] 音视频加密播放
 - [x] 音轨选择
-- [x] 音频声道选择
-- [x] 音频PCM数据和实时分贝获取
 - [x] 音频指定采样率设置
+- [x] 音频指定声道播放
 - [x] 视频截屏
 - [x] 视频首帧图片或指定时间图片获取
 - [x] 视频任意比例设置
 - [x] 视频旋转角度设置（0,90,180,270）
-- [x] 视频shader自定义视频滤镜（动态设置）
+- [x] 视频镜像模式设置
 - [x] 视频背景颜色设置（默认黑色）
-
-
-
-## 二、实例展示
-<img width="300" height="560" src="https://img-blog.csdnimg.cn/20210516155358862.jpg"/>
-
-## 三、集成使用
-### 3.1 [![](https://jitpack.io/v/wanliyang1990/wlmedia.svg)](https://jitpack.io/#wanliyang1990/wlmedia)
-
-    allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-	
-	dependencies {
-	        implementation 'com.github.wanliyang1990:wlmedia:2.0.0'
-	}
-	
-	
-### 3.2 常用权限
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-### 3.2 配置NDK编译平台
-
-    defaultConfig {
+- [x] 视频支持同时多个surface渲染
+- [x] 支持Unity播放（需定制）
+## 二 集成使用
+### 2.1 gradle集成
+```gradle
+allprojects {
+    repositories {
         ...
-        ndk {
-            abiFilter("arm64-v8a")
-            abiFilter("armeabi-v7a")
-            abiFilter("x86")
-            abiFilter("x86_64")
-            }
-        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+	
+dependencies {
+        implementation 'com.github.wanliyang1990:wlmedia:3.0.0'
+}
+ ```
+ ### 2.2 常用权限
+ ```xml
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.INTERNET"/>
+ ```
+
+ ### 2.3 配置NDK编译平台
+ ```gradle
+ defaultConfig {
+    ...
+    ndk {
+        abiFilter("armeabi-v7a")
+        abiFilter("arm64-v8a")
+        abiFilter("x86")
+        abiFilter("x86_64")
         }
+...
+}
+ ```
+ ### 2.4 设置Surface
+ ```xml
+ <-- WlSurfaceView 一般播放使用 -->
+ <com.ywl5320.wlmedia.widget.WlSurfaceView
+     android:id="@+id/wlsurfaceview"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent" />
 
-### 3.3 API
+ <-- WlTextureView 需要做透明、移动、旋转等使用 -->
+ <com.ywl5320.wlmedia.widget.WlTextureView
+     android:id="@+id/wltextureview"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent" />
+ ```
+ ### 2.5 基础调用代码（更多功能见Demo）
+ ```java
+ // 1.创建播放器
+ WlPlayer wlPlayer = new WlPlayer();
+ wlPlayer.setOnMediaInfoListener(new WlOnMediaInfoListener() {
+    @Override
+    public void onPrepared() {
+        // 异步准备好后回调，这里调用 wlplayer.start() 开始播放
+        wlPlayer.start();
+    }
 
-#### 3.3.1 视频Surface
+    @Override
+    public void onTimeInfo(double currentTime, double bufferTime) {
+        // 时间进度回调 
+    }
 
-```java
-    // WlSurfaceView 一般播放使用
-    <com.ywl5320.wlmedia.surface.WlSurfaceView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    
-    // WlTextureView 需要做透明、移动、旋转等使用
-    <com.ywl5320.wlmedia.surface.WlTextureView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    @Override
+    public void onComplete(WlCompleteType wlCompleteType, String msg) {
+        // 播放完成回调，根据 WlCompleteType 区分对应类型
+        if (wlCompleteType == WlCompleteType.WL_COMPLETE_EOF) {
+            // 正常播放完成
+        } else if (wlCompleteType == WlCompleteType.WL_COMPLETE_ERROR) {
+            // 播放出错，原因为：msg 字段
+        } else if (wlCompleteType == WlCompleteType.WL_COMPLETE_HANDLE) {
+            // 主动调用 wlPlayer.stop() 会回调此类型
+        } else if (wlCompleteType == WlCompleteType.WL_COMPLETE_NEXT) {
+            // 正在播放中，切换了新的数据源，会回调此类型
+        } else if (wlCompleteType == WlCompleteType.WL_COMPLETE_TIMEOUT) {
+            // 播放超时，会回调此接口
+        } else if (wlCompleteType == WlCompleteType.WL_COMPLETE_RELEASE) {
+            // 播放中调用 wlPlayer.release() 会回调此接口
+        }
+    }
+
+    @Override
+    public void onLoad(WlLoadStatus wlLoadStatus, int progress, long speed) {
+        // 加载状态回调
+        if (wlLoadStatus == WlLoadStatus.WL_LOADING_STATUS_START) {
+            // 开始加载
+        } else if (wlLoadStatus == WlLoadStatus.WL_LOADING_STATUS_PROGRESS) {
+            // 加载进度
+        } else if (wlLoadStatus == WlLoadStatus.WL_LOADING_STATUS_FINISH) {
+            // 加载完成
+        }
+    }
+
+    @Override
+    public void onTakePicture(Bitmap bitmap) {
+        // 截图回调
+    }
+
+    @Override
+    public void onAutoPlay() {
+        // 如果设置了 wlplayer.setAutoPlay(true) 异步准备好后，将会回调此接口
+    }
+
+    @Override
+    public void onFirstFrameRendered() {
+        // 首帧渲染回调
+    }
+
+    @Override
+    public void onSeekFinish() {
+        // seek 完回调
+    }
+
+    @Override
+    public byte[] decryptBuffer(byte[] encryptBuffer, long position) {
+        // （子线程）加密视频数据会通过此接口返回，经过解密后再返回给播放器
+        return encryptBuffer;
+    }
+
+    @Override
+    public byte[] readBuffer(int read_size) {
+        // （子线程）byte[] 类型的buffer，通过此接口给播放器提供数据
+        return null;
+    }
+
+    @Override
+    public void onOutRenderInfo(WlOutRenderBean outRenderBean) {
+        // 供外部渲染获取初始化信息，如 unity播放。
+    }
+});
+
+ // 2.获取 WlSurfaceView 并绑定播放器
+ WlSurfaceView wlSurfaceView = findViewById(R.id.wlsurfaceview);
+ wlSurfaceView.setWlPlayer(wlPlayer);
+
+ // 3.设置数据源异步准备
+ wlPlayer.setSource(url);
+ wlPlayer.prepare();
+ ```
+
+## 三 详细 API
+- [1. WlPlayer（音视频播放SDK）](doc/wlplayer_api.md)
+- [2. WlMediaUtil（音视频工具类SDK）](doc/wlmediautil_api.md)
+- 3.HarmonyOS（coming soon）
+- 4.iOS (coming soon)
+## 四 效果展示
+
+|  常规播放  |  透明视频  |  多Surface渲染  | 多实例播放  |
+| :----: | :----: | :----: | ------ |
+| <img src="doc/imgs/normal.gif" alt="描述" width="240" height="520"> | <img src="doc/imgs/alphavideo.gif" alt="描述" width="240" height="520"> | <img src="doc/imgs/multisurface.gif" alt="描述" width="240" height="520"> | <img src="doc/imgs/multiplayer.gif" alt="描述" width="240" height="520"> |
+
+
+## 五 混淆
+```pro
+-keep class com.ywl5320.wlmedia.* {*;} 
 ```
 
-#### 3.3.2 基础调用代码（更多功能见Demo）
+## 六 增值服务
+- `WlMedia` 是按应用根据 `包名` 付费定制的，demo 默认包名为: `com.ywl5320.wlmedia.example`，要测试功能，把包名改为 `com.ywl5320.wlmedia.example` 即可，无功能限制。
+- 每个包名可以 `￥29.90` 试用三个月，仅限一次。
+- 如需咨询或定制，联系方式如下：
+  - 邮箱：[ywl5320@163.com](ywl5320@163.com)
 
-```java
+## 七 讨论群（1085618246）
+![QQ](doc/imgs/qq_ercode.png)
 
-    WlSurfaceView wlSurfaceView = findViewById(R.id.wlsurfaceview);
-	WlMedia wlMedia = new WlMedia();
-	wlMedia.setSource(url);
-	wlSurfaceView.setWlMedia(wlMedia);
+## 八 核心三方库
+- [ffmpeg](http://ffmpeg.org/)
+- [openssL](https://github.com/openssl/openssl)
+- [soundtouch](http://www.surina.net/soundtouch/)
+- [dav1d](https://code.videolan.org/videolan/dav1d)
 
-	wlMedia.setOnMediaInfoListener(new WlOnMediaInfoListener() {
-		@Override
-		public void onPrepared() {
-			//异步准备好后开始播放
-			wlMedia.start();
-		}
-
-		@Override
-		public void onError(int code, String msg) {
-			//错误回调，主要用于查看错误信息
-
-		}
-
-		@Override
-		public void onComplete(WlComplete type, String msg) {
-			//播放完成（包含：正常播放完成、超时播放完成、手动触发播放完成等）
-
-		}
-
-		@Override
-		public void onTimeInfo(double currentTime, double bufferTime) {
-			//时间回调，当前时间和缓冲时间
-
-		}
-
-		@Override
-		public void onSeekFinish() {
-			//seek完成后回调，可用于类似iptv这种快进快退
-		}
-
-		@Override
-		public void onLoopPlay(int loopCount) {
-			//循环播放此时回调
-		}
-
-		@Override
-		public void onLoad(boolean load) {
-			//加载状态回调
-		}
-
-		@Override
-		public byte[] decryptBuffer(byte[] encryptBuffer) {
-			return new byte[0];
-		}
-
-		@Override
-		public byte[] readBuffer(int read_size) {
-			return new byte[0];
-		}
-
-		@Override
-		public void onPause(boolean pause) {
-			//暂停回调
-		}
-	});
-
-	wlSurfaceView.setOnVideoViewListener(new WlOnVideoViewListener() {
-		@Override
-		public void initSuccess() {
-			//surfaceview初始化完成
-			wlMedia.prepared();
-		}
-
-		@Override
-		public void onSurfaceChange(int width, int height) {
-			//surfaceview大小改变
-		}
-
-		@Override
-		public void moveX(double value, int move_type) {
-			//surfaceview横向左右滑动
-		}
-
-		@Override
-		public void onSingleClick() {
-			//surfaceview单击事件
-		}
-
-		@Override
-		public void onDoubleClick() {
-			//surfaceview双击事件
-		}
-
-		@Override
-		public void moveLeft(double value, int move_type) {
-			//surfaceview左侧上下滑动事件
-		}
-
-		@Override
-		public void moveRight(double value, int move_type) {
-			//surfaceview右侧上下滑动事件
-		}
-	});
-
-```
-## 四、博客详解
-#### [wlmedia播放器集成（1）— 播放器集成](https://blog.csdn.net/ywl5320/article/details/116899303)
-#### [wlmedia播放器集成（2）— 常用自定义view](https://blog.csdn.net/ywl5320/article/details/116901140)
-#### [wlmedia播放器集成（3）— 常用api](https://blog.csdn.net/ywl5320/article/details/116945049)
-#### [wlmedia播放器集成（4）— 实现视频播放](https://blog.csdn.net/ywl5320/article/details/117000589)
-
-## 五、讨论群（1085618246）
-<img width="238" height="250" src="https://img-blog.csdnimg.cn/20210516155929425.png"/><br/>
-
-## 六、混淆
-    -keep class com.ywl5320.wlmedia.* {*;} 
-
-
-## 七、参考资料
-#### [我的视频课程（基础）：《（NDK）FFmpeg打造Android万能音频播放器》](https://edu.csdn.net/course/detail/6842)
-#### [我的视频课程（进阶）：《（NDK）FFmpeg打造Android视频播放器》](https://edu.csdn.net/course/detail/8036)
-#### [我的视频课程（编码直播推流）：《Android视频编码和直播推流》](https://edu.csdn.net/course/detail/8942)
-#### [我的视频课程（C++ OpenGL）：《Android C++ OpenGL》](https://edu.csdn.net/course/detail/19367)
-#### [测试音视频文件地址（提取码：ivbh）](https://pan.baidu.com/s/1Gkm9cgmsvk4dXGPZVyHgZw)
-
-## 八、核心三方库
-#### [FFmpeg](http://ffmpeg.org/)
-#### [OpenSSL](https://github.com/openssl/openssl)
-#### [SoundTouch](http://www.surina.net/soundtouch/)
-
-
-### Create By：ywl5320 2019-12-16
-
-
-
-
-
+#### Update By：ywl5320 2024-05-20
+#### Create By：ywl5320 2019-12-16

@@ -1,38 +1,67 @@
 package com.ywl5320.wlmedia.util;
 
 /**
- * Created by ywl5320 on 2019-08-28.
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2024/3/23
  */
-
 public class WlTimeUtil {
 
     static StringBuilder time = new StringBuilder();
+
     /**
      * format times
-     * @param secds
+     *
+     * @param second
      * @return
      */
-    public static String secdsToDateFormat(double secds) {
+    public static String secondToTimeFormat(double second) {
 
-        if(secds < 0)
-        {
-            secds = 0;
+        if (second < 0) {
+            second = 0;
         }
 
-        if(time.length() > 0)
-        {
+        if (time.length() > 0) {
             time.delete(0, time.length());
         }
 
-        long hours = (long) (secds / (3600));
-        long minutes = (long) ((secds % (3600)) / (60));
-        long seconds = (long) (secds % (60));
+        long hours = (long) (second / (3600));
+        long minutes = (long) ((second % (3600)) / (60));
+        long seconds = (long) (second % (60));
 
-        if(hours > 0)
-        {
+        if (hours > 0) {
             time.append((hours >= 10) ? hours : "0" + hours);
             time.append(":");
         }
+        time.append((minutes >= 10) ? minutes : "0" + minutes);
+        time.append(":");
+        time.append((seconds >= 10) ? seconds : "0" + seconds);
+        return time.toString();
+    }
+
+    /**
+     * format times
+     *
+     * @param second
+     * @return
+     */
+    public static String secondToTimeFormat3(double second) {
+
+        if (second < 0) {
+            second = 0;
+        }
+
+        if (time.length() > 0) {
+            time.delete(0, time.length());
+        }
+
+        long hours = (long) (second / (3600));
+        long minutes = (long) ((second % (3600)) / (60));
+        long seconds = (long) (second % (60));
+
+        time.append((hours >= 10) ? hours : "0" + hours);
+        time.append(":");
         time.append((minutes >= 10) ? minutes : "0" + minutes);
         time.append(":");
         time.append((seconds >= 10) ? seconds : "0" + seconds);

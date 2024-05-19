@@ -1,39 +1,45 @@
 package com.ywl5320.wlmedia.enums;
 
 /**
- *
- * mutex enum
- * Created by ywl5320 on 2018-3-16.
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2024/4/27
  */
-
 public enum WlSourceType {
+    WL_SOURCE_NORMAL("WL_SOURCE_NORMAL", 0, "normal source type eg: file or net address"),//常规播放
+    WL_SOURCE_BUFFER("WL_SOURCE_BUFFER", 1, "play buffer with byte[]"),//播放byte[]
+    WL_SOURCE_ENCRYPT_FILE("WL_SOURCE_ENCRYPT_FILE", 2, "play encrypted files with byte[]");//播放加密文件
 
-    NORMAL("NORMAL", 0),//常规播放
-    BUFFER("BUFFER", 1),//播放byte[]
-    ENCRYPT_FILE("ENCRYPT_FILE", 2);//播放加密文件
-
-    private String type;
+    private String key;
     private int value;
+    private String desc;
 
-    WlSourceType(String type, int value)
-    {
-        this.type = type;
+    WlSourceType(String key, int value, String desc) {
+        this.key = key;
         this.value = value;
+        this.desc = desc;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public String getKey() {
+        return key;
     }
 
     public int getValue() {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public String getDesc() {
+        return desc;
     }
+
+    public static WlSourceType find(int value) {
+        for (WlSourceType sourceType : WlSourceType.values()) {
+            if (sourceType.value == value) {
+                return sourceType;
+            }
+        }
+        return null;
+    }
+
 }

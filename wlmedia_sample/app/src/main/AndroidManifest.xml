@@ -1,36 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ywl5320.wlmedia.sample">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_https_config"
-        android:theme="@style/AppTheme">
-        <activity android:name=".WlMainActivity">
+        android:theme="@style/Theme.Wlmedia_sample"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".WlCustomViewActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WlNormalActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WlVideoPlayActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".NormalPlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".AudioPlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".AlphaVideoActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".MultiSurfaceActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".MultiPlayerActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".EncryptFilePlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".BufferDataPlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".ShowFirstFrameActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name=".WlMediaUtilActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
     </application>
 
 </manifest>

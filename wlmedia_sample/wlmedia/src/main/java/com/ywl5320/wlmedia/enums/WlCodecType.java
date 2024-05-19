@@ -1,35 +1,45 @@
 package com.ywl5320.wlmedia.enums;
 
 /**
- * Created by ywl5320 on 2018/12/31
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2024/2/27
  */
 public enum WlCodecType {
 
-    CODEC_SOFT("SOFT", 0), // 只是软解码
-    CODEC_MEDIACODEC("MEDIACODEC", 1); // 硬解码优先
+    WL_CODEC_HARD_FIRST("WL_CODEC_HARD_FIRST", 0, "try use hard codec first, if not work, then use soft codec"),
+    WL_CODEC_SOFT("WL_CODEC_SOFT", 1, "only use soft codec");
 
-    private String type;
+    private String key;
     private int value;
+    private String desc;
 
-    WlCodecType(String type, int value)
-    {
-        this.type = type;
+    WlCodecType(String type, int value, String desc) {
+        this.key = type;
         this.value = value;
+        this.desc = desc;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public String getKey() {
+        return key;
     }
 
     public int getValue() {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public String getDesc() {
+        return desc;
     }
+
+    public static WlCodecType find(int value) {
+        for (WlCodecType codecType : WlCodecType.values()) {
+            if (codecType.value == value) {
+                return codecType;
+            }
+        }
+        return null;
+    }
+
 }
