@@ -37,7 +37,7 @@
 - [x] 视频支持同时多个surface渲染（如：KTV大小屏幕）
 - [x] 支持Unity播放（需定制对接）
 ## 二 集成使用
-### 2.1 gradle集成
+### 2.1 gradle [![](https://jitpack.io/v/wanliyang1990/wlmedia.svg)](https://jitpack.io/#wanliyang1990/wlmedia)
 ```gradle
 allprojects {
     repositories {
