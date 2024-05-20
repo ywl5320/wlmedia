@@ -1,12 +1,16 @@
 package com.ywl5320.wlmedia.example;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 
 import com.ywl5320.wlmedia.WlPlayer;
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private void copyFiles() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("测试视频拷贝中");
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(true);
         progressDialog.show();
         new Thread(new Runnable() {
             @Override
@@ -84,12 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 WlLog.d("copy file to sdcard:" + fout.getAbsolutePath());
                 boolean success = Util.copyAssetsToDst(MainActivity.this, "testvideos", fout.getAbsolutePath());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressDialog.hide();
-                    }
-                });
+                handler.sendEmptyMessage(0);
             }
         }).start();
     }
@@ -102,5 +101,25 @@ public class MainActivity extends AppCompatActivity {
                 videoPaths + "/testvideos/yfx.mp4"
         };
         return Util.isFilesExists(files);
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            progressDialog.hide();
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        if(progressDialog != null){
+            if(progressDialog.isShowing()){
+                progressDialog.hide();
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 }
