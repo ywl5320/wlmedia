@@ -193,8 +193,14 @@ dependencies {
 -keep class com.ywl5320.wlmedia.* {*;} 
 ```
 
-## 六 增值服务
-- `WlMedia` 是按应用根据 `包名` 付费定制的，demo 默认包名为: `com.ywl5320.wlmedia.example`，要测试功能，把包名改为 `com.ywl5320.wlmedia.example` 即可，无功能限制。
+## 六 免费和增值服务
+`WlMedia` 是按应用根据 `包名` 定制的，分免费版和付费定制版
+### 免费版
+- 免费版需要根据 `包名` 定制打包，功能上包含正常的播放功能。
+- 如需咨询或定制，联系方式：
+  - 邮箱：[ywl5320@163.com](ywl5320@163.com)
+### 增值版
+- demo 默认包名为: `com.ywl5320.wlmedia.example`，要测试功能，把包名改为 `com.ywl5320.wlmedia.example` 即可，无功能限制。
 - 应用包名首次定制打包，`￥29.90` 可试用三个月，每个应用包名仅限一次。
 - 如需咨询或定制，联系方式：
   - 邮箱：[ywl5320@163.com](ywl5320@163.com)
