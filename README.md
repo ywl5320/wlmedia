@@ -198,12 +198,12 @@ dependencies {
 ### 免费版
 - 免费版需要根据 `包名` 定制打包，功能上包含正常的播放功能。
 - 如需咨询或定制，联系方式：
-  - 邮箱：[ywl5320@163.com](ywl5320@163.com)
+  - 邮箱：[ywl5320@163.com](mailto:ywl5320@163.com)
 ### 增值版
 - demo 默认包名为: `com.ywl5320.wlmedia.example`，要测试功能，把包名改为 `com.ywl5320.wlmedia.example` 即可，无功能限制。
 - 应用包名首次定制打包，`￥29.90` 可试用三个月，每个应用包名仅限一次。
 - 如需咨询或定制，联系方式：
-  - 邮箱：[ywl5320@163.com](ywl5320@163.com)
+  - 邮箱：[ywl5320@163.com](mailto:ywl5320@163.com)
 
 ## 七 讨论群（1085618246）
 ![QQ](doc/imgs/qq_ercode.png)
