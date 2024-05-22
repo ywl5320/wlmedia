@@ -74,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, WlMediaUtilActivity.class));
     }
 
+    public void onClickCustomView(View view){
+        startActivity(new Intent(this, WlCustomViewActivity.class));
+    }
+
     private void copyFiles() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("测试视频拷贝中");

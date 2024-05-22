@@ -70,6 +70,10 @@
             android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.WlCustomViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
     </application>
 
 </manifest>

@@ -40,13 +40,7 @@ public class WlMediaUtilActivity extends AppCompatActivity {
                 wlMediaUtil.setSource(getFilesDir().getAbsolutePath() + "/testvideos/yfx.mp4");
                 int ret = wlMediaUtil.openSource();
                 WlLog.d("open source ret = " + ret);
-                WlTrackInfoBean[] tracks = wlMediaUtil.getAudioTracks();
-                if (tracks != null) {
-                    for (WlTrackInfoBean trackInfoBean : tracks) {
-                        WlLog.d(trackInfoBean.toString());
-                    }
-                }
-                Bitmap bitmap = wlMediaUtil.getVideoFrame(0, false);
+                Bitmap bitmap = wlMediaUtil.getVideoFrame(50, false);
                 if (bitmap != null) {
                     WlLog.d("get video bitmap " + bitmap.getWidth() + "*" + bitmap.getHeight());
                     Message message = Message.obtain();

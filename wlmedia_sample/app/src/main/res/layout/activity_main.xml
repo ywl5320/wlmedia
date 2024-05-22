@@ -62,4 +62,11 @@
         android:onClick="onClickWlMediaUtil"
         android:text="获取视频缩略图" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClickCustomView"
+        android:text="自定义view样式" />
+
 </LinearLayout>
