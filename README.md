@@ -3,6 +3,7 @@
 #### 使用简单，功能丰富，支持手机、车机系统、电视盒子、手表等智能设备
 #### 全新架构，增加稳定性
 #### HarmonyOS Coming Soon
+- 若有`HarmonyOS NEXT`开发资质的伙伴，想合作的可以联系：[ywl5320@163.com](mailto:ywl5320@163.com)
 #### iOS Coming Soon
 ## 一 功能&特点
 - [x] 支持系统：Android 4.4+（api 19+）
