@@ -38,7 +38,8 @@ public enum WlParamType {
     WL_PARAM_DOUBLE_GET_BUFFER_TIME("get buffer time", 27),
     WL_PARAM_DOUBLE_GET_MIN_BUFFER_TO_PLAY("get min buffer to play", 28),
     WL_PARAM_DOUBLE_GET_MAX_BUFFER_WAIT_TO_PLAY("get max buffer wait to play", 29),
-    WL_PARAM_INT_AUDIO_CHANNEL("set audio channel", 30);
+    WL_PARAM_INT_AUDIO_CHANNEL("set audio channel", 30),
+    WL_PARAM_BOOL_CALL_BACK_PCM("call back pcm", 31);
     private String key;
     private int value;
 

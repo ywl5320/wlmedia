@@ -31,7 +31,7 @@ public class WlMediaUtil {
     }
 
     public static String getVersion() {
-        return "wlmediautil-3.0.0";
+        return "wlmediautil-3.0.1";
     }
 
     /**
@@ -183,7 +183,7 @@ public class WlMediaUtil {
 
     public static synchronized void loadLibrary() {
         try {
-            System.loadLibrary("wlmediautil_v3.0.0");
+            System.loadLibrary("wlmediautil");
         } catch (UnsatisfiedLinkError e) {
             e.printStackTrace();
         }

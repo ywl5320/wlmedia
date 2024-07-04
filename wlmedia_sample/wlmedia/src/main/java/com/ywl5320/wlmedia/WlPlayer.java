@@ -1,5 +1,6 @@
 package com.ywl5320.wlmedia;
 
+import static com.ywl5320.wlmedia.enums.WlParamType.WL_PARAM_BOOL_CALL_BACK_PCM;
 import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_AUTO_PLAY_CB;
 import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_COMPLETE_CB;
 import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_FIRST_FRAME_RENDERED_CB;
@@ -35,6 +36,7 @@ import com.ywl5320.wlmedia.enums.WlSourceType;
 import com.ywl5320.wlmedia.enums.WlTrackType;
 import com.ywl5320.wlmedia.listener.WlOnLoadLibraryListener;
 import com.ywl5320.wlmedia.listener.WlOnMediaInfoListener;
+import com.ywl5320.wlmedia.listener.WlOnPcmDataListener;
 
 import java.lang.ref.WeakReference;
 
@@ -55,6 +57,8 @@ public class WlPlayer {
      * 播放回调接口
      */
     private WlOnMediaInfoListener onMediaInfoListener;
+
+    private WlOnPcmDataListener onPcmDataListener;
 
     /**
      * 无参构造函数
@@ -86,6 +90,10 @@ public class WlPlayer {
         this.onMediaInfoListener = onMediaInfoListener;
     }
 
+    public void setOnPcmDataListener(WlOnPcmDataListener onPcmDataListener) {
+        this.onPcmDataListener = onPcmDataListener;
+    }
+
 
     /**
      * -------------------- methods -------------------------
@@ -93,10 +101,11 @@ public class WlPlayer {
 
     /**
      * 获取当前版本号
+     *
      * @return
      */
     public static String getVersion() {
-        return "wlmedia-3.0.0";
+        return "wlmedia-3.0.1";
     }
 
     /**
@@ -828,6 +837,14 @@ public class WlPlayer {
     }
 
     /**
+     * 设置是否回调pcm数据
+     * @param callBackPcmData
+     */
+    public void setCallBackPcmData(boolean callBackPcmData) {
+        n_wlPlayer_setBool(WL_PARAM_BOOL_CALL_BACK_PCM.getValue(), callBackPcmData);
+    }
+
+    /**
      * -------------------- native callback -------------------------
      */
     private void nCallComplete(int type, String msg) {
@@ -875,6 +892,32 @@ public class WlPlayer {
     private void nCallOutRender(int id, int w, int h, int r) {
         WlOutRenderBean outRenderBean = new WlOutRenderBean(id, w, h, r);
         sendMessage(WL_MSG_OUT_RENDER_CB, outRenderBean);
+    }
+
+    /**
+     * pcm 属性回调
+     *
+     * @param bit
+     * @param channel
+     * @param samplerate
+     */
+    private void nCallPcmInfo(int bit, int channel, int samplerate) {
+        if (onPcmDataListener != null) {
+            onPcmDataListener.onPcmInfo(bit, channel, samplerate);
+        }
+    }
+
+    /**
+     * pcm 音频数据回调
+     * （注：如果在此回调中是比较耗时的操作，可使用队列临时缓存数据，以避免播放线程阻塞！）
+     *
+     * @param size
+     * @param data
+     */
+    private void nCallPcmData(int size, byte[] data, double db) {
+        if (onPcmDataListener != null) {
+            onPcmDataListener.onPcmData(size, data, db);
+        }
     }
 
     /**
@@ -1052,7 +1095,7 @@ public class WlPlayer {
 
     private static synchronized void loadLibrary() {
         try {
-            System.loadLibrary("wlplayer_v3.0.0");
+            System.loadLibrary("wlplayer");
         } catch (UnsatisfiedLinkError e) {
             e.printStackTrace();
         }
