@@ -48,7 +48,7 @@ allprojects {
 }
 	
 dependencies {
-        implementation 'com.github.wanliyang1990:wlmedia:3.0.1'
+        implementation 'com.github.ywl5320:wlmedia:3.0.1'
 }
  ```
  ### 2.2 常用权限
