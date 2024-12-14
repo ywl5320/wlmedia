@@ -53,6 +53,16 @@ public class ShowFirstFrameActivity extends AppCompatActivity {
             public void onLoad(WlLoadStatus wlLoadStatus, int i, long l) {
 
             }
+
+            @Override
+            public void onSeekFinish() {
+
+            }
+
+            @Override
+            public void onFirstFrameRendered() {
+
+            }
         });
     }
 

@@ -6,62 +6,59 @@ import com.ywl5320.wlmedia.enums.WlTrackType;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/3/7
+ * date   : 2024/8/11
  */
 public class WlTrackInfoBean {
-
-    private WlTrackType trackType;
-    private int programIndex;
+    private int trackType;
     private int trackIndex;
+    private int programIndex;
+    private double duration;
     private double startTime;
-    private double durationTime;
     private long bitrate;
-    private String bandWidth;
+    private long variantBitrate;
     private String language;
-    private String title;
     private int videoWidth;
     private int videoHeight;
     private int videoScaleWidth;
     private int videoScaleHeight;
-    private int videoRotate;
-    private double videoFPS;
+    private double videoRotate;
+    private double videoFrameRate;
     private int audioSampleRate;
     private int audioChannelNum;
 
-    public WlTrackType getTrackType() {
-        return trackType;
+    public WlTrackInfoBean() {
     }
 
-    public int getProgramIndex() {
-        return programIndex;
+    public WlTrackType getTrackType() {
+        return WlTrackType.find(trackType);
     }
 
     public int getTrackIndex() {
         return trackIndex;
     }
 
-    public double getStartTime() {
-        return startTime;
+    public int getProgramIndex() {
+        return programIndex;
     }
 
-    public double getDurationTime() {
-        return durationTime;
+    public double getDuration() {
+        return duration;
+    }
+
+    public double getStartTime() {
+        return startTime;
     }
 
     public long getBitrate() {
         return bitrate;
     }
 
-    public String getBandWidth() {
-        return bandWidth;
+    public long getVariantBitrate() {
+        return variantBitrate;
     }
 
     public String getLanguage() {
         return language;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public int getVideoWidth() {
@@ -80,12 +77,12 @@ public class WlTrackInfoBean {
         return videoScaleHeight;
     }
 
-    public int getVideoRotate() {
+    public double getVideoRotate() {
         return videoRotate;
     }
 
-    public double getVideoFPS() {
-        return videoFPS;
+    public double getVideoFrameRate() {
+        return videoFrameRate;
     }
 
     public int getAudioSampleRate() {
@@ -100,20 +97,19 @@ public class WlTrackInfoBean {
     public String toString() {
         return "WlTrackInfoBean{" +
                 "trackType=" + trackType +
-                ", programIndex=" + programIndex +
                 ", trackIndex=" + trackIndex +
+                ", programIndex=" + programIndex +
+                ", duration=" + duration +
                 ", startTime=" + startTime +
-                ", durationTime=" + durationTime +
                 ", bitrate=" + bitrate +
-                ", bandWidth='" + bandWidth + '\'' +
+                ", variantBitrate=" + variantBitrate +
                 ", language='" + language + '\'' +
-                ", title='" + title + '\'' +
                 ", videoWidth=" + videoWidth +
                 ", videoHeight=" + videoHeight +
                 ", videoScaleWidth=" + videoScaleWidth +
                 ", videoScaleHeight=" + videoScaleHeight +
                 ", videoRotate=" + videoRotate +
-                ", videoFPS=" + videoFPS +
+                ", videoFrameRate=" + videoFrameRate +
                 ", audioSampleRate=" + audioSampleRate +
                 ", audioChannelNum=" + audioChannelNum +
                 '}';

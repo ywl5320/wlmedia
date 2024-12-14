@@ -13,7 +13,7 @@ import android.view.View;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/1/21
+ * date   : 2024/8/18
  */
 public class WlSeekBar extends View {
 
@@ -38,7 +38,7 @@ public class WlSeekBar extends View {
     private boolean touch = false;
     private RectF rectF;
     private boolean isRound = false;
-
+    private Object syncAction = new Object();
     private OnWlSeekBarChangeListener onWlSeekBarChangeListener;
 
     public WlSeekBar(Context context) {
@@ -172,34 +172,36 @@ public class WlSeekBar extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction();
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                touch = true;
-                moveX = event.getX();
-                setProgressInner(moveX / width);
-                if (onWlSeekBarChangeListener != null) {
-                    onWlSeekBarChangeListener.onStart(progress);
-                }
+        synchronized (syncAction) {
+            int action = event.getAction();
+            touch = true;
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    moveX = event.getX();
+                    setProgressInner(moveX / width);
+                    if (onWlSeekBarChangeListener != null) {
+                        onWlSeekBarChangeListener.onStart(progress);
+                    }
 
-            case MotionEvent.ACTION_MOVE:
-                moveX = event.getX();
-                setProgressInner(moveX / width);
-                if (onWlSeekBarChangeListener != null) {
-                    onWlSeekBarChangeListener.onMove(progress);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                moveX = event.getX();
-                setProgressInner(moveX / width);
-                if (onWlSeekBarChangeListener != null) {
-                    onWlSeekBarChangeListener.onEnd(progress);
-                }
-                touch = false;
-                break;
+                case MotionEvent.ACTION_MOVE:
+                    moveX = event.getX();
+                    setProgressInner(moveX / width);
+                    if (onWlSeekBarChangeListener != null) {
+                        onWlSeekBarChangeListener.onMove(progress);
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    moveX = event.getX();
+                    setProgressInner(moveX / width);
+                    if (onWlSeekBarChangeListener != null) {
+                        onWlSeekBarChangeListener.onEnd(progress);
+                    }
+                    touch = false;
+                    break;
+            }
+            return true;
         }
-        return true;
     }
 
     public void setRound(boolean isRound) {
@@ -212,8 +214,10 @@ public class WlSeekBar extends View {
     }
 
     public void setProgress(double progress, double progress_buffer) {
-        if (!touch) {
-            setProgressInner(progress, progress_buffer);
+        synchronized (syncAction) {
+            if (!touch) {
+                setProgressInner(progress, progress_buffer);
+            }
         }
     }
 

@@ -46,38 +46,28 @@ public class Util {
         stringBuffer.append(", \nsampleRate:");
         stringBuffer.append(wlPlayer.getSampleRate().getKey());
         stringBuffer.append(", \nrenderFPS:");
-        stringBuffer.append(wlPlayer.getRenderFPS());
+        stringBuffer.append(wlPlayer.getRenderFrameRate());
         stringBuffer.append(", \nspeed:");
         stringBuffer.append(wlPlayer.getSpeed());
         stringBuffer.append(", \npitchType:");
-        stringBuffer.append(wlPlayer.getPitchType().getKey());
+        stringBuffer.append(wlPlayer.getPitchType().getValue());
         stringBuffer.append(", \npitch:");
         stringBuffer.append(wlPlayer.getPitch());
-        stringBuffer.append(", \nscaleWidth:");
-        stringBuffer.append(wlPlayer.getScaleWidth());
-        stringBuffer.append(", \nscaleHeight:");
-        stringBuffer.append(wlPlayer.getScaleHeight());
-        stringBuffer.append(", \nvideoRotate:");
-        stringBuffer.append(wlPlayer.getVideoRotate());
-        stringBuffer.append(", \nvideoMirror:");
-        stringBuffer.append(wlPlayer.getVideoMirror());
-        stringBuffer.append(", \nisClearLastVideoFrame:");
-        stringBuffer.append(wlPlayer.isClearLastVideoFrame());
         stringBuffer.append(", \ntimeOut:");
         stringBuffer.append(wlPlayer.getTimeOut());
         stringBuffer.append(", \nvolume:");
         stringBuffer.append(wlPlayer.getVolume());
-        if (wlPlayer.getCurrentAudioTrack() != null) {
+        if (wlPlayer.getAudioTracks() != null) {
             stringBuffer.append(", \naudioTrackInfo:");
-            stringBuffer.append(wlPlayer.getCurrentAudioTrack().toString());
+            stringBuffer.append(wlPlayer.getAudioTracks().toString());
         }
-        if (wlPlayer.getCurrentVideoTrack() != null) {
+        if (wlPlayer.getVideoTracks() != null) {
             stringBuffer.append(", \nvideoTrackInfo:");
-            stringBuffer.append(wlPlayer.getCurrentVideoTrack().toString());
+            stringBuffer.append(wlPlayer.getVideoTracks().toString());
         }
-        if (wlPlayer.getCurrentSubtitleTrack() != null) {
+        if (wlPlayer.getSubtitleTracks() != null) {
             stringBuffer.append(", \ncurrentTrackInfo:");
-            stringBuffer.append(wlPlayer.getCurrentSubtitleTrack().toString());
+            stringBuffer.append(wlPlayer.getSubtitleTracks().toString());
         }
 
         return stringBuffer.toString();

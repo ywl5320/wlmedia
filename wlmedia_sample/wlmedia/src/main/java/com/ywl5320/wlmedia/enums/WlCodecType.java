@@ -4,11 +4,10 @@ package com.ywl5320.wlmedia.enums;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/2/27
+ * date   : 2024/8/28
  */
 public enum WlCodecType {
-
-    WL_CODEC_HARD_FIRST("WL_CODEC_HARD_FIRST", 0, "try use hard codec first, if not work, then use soft codec"),
+    WL_CODEC_AUTO("WL_CODEC_AUTO", 0, "try use hard codec first, if not work, then use soft codec"),
     WL_CODEC_SOFT("WL_CODEC_SOFT", 1, "only use soft codec");
 
     private String key;
@@ -39,7 +38,6 @@ public enum WlCodecType {
                 return codecType;
             }
         }
-        return null;
+        return WL_CODEC_AUTO;
     }
-
 }

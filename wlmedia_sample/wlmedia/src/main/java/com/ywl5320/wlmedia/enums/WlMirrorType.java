@@ -4,7 +4,7 @@ package com.ywl5320.wlmedia.enums;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/3/3
+ * date   : 2024/9/5
  */
 public enum WlMirrorType {
     WL_MIRROR_NONE("WL_MIRROR_NONE", 0, "not mirror video"),
@@ -17,7 +17,7 @@ public enum WlMirrorType {
     private int value = 0;
     private String desc;
 
-    private WlMirrorType(String key, int value, String desc) {
+    WlMirrorType(String key, int value, String desc) {
         this.key = key;
         this.value = value;
         this.desc = desc;

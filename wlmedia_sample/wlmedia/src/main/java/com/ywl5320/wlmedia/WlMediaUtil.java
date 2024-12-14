@@ -2,6 +2,7 @@ package com.ywl5320.wlmedia;
 
 import android.graphics.Bitmap;
 
+import com.ywl5320.wlmedia.bean.WlMediaInfoBean;
 import com.ywl5320.wlmedia.bean.WlTrackInfoBean;
 import com.ywl5320.wlmedia.enums.WlTrackType;
 import com.ywl5320.wlmedia.listener.WlOnLoadLibraryListener;
@@ -13,6 +14,8 @@ import com.ywl5320.wlmedia.listener.WlOnLoadLibraryListener;
  * date   : 2024/3/10
  */
 public class WlMediaUtil {
+
+    private WlMediaInfoBean mediaInfoBean = null;
 
     public WlMediaUtil() {
         this(null);
@@ -31,7 +34,7 @@ public class WlMediaUtil {
     }
 
     public static String getVersion() {
-        return "wlmediautil-3.0.1";
+        return "wlmediautil";
     }
 
     /**
@@ -55,20 +58,20 @@ public class WlMediaUtil {
     }
 
     /**
-     * 设置options
+     * 设置 option
      *
      * @param key
      * @param value
      */
     public void setOptions(String key, String value) {
-        n_wlMediaUtil_setStringMap(key, value);
+        n_wlMediaUtil_setOptions(key, value);
     }
 
     /**
-     * 清楚options
+     * 清除所有 option
      */
     public void clearOptions() {
-        n_wlMediaUtil_clearStringMap();
+        n_wlMediaUtil_clearOptions();
     }
 
     /**
@@ -86,7 +89,11 @@ public class WlMediaUtil {
      * @return
      */
     public WlTrackInfoBean[] getAudioTracks() {
-        return getMediaTracks(WlTrackType.WL_TRACK_AUDIO);
+        WlMediaInfoBean info = getMediaInfo();
+        if (info != null) {
+            return info.getAudioTracks();
+        }
+        return null;
     }
 
     /**
@@ -95,7 +102,11 @@ public class WlMediaUtil {
      * @return
      */
     public WlTrackInfoBean[] getVideoTracks() {
-        return getMediaTracks(WlTrackType.WL_TRACK_VIDEO);
+        WlMediaInfoBean info = getMediaInfo();
+        if (info != null) {
+            return info.getVideoTracks();
+        }
+        return null;
     }
 
     /**
@@ -104,17 +115,23 @@ public class WlMediaUtil {
      * @return
      */
     public WlTrackInfoBean[] getSubtitleTracks() {
-        return getMediaTracks(WlTrackType.WL_TRACK_SUBTITLE);
+        WlMediaInfoBean info = getMediaInfo();
+        if (info != null) {
+            return info.getSubtitleTracks();
+        }
+        return null;
     }
 
     /**
-     * 获取对应track信息
+     * 获取媒体信息
      *
-     * @param trackType
      * @return
      */
-    private WlTrackInfoBean[] getMediaTracks(WlTrackType trackType) {
-        return n_wlMediaUtil_getTracks(trackType.getValue());
+    public WlMediaInfoBean getMediaInfo() {
+        if (mediaInfoBean == null) {
+            mediaInfoBean = n_wlMediaUtil_getMediaInfo();
+        }
+        return mediaInfoBean;
     }
 
     /**
@@ -167,15 +184,15 @@ public class WlMediaUtil {
 
     private native int n_wlMediaUtil_setSource(String value);
 
-    private native int n_wlMediaUtil_setStringMap(String key, String value);
+    private native int n_wlMediaUtil_setOptions(String key, String value);
 
-    private native int n_wlMediaUtil_clearStringMap();
+    private native int n_wlMediaUtil_clearOptions();
 
     private native int n_wlMediaUtil_setTimeOut(double timeOut);
 
     private native int n_wlMediaUtil_openSource();
 
-    private native WlTrackInfoBean[] n_wlMediaUtil_getTracks(int mediaType);
+    private native WlMediaInfoBean n_wlMediaUtil_getMediaInfo();
 
     private native Bitmap n_wlMediaUtil_getVideoFrame(int trackIndex, double time, boolean keyFrame, int scaleWidth, int scaleHeight);
 

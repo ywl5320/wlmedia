@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ywl5320.wlmedia.WlPlayer;
-import com.ywl5320.wlmedia.bean.WlOutRenderBean;
 import com.ywl5320.wlmedia.bean.WlTrackInfoBean;
 import com.ywl5320.wlmedia.enums.WlAudioChannelType;
 import com.ywl5320.wlmedia.enums.WlCompleteType;
@@ -129,7 +128,7 @@ public class NormalPlayActivity extends AppCompatActivity {
 //        wlPlayer.setAutoPlay(true);
         // 时间进度回调频率：多少秒一次，最快 0.01s 一次
 //        wlPlayer.setTimeInfoInterval(1);
-        wlPlayer.setClearLastVideoFrame(false);
+        wlSurfaceView.setClearLastVideoFrame(false);
         // 设置音量
         wlPlayer.setVolume(100);
         printWlPlayerInfo("init end");
@@ -162,9 +161,6 @@ public class NormalPlayActivity extends AppCompatActivity {
                     double bprogress = bufferTime / wlPlayer.getDuration();
                     tvTime.setText(WlTimeUtil.secondToTimeFormat(currentTime) + "/" + WlTimeUtil.secondToTimeFormat(wlPlayer.getDuration()));
                     wlSeekBar.setProgress(progress, bprogress);
-                } else {
-                    wlSeekBar.setProgress(0.5);
-                    tvTime.setText(WlTimeUtil.secondToTimeFormat(currentTime));
                 }
             }
 
@@ -216,21 +212,6 @@ public class NormalPlayActivity extends AppCompatActivity {
             public void onSeekFinish() {
                 printWlPlayerInfo("seekFinish");
             }
-
-            @Override
-            public byte[] decryptBuffer(byte[] encryptBuffer, long position) {
-                return null;
-            }
-
-            @Override
-            public byte[] readBuffer(int read_size) {
-                return null;
-            }
-
-            @Override
-            public void onOutRenderInfo(WlOutRenderBean outRenderBean) {
-
-            }
         });
     }
 
@@ -262,62 +243,62 @@ public class NormalPlayActivity extends AppCompatActivity {
     }
 
     public void onClickScaleFit(View view) {
-        wlPlayer.scaleVideo(WlScaleType.WL_SCALE_FIT);
+        wlSurfaceView.setVideoScale(WlScaleType.WL_SCALE_FIT);
         printWlPlayerInfo("scaleFit");
     }
 
     public void onClickScaleMatch(View view) {
-        wlPlayer.scaleVideo(WlScaleType.WL_SCALE_MATCH);
+        wlSurfaceView.setVideoScale(WlScaleType.WL_SCALE_MATCH);
         printWlPlayerInfo("scaleMatch");
     }
 
     public void onClickScale16_9(View view) {
-        wlPlayer.scaleVideo(WlScaleType.WL_SCALE_16_9);
+        wlSurfaceView.setVideoScale(WlScaleType.WL_SCALE_16_9);
         printWlPlayerInfo("scale16_9");
     }
 
     public void onClickScale4_3(View view) {
-        wlPlayer.scaleVideo(WlScaleType.WL_SCALE_4_3);
+        wlSurfaceView.setVideoScale(WlScaleType.WL_SCALE_4_3);
         printWlPlayerInfo("scale4_3");
     }
 
     public void onClickRotate0(View view) {
-        wlPlayer.rotateVideo(WlRotateType.WL_ROTATE_0);
+        wlSurfaceView.setVideoRotate(WlRotateType.WL_ROTATE_0);
         printWlPlayerInfo("rotate0");
     }
 
     public void onClickRotate90(View view) {
-        wlPlayer.rotateVideo(WlRotateType.WL_ROTATE_90);
+        wlSurfaceView.setVideoRotate(WlRotateType.WL_ROTATE_90);
         printWlPlayerInfo("rotate90");
     }
 
     public void onClickRotate180(View view) {
-        wlPlayer.rotateVideo(WlRotateType.WL_ROTATE_180);
+        wlSurfaceView.setVideoRotate(WlRotateType.WL_ROTATE_180);
         printWlPlayerInfo("rotate180");
     }
 
     public void onClickRotate270(View view) {
-        wlPlayer.rotateVideo(WlRotateType.WL_ROTATE_270);
+        wlSurfaceView.setVideoRotate(WlRotateType.WL_ROTATE_270);
         printWlPlayerInfo("rotate270");
     }
 
     public void onClickNoMir(View view) {
-        wlPlayer.mirrorVideo(WlMirrorType.WL_MIRROR_NONE);
+        wlSurfaceView.setVideoMirror(WlMirrorType.WL_MIRROR_NONE);
         printWlPlayerInfo("noMir");
     }
 
     public void onClickTBMir(View view) {
-        wlPlayer.mirrorVideo(WlMirrorType.WL_MIRROR_TOP_BOTTOM);
+        wlSurfaceView.setVideoMirror(WlMirrorType.WL_MIRROR_TOP_BOTTOM);
         printWlPlayerInfo("TBMir");
     }
 
     public void onClickLRMir(View view) {
-        wlPlayer.mirrorVideo(WlMirrorType.WL_MIRROR_LEFT_RIGHT);
+        wlSurfaceView.setVideoMirror(WlMirrorType.WL_MIRROR_LEFT_RIGHT);
         printWlPlayerInfo("LRMir");
     }
 
     public void onClickTBLRMir(View view) {
-        wlPlayer.mirrorVideo(WlMirrorType.WL_MIRROR_TOP_BOTTOM_LEFT_RIGHT);
+        wlSurfaceView.setVideoMirror(WlMirrorType.WL_MIRROR_TOP_BOTTOM_LEFT_RIGHT);
         printWlPlayerInfo("TBLRMir");
     }
 

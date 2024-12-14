@@ -41,13 +41,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickEncrypt"
-        android:text="加密文件播放" />
+        android:text="byte[]/加密文件播放" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickByteData"
-        android:text="byte[]播放" />
+        android:text="帧加密播放" />
 
     <Button
         android:layout_width="match_parent"

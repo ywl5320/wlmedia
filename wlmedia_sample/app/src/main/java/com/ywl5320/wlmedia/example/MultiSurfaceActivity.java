@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ywl5320.wlmedia.WlPlayer;
 import com.ywl5320.wlmedia.enums.WlCompleteType;
 import com.ywl5320.wlmedia.enums.WlLoadStatus;
+import com.ywl5320.wlmedia.enums.WlMirrorType;
+import com.ywl5320.wlmedia.enums.WlRotateType;
 import com.ywl5320.wlmedia.listener.WlOnMediaInfoListener;
 import com.ywl5320.wlmedia.widget.WlCircleLoadView;
 import com.ywl5320.wlmedia.widget.WlSurfaceView;
@@ -63,20 +65,36 @@ public class MultiSurfaceActivity extends AppCompatActivity {
                     loadView.setVisibility(View.GONE);
                 }
             }
+
+            @Override
+            public void onSeekFinish() {
+
+            }
+
+            @Override
+            public void onFirstFrameRendered() {
+
+            }
         });
 
         wlSurfaceView1.setWlPlayer(wlPlayer);
         wlSurfaceView2.setWlPlayer(wlPlayer, "#FF0000");
         wlSurfaceView3.setWlPlayer(wlPlayer, "#00FF00");
         wlSurfaceView4.setWlPlayer(wlPlayer, "#0000FF");
+        wlSurfaceView2.setVideoRotate(WlRotateType.WL_ROTATE_180);
+        wlSurfaceView3.setVideoMirror(WlMirrorType.WL_MIRROR_LEFT_RIGHT);
+        wlSurfaceView4.setVideoScale(1, 1);
 
-        wlPlayer.setClearLastVideoFrame(false);
+        wlSurfaceView1.setClearLastVideoFrame(true);
+        wlSurfaceView2.setClearLastVideoFrame(false);
+        wlSurfaceView3.setClearLastVideoFrame(true);
+        wlSurfaceView4.setClearLastVideoFrame(false);
         wlPlayer.setOptions("reconnect", "1");
         wlPlayer.setOptions("reconnect_streamed", "1");
         wlPlayer.setOptions("multiple_requests", "1");
         wlPlayer.setOptions("reconnect_delay_max", "5");
         wlPlayer.setOptions("user_agent", "User-Agent:Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50");
-        wlPlayer.setSource("https://xy61x159x92x170xy.mcdn.bilivideo.cn:486/live-bvc/771751/live_7734200_bs_1348183_minihevc/index.m3u8");
+        wlPlayer.setSource(getFilesDir().getAbsolutePath() + "/testvideos/yfx.mp4");
         wlPlayer.prepare();
     }
 

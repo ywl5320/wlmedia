@@ -4,12 +4,11 @@ package com.ywl5320.wlmedia.enums;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/4/27
+ * date   : 2024/8/11
  */
 public enum WlSourceType {
-    WL_SOURCE_NORMAL("WL_SOURCE_NORMAL", 0, "normal source type eg: file or net address"),//常规播放
-    WL_SOURCE_BUFFER("WL_SOURCE_BUFFER", 1, "play buffer with byte[]"),//播放byte[]
-    WL_SOURCE_ENCRYPT_FILE("WL_SOURCE_ENCRYPT_FILE", 2, "play encrypted files with byte[]");//播放加密文件
+    WL_SOURCE_NORMAL("WL_SOURCE_NORMAL", 0, "normal source type eg: file or internet url"),//常规播放
+    WL_SOURCE_BUFFER("WL_SOURCE_BUFFER", 1, "play buffer with byte[]");//播放byte[]
 
     private String key;
     private int value;
@@ -39,7 +38,6 @@ public enum WlSourceType {
                 return sourceType;
             }
         }
-        return null;
+        return WL_SOURCE_NORMAL;
     }
-
 }

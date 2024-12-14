@@ -4,10 +4,9 @@ package com.ywl5320.wlmedia.enums;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/3/2
+ * date   : 2024/8/18
  */
 public enum WlSampleRate {
-
     WL_SAMPLE_RATE_NONE("WL_SAMPLE_RATE_NONE", 0, "use default audio sample rate"),
     WL_SAMPLE_RATE_8000("WL_SAMPLE_RATE_8000", 8000, "convert audio sample rate to 8000HZ"),
     WL_SAMPLE_RATE_11025("WL_SAMPLE_RATE_11025", 11025, "convert audio sample rate to 11025HZ"),
@@ -47,7 +46,6 @@ public enum WlSampleRate {
                 return sampleRate;
             }
         }
-        return null;
+        return WL_SAMPLE_RATE_NONE;
     }
-
 }

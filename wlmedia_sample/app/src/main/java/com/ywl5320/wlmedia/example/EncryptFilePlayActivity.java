@@ -11,6 +11,7 @@ import com.ywl5320.wlmedia.WlPlayer;
 import com.ywl5320.wlmedia.enums.WlCompleteType;
 import com.ywl5320.wlmedia.enums.WlLoadStatus;
 import com.ywl5320.wlmedia.enums.WlSourceType;
+import com.ywl5320.wlmedia.enums.WlTrackType;
 import com.ywl5320.wlmedia.listener.WlOnMediaInfoListener;
 import com.ywl5320.wlmedia.log.WlLog;
 import com.ywl5320.wlmedia.widget.WlSurfaceView;
@@ -56,21 +57,30 @@ public class EncryptFilePlayActivity extends AppCompatActivity {
             }
 
             @Override
-            public byte[] decryptBuffer(byte[] encryptBuffer, long position) {
-                if (encryptBuffer == null) {
-                    return null;
+            public void onSeekFinish() {
+
+            }
+
+            @Override
+            public void onFirstFrameRendered() {
+
+            }
+
+            @Override
+            public byte[] onDeEncryptData(WlTrackType mediaType, byte[] data) {
+                if(mediaType == WlTrackType.WL_TRACK_AUDIO){
+                    // 这里可以对音频 data 帧数据进行解密 如aes解密
                 }
-                for (int i = 0; i < encryptBuffer.length; i++) {
-                    encryptBuffer[i] ^= '6';// 先模拟加密
-                    encryptBuffer[i] ^= '6';// 再解密后返回
+                else if(mediaType == WlTrackType.WL_TRACK_VIDEO){
+                    // 这里可以对视频 data 帧数据进行解密 如aes解密
                 }
-                return encryptBuffer;
+                return data;
             }
         });
     }
 
     public void onClickPlay(View view) {
-        wlPlayer.setSourceType(WlSourceType.WL_SOURCE_ENCRYPT_FILE);
+        wlPlayer.setBufferDeEncrypt(true);
         wlPlayer.setSource(getFilesDir().getAbsolutePath() + "/testvideos/yfx.mp4");
         wlPlayer.prepare();
     }

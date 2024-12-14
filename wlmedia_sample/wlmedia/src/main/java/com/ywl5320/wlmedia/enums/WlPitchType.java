@@ -4,7 +4,7 @@ package com.ywl5320.wlmedia.enums;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/3/2
+ * date   : 2024/9/8
  */
 public enum WlPitchType {
     WL_PITCH_NORMAL("WL_PITCH_NORMAL", 0, "normal pitch range[0.25,4.0]"),

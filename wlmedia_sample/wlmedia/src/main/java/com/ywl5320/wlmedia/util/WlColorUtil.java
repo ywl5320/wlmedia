@@ -4,10 +4,9 @@ package com.ywl5320.wlmedia.util;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/1/24
+ * date   : 2024/8/10
  */
 public class WlColorUtil {
-
     public static boolean isRGBAColor(String color) {
         if (color == null) {
             return false;
@@ -26,5 +25,4 @@ public class WlColorUtil {
         }
         return true;
     }
-
 }

@@ -59,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickEncrypt(View view) {
-        startActivity(new Intent(this, EncryptFilePlayActivity.class));
+        startActivity(new Intent(this, BufferDataPlayActivity.class));
     }
 
     public void onClickByteData(View view) {
-        startActivity(new Intent(this, BufferDataPlayActivity.class));
+        startActivity(new Intent(this, EncryptFilePlayActivity.class));
     }
 
     public void onClickFirstFrame(View view) {

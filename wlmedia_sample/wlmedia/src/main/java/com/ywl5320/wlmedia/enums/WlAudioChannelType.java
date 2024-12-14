@@ -4,7 +4,7 @@ package com.ywl5320.wlmedia.enums;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/5/17
+ * date   : 2024/12/13
  */
 public enum WlAudioChannelType {
     WL_AUDIO_CHANNEL_CENTER("WL_AUDIO_CHANNEL_CENTER", 0, "both left and right channel together play"), //立体声（左右声道）

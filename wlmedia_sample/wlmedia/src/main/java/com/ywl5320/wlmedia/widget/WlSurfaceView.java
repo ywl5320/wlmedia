@@ -10,6 +10,9 @@ import android.view.SurfaceView;
 
 import com.ywl5320.wlmedia.WlPlayer;
 import com.ywl5320.wlmedia.enums.WlAlphaVideoType;
+import com.ywl5320.wlmedia.enums.WlMirrorType;
+import com.ywl5320.wlmedia.enums.WlRotateType;
+import com.ywl5320.wlmedia.enums.WlScaleType;
 import com.ywl5320.wlmedia.listener.WlOnVideoViewListener;
 import com.ywl5320.wlmedia.util.WlColorUtil;
 
@@ -29,13 +32,13 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     private float y_down = 0;
     private int type = -1;
     private double seek_time = 0;
-    private boolean ismove = false;
+    private boolean isMove = false;
     private float startMoveOffsetLength = 0;
     private int clickCount = 0;
     private double move_offset_percent = 0;
     private float offset_move_x = 0;
     private float offset_move_y = 0;
-    private boolean isXmoving = false;
+    private boolean isXMoving = false;
 
     private static final int MOVE_X = 1;
     private static final int MOVE_Y = 2;
@@ -73,16 +76,50 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    public void setAlphaVideoType(WlAlphaVideoType wlAlphaVideoType) {
+    public void setAlphaVideoType(WlAlphaVideoType alphaVideoType) {
         if (wlPlayer == null) {
             return;
         }
-        if (wlAlphaVideoType == WlAlphaVideoType.WL_ALPHA_VIDEO_DEFAULT) {
+        if (alphaVideoType == WlAlphaVideoType.WL_ALPHA_VIDEO_DEFAULT) {
             setZOrderOnTop(false);
         } else {
             setZOrderOnTop(true);
         }
-        this.wlPlayer.setAlphaVideoType(wlAlphaVideoType);
+        this.wlPlayer.setAlphaVideoType(alphaVideoType);
+    }
+
+    public void setVideoScale(WlScaleType scaleType) {
+        if (wlPlayer != null) {
+            wlPlayer.setVideoScale(getUniqueNum(), scaleType);
+        }
+    }
+
+    public void setVideoScale(int scaleWidth, int scaleHeight) {
+        if (wlPlayer != null) {
+            wlPlayer.setVideoScale(getUniqueNum(), scaleWidth, scaleHeight);
+        }
+    }
+
+    public void setVideoRotate(WlRotateType rotateType) {
+        if (wlPlayer != null) {
+            wlPlayer.setVideoRotate(getUniqueNum(), rotateType);
+        }
+    }
+
+    public void setVideoMirror(WlMirrorType mirrorType) {
+        if (wlPlayer != null) {
+            wlPlayer.setVideoMirror(getUniqueNum(), mirrorType);
+        }
+    }
+
+    public long getUniqueNum() {
+        return hashCode();
+    }
+
+    public void setClearLastVideoFrame(boolean clear){
+        if(wlPlayer != null){
+            wlPlayer.setClearLastVideoFrame(getUniqueNum(), clear);
+        }
     }
 
     public void setOnVideoViewListener(WlOnVideoViewListener onVideoViewListener) {
@@ -104,6 +141,9 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         if (wlPlayer != null) {
             wlPlayer.setSurface(holder.getSurface(), rgba, hashCode());
         }
+        if (wlOnVideoViewListener != null) {
+            wlOnVideoViewListener.onSurfaceChange(width, height);
+        }
     }
 
     @Override
@@ -123,8 +163,8 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                isXmoving = false;
-                ismove = false;
+                isXMoving = false;
+                isMove = false;
                 type = -1;
                 x_down = event.getX();
                 y_down = event.getY();
@@ -140,9 +180,9 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     }
                 }
                 if (type == MOVE_Y) {
-                    if (x_down < getWidth() / 2) {
+                    if (x_down < getWidth() / 2.0) {
                         if (wlOnVideoViewListener != null) {
-                            if (!ismove) {
+                            if (!isMove) {
                                 if (offset_move_y > 0) {
                                     startMoveOffsetLength = Math.abs(startMoveOffsetLength);
                                 } else {
@@ -150,13 +190,13 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                                 }
                                 wlOnVideoViewListener.moveLeft(-move_offset_percent, MOVE_START);
                             } else {
-                                move_offset_percent = (offset_move_y - startMoveOffsetLength) / (getHeight() / 2);
+                                move_offset_percent = (offset_move_y - startMoveOffsetLength) / (getHeight() / 2.0);
                                 wlOnVideoViewListener.moveLeft(-move_offset_percent, MOVE_ING);
                             }
                         }
                     } else {
                         if (wlOnVideoViewListener != null) {
-                            if (!ismove) {
+                            if (!isMove) {
                                 if (offset_move_y > 0) {
                                     startMoveOffsetLength = Math.abs(startMoveOffsetLength);
                                 } else {
@@ -164,16 +204,16 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                                 }
                                 wlOnVideoViewListener.moveRight(-move_offset_percent, MOVE_START);
                             } else {
-                                move_offset_percent = (offset_move_y - startMoveOffsetLength) / (getHeight() / 2);
+                                move_offset_percent = (offset_move_y - startMoveOffsetLength) / (getHeight() / 2.0);
                                 wlOnVideoViewListener.moveRight(-move_offset_percent, MOVE_ING);
                             }
                         }
                     }
-                    ismove = true;
+                    isMove = true;
                 } else if (type == MOVE_X) {
                     if (wlOnVideoViewListener != null) {
                         if (wlPlayer != null && wlPlayer.getDuration() > 0) {
-                            if (!ismove) {
+                            if (!isMove) {
                                 if (offset_move_x > 0) {
                                     startMoveOffsetLength = Math.abs(startMoveOffsetLength) * -1;
                                 } else {
@@ -181,7 +221,7 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                                 }
                                 wlOnVideoViewListener.moveX(seek_time, MOVE_START);
                             } else {
-                                move_offset_percent = (offset_move_x + startMoveOffsetLength) / (getWidth() * 3);
+                                move_offset_percent = (offset_move_x + startMoveOffsetLength) / (getWidth() * 3.0);
                                 seek_time = wlPlayer.getCurrentTime() + move_offset_percent * wlPlayer.getDuration();
                                 if (seek_time < 0) {
                                     seek_time = 0;
@@ -189,18 +229,18 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                                 if (seek_time > wlPlayer.getDuration()) {
                                     seek_time = wlPlayer.getDuration();
                                 }
-                                isXmoving = true;
+                                isXMoving = true;
                                 wlOnVideoViewListener.moveX(seek_time, MOVE_ING);
                             }
                         }
                     }
-                    ismove = true;
+                    isMove = true;
                 }
 
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if (ismove) {
+                if (isMove) {
                     if (type == MOVE_X) {
                         if (wlOnVideoViewListener != null) {
                             if (seek_time < 0) {
@@ -209,7 +249,7 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                             if (seek_time > wlPlayer.getDuration()) {
                                 seek_time = wlPlayer.getDuration();
                             }
-                            if (isXmoving) {
+                            if (isXMoving) {
                                 wlOnVideoViewListener.moveX(seek_time, MOVE_STOP);
                             } else {
                                 wlOnVideoViewListener.moveX(-1, MOVE_STOP);
@@ -217,7 +257,7 @@ public class WlSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                             seek_time = 0;
                         }
                     } else if (type == MOVE_Y) {
-                        if (x_down < getWidth() / 2) {
+                        if (x_down < getWidth() / 2.0) {
                             if (wlOnVideoViewListener != null) {
                                 wlOnVideoViewListener.moveLeft(-move_offset_percent, MOVE_STOP);
                             }

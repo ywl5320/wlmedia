@@ -4,7 +4,7 @@ package com.ywl5320.wlmedia.enums;
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/3/3
+ * date   : 2024/9/5
  */
 public enum WlRotateType {
     WL_ROTATE_DEFAULT("WL_ROTATE_DEFAULT", -1, "the video not rotate any degree"),

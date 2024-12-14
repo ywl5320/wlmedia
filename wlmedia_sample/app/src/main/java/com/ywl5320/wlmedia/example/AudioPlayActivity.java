@@ -66,6 +66,16 @@ public class AudioPlayActivity extends AppCompatActivity {
             public void onLoad(WlLoadStatus wlLoadStatus, int i, long l) {
 
             }
+
+            @Override
+            public void onSeekFinish() {
+
+            }
+
+            @Override
+            public void onFirstFrameRendered() {
+
+            }
         });
         wlSeekBar.setOnWlSeekBarChangeListener(new WlSeekBar.OnWlSeekBarChangeListener() {
             @Override

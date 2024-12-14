@@ -10,6 +10,7 @@ import com.ywl5320.wlmedia.WlPlayer;
 import com.ywl5320.wlmedia.enums.WlCompleteType;
 import com.ywl5320.wlmedia.enums.WlLoadStatus;
 import com.ywl5320.wlmedia.enums.WlSourceType;
+import com.ywl5320.wlmedia.listener.WlOnBufferDataListener;
 import com.ywl5320.wlmedia.listener.WlOnMediaInfoListener;
 import com.ywl5320.wlmedia.log.WlLog;
 import com.ywl5320.wlmedia.widget.WlSurfaceView;
@@ -28,8 +29,7 @@ public class BufferDataPlayActivity extends AppCompatActivity {
 
     private WlSurfaceView wlSurfaceView;
     private WlPlayer wlPlayer;
-
-    private FileInputStream fio = null;
+    private BufferByteStream bufferByteStream;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,30 +59,43 @@ public class BufferDataPlayActivity extends AppCompatActivity {
             }
 
             @Override
-            public byte[] readBuffer(int read_size) {
-                // 这里只是模拟读取buffer,实际开发中，大多数是从队列中获取。
-                if (fio == null) {
-                    try {
-                        fio = new FileInputStream(new File(getFilesDir().getAbsolutePath() + "/testvideos/qyn2.mkv"));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+            public void onSeekFinish() {
+
+            }
+
+            @Override
+            public void onFirstFrameRendered() {
+
+            }
+
+        });
+
+        wlPlayer.setOnBufferDataListener(new WlOnBufferDataListener() {
+            @Override
+            public long onBufferByteLength() {
+                if (bufferByteStream == null) {
+                    bufferByteStream = new BufferByteStream(getFilesDir().getAbsolutePath() + "/testvideos/yfx.mp4");
                 }
-                byte[] buffer = new byte[read_size];
-                try {
-                    int size = fio.read(buffer);
-                    if (size > 0) {
-                        return buffer;
+                return bufferByteStream.getLength();
+            }
+
+            @Override
+            public byte[] onBufferByteData(long position, long bufferSize) {
+                if (bufferByteStream != null) {
+                    byte[] b = bufferByteStream.read((int) bufferSize, position);
+                    if (b != null) {
+                        for (int i = 0; i < b.length; i++) {
+//                            b[i] = (byte) ((int) b[i] ^ 88);
+                        }
                     }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    return b;
                 }
                 return null;
             }
         });
     }
 
-    public void onClickPlay(View view){
+    public void onClickPlay(View view) {
         wlPlayer.setSourceType(WlSourceType.WL_SOURCE_BUFFER);
         wlPlayer.prepare();
     }

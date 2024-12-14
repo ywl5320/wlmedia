@@ -30,11 +30,11 @@ public class AlphaVideoActivity extends AppCompatActivity {
         wlSurfaceView = findViewById(R.id.wlsurfaceview);
         wlPlayer = new WlPlayer();
         wlPlayer.setAutoPlay(true);
-        wlPlayer.scaleVideo(WlScaleType.WL_SCALE_MATCH);
+        wlSurfaceView.setVideoScale(WlScaleType.WL_SCALE_MATCH);
         wlSurfaceView.setWlPlayer(wlPlayer, "#00000000");
         wlSurfaceView.setAlphaVideoType(WlAlphaVideoType.WL_ALPHA_VIDEO_LEFT_ALPHA);
         wlPlayer.setLoopPlay(true);
-        wlPlayer.setClearLastVideoFrame(false);
+        wlSurfaceView.setClearLastVideoFrame(false);
         wlPlayer.setSource(getFilesDir().getAbsolutePath() + "/testvideos/alpha_left5.mp4");
         wlPlayer.prepare();
     }

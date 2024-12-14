@@ -1,15 +1,14 @@
 package com.ywl5320.wlmedia;
 
-import static com.ywl5320.wlmedia.enums.WlParamType.WL_PARAM_BOOL_CALL_BACK_PCM;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_AUTO_PLAY_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_COMPLETE_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_FIRST_FRAME_RENDERED_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_LOADING_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_OUT_RENDER_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_PREPARED_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_SEEK_FINISH_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_TAKE_PICTURE_CB;
-import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_MSG_TIME_INFO_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__AUTO_PLAY_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__COMPLETE_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__FIRST_FRAME_RENDERED_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__LOADING_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__OUT_RENDER_TEXTURE_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__PREPARED_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__SEEK_FINISH_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__TAKE_PICTURE_CB;
+import static com.ywl5320.wlmedia.message.WlHandleMessage.WL_PLAYER_HANDEL_MSG__TIME_INFO_CB;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -17,7 +16,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.Surface;
 
-import com.ywl5320.wlmedia.bean.WlOutRenderBean;
+import com.ywl5320.wlmedia.bean.WlMediaInfoBean;
+import com.ywl5320.wlmedia.bean.WlOutRenderTextureBean;
 import com.ywl5320.wlmedia.bean.WlTrackInfoBean;
 import com.ywl5320.wlmedia.enums.WlAlphaVideoType;
 import com.ywl5320.wlmedia.enums.WlAudioChannelType;
@@ -25,7 +25,6 @@ import com.ywl5320.wlmedia.enums.WlCodecType;
 import com.ywl5320.wlmedia.enums.WlCompleteType;
 import com.ywl5320.wlmedia.enums.WlLoadStatus;
 import com.ywl5320.wlmedia.enums.WlMirrorType;
-import com.ywl5320.wlmedia.enums.WlParamType;
 import com.ywl5320.wlmedia.enums.WlPitchType;
 import com.ywl5320.wlmedia.enums.WlPlayModel;
 import com.ywl5320.wlmedia.enums.WlRotateType;
@@ -34,9 +33,10 @@ import com.ywl5320.wlmedia.enums.WlScaleType;
 import com.ywl5320.wlmedia.enums.WlSeekType;
 import com.ywl5320.wlmedia.enums.WlSourceType;
 import com.ywl5320.wlmedia.enums.WlTrackType;
+import com.ywl5320.wlmedia.listener.WlOnBufferDataListener;
 import com.ywl5320.wlmedia.listener.WlOnLoadLibraryListener;
 import com.ywl5320.wlmedia.listener.WlOnMediaInfoListener;
-import com.ywl5320.wlmedia.listener.WlOnPcmDataListener;
+import com.ywl5320.wlmedia.listener.WlOnOutPcmDataListener;
 
 import java.lang.ref.WeakReference;
 
@@ -51,14 +51,11 @@ public class WlPlayer {
     /**
      * 消息处理loop
      */
-    private WlPlayerHandler playerHandler;
-
-    /**
-     * 播放回调接口
-     */
+    private final WlPlayerHandler playerHandler;
+    private WlMediaInfoBean mediaInfoBean;
     private WlOnMediaInfoListener onMediaInfoListener;
-
-    private WlOnPcmDataListener onPcmDataListener;
+    private WlOnOutPcmDataListener onOutPcmDataListener;
+    private WlOnBufferDataListener onBufferDataListener;
 
     /**
      * 无参构造函数
@@ -68,7 +65,7 @@ public class WlPlayer {
     }
 
     /**
-     * 带参构造函数，支持外部动态加载库
+     * 有参构造函数，可以自定义加载动态库
      *
      * @param onLoadLibraryListener
      */
@@ -80,9 +77,8 @@ public class WlPlayer {
         n_wlPlayer_init();
     }
 
-    /** -------------------- listeners -------------------------*/
     /**
-     * 设置回调函数
+     * 设置回调
      *
      * @param onMediaInfoListener
      */
@@ -90,22 +86,33 @@ public class WlPlayer {
         this.onMediaInfoListener = onMediaInfoListener;
     }
 
-    public void setOnPcmDataListener(WlOnPcmDataListener onPcmDataListener) {
-        this.onPcmDataListener = onPcmDataListener;
+    /**
+     * 设置pcm数据回调
+     *
+     * @param onOutPcmDataListener
+     */
+    public void setOnOutPcmDataListener(WlOnOutPcmDataListener onOutPcmDataListener) {
+        this.onOutPcmDataListener = onOutPcmDataListener;
     }
 
-
     /**
-     * -------------------- methods -------------------------
-     */
-
-    /**
-     * 获取当前版本号
+     * byte[] 类型数据读取回调
      *
-     * @return
+     * @param onBufferDataListener
      */
-    public static String getVersion() {
-        return "wlmedia-3.0.1";
+    public void setOnBufferDataListener(WlOnBufferDataListener onBufferDataListener) {
+        this.onBufferDataListener = onBufferDataListener;
+    }
+
+    /**
+     * 设置 surface
+     *
+     * @param surface   surface
+     * @param rgba      清屏颜色 eg: #000000FF
+     * @param uniqueNum 每个view的唯一值
+     */
+    public void setSurface(Surface surface, String rgba, long uniqueNum) {
+        n_wlPlayer_updateSurface(surface, rgba, uniqueNum);
     }
 
     /**
@@ -114,16 +121,16 @@ public class WlPlayer {
      * @param source
      */
     public void setSource(String source) {
-        n_wlPlayer_setString(WlParamType.WL_PARAM_STRING_SOURCE.getValue(), source);
+        n_wlPlayer_setSource(source);
     }
 
     /**
-     * 获取数据源
+     * 得到数据源
      *
      * @return
      */
     public String getSource() {
-        return n_wlPlayer_getString(WlParamType.WL_PARAM_STRING_SOURCE.getValue());
+        return n_wlPlayer_getSource();
     }
 
     /**
@@ -132,33 +139,755 @@ public class WlPlayer {
      * @param sourceType
      */
     public void setSourceType(WlSourceType sourceType) {
-        n_wlPlayer_setInt(WlParamType.WL_PARAM_INT_SOURCE_TYPE.getValue(), sourceType.getValue());
+        n_wlPlayer_setSourceType(sourceType.getValue());
     }
 
     /**
-     * 获取当前的数据类型
+     * 获取数据源类型
      *
      * @return
      */
     public WlSourceType getSourceType() {
-        int type = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_SOURCE_TYPE.getValue());
+        int type = n_wlPlayer_getSourceType();
         return WlSourceType.find(type);
     }
 
     /**
-     * 设置时间回调间隔
+     * 获取所有的音频轨道信息
      *
-     * @param seconds
+     * @return
      */
-    public void setTimeInfoInterval(double seconds) {
-        n_wlPlayer_setDouble(WlParamType.WL_PARAM_DOUBLE_TIME_INTERVAL.getValue(), seconds);
+    public WlTrackInfoBean[] getAudioTracks() {
+        if (mediaInfoBean == null) {
+            return null;
+        }
+        return mediaInfoBean.getAudioTracks();
     }
 
     /**
-     * 设置时间回调间隔
+     * 获取所有的视频轨道信息
+     *
+     * @return
+     */
+    public WlTrackInfoBean[] getVideoTracks() {
+        if (mediaInfoBean == null) {
+            return null;
+        }
+        return mediaInfoBean.getVideoTracks();
+    }
+
+    /**
+     * 获取所有字幕轨道信息
+     *
+     * @return
+     */
+    public WlTrackInfoBean[] getSubtitleTracks() {
+        if (mediaInfoBean == null) {
+            return null;
+        }
+        return mediaInfoBean.getSubtitleTracks();
+    }
+
+    /**
+     * 设置音频轨道
+     *
+     * @param audioTrackIndex
+     */
+    public void setAudioTrackIndex(int audioTrackIndex) {
+        setMediaTrackIndex(audioTrackIndex, -1, -1);
+    }
+
+    /**
+     * 获取当前音频轨道
+     *
+     * @return
+     */
+    public int getAudioTrackIndex() {
+        return getMediaTrackIndex(WlTrackType.WL_TRACK_AUDIO);
+    }
+
+    /**
+     * 获取当前视频轨道
+     *
+     * @return
+     */
+    public int getVideoTrackIndex() {
+        return getMediaTrackIndex(WlTrackType.WL_TRACK_VIDEO);
+    }
+
+    /**
+     * 获取当前字幕轨道
+     *
+     * @return
+     */
+    public int getSubtitleTrackIndex() {
+        return getMediaTrackIndex(WlTrackType.WL_TRACK_SUBTITLE);
+    }
+
+    /**
+     * 设置视频轨道
+     *
+     * @param videoTrackIndex
+     */
+    public void setVideoTrackIndex(int videoTrackIndex) {
+        setMediaTrackIndex(-1, videoTrackIndex, -1);
+    }
+
+    /**
+     * 设置字幕轨道
+     *
+     * @param subtitleTrackIndex
+     */
+    public void setSubtitleTrackIndex(int subtitleTrackIndex) {
+        setMediaTrackIndex(-1, -1, subtitleTrackIndex);
+    }
+
+    /**
+     * 设置 media track
+     *
+     * @param audioTrackIndex
+     * @param videoTrackIndex
+     * @param subtitleTrackIndex
+     */
+    public void setMediaTrackIndex(int audioTrackIndex, int videoTrackIndex, int subtitleTrackIndex) {
+        n_wlPlayer_setMediaTrackIndex(audioTrackIndex, videoTrackIndex, subtitleTrackIndex);
+    }
+
+    /**
+     * 获取当前播体轨道索引
+     *
+     * @param trackType
+     * @return
+     */
+    public int getMediaTrackIndex(WlTrackType trackType) {
+        return n_wlPlayer_getMediaTrackIndex(trackType.getValue());
+    }
+
+    /**
+     * 设置音频重采样采样率
+     *
+     * @param sampleRate
+     */
+    public void setSampleRate(WlSampleRate sampleRate) {
+        n_wlPlayer_setAudioSampleRate(sampleRate.getValue());
+    }
+
+    /**
+     * 获取音频采样率
+     *
+     * @return
+     */
+    public WlSampleRate getSampleRate() {
+        int sampleRate = n_wlPlayer_getAudioSampleRate();
+        return WlSampleRate.find(sampleRate);
+    }
+
+    /**
+     * seek 到指定时间，默认seek模式
+     *
+     * @param seekTime
+     */
+    public void seek(double seekTime) {
+        seek(seekTime, WlSeekType.WL_SEEK_NORMAL);
+    }
+
+    /**
+     * seek 到指定时间
+     *
+     * @param seekTime seek 时间
+     * @param seekType seek 模式 WlSeekType
+     */
+    public void seek(double seekTime, WlSeekType seekType) {
+        n_wlPlayer_seek(seekTime, seekType.getValue());
+    }
+
+    /**
+     * seek开始，调用后会屏蔽时间回调，避免seek中进度条异常跳转
+     */
+    public void seekStart() {
+        seekStart(true);
+    }
+
+    /**
+     * seek开始，调用后会屏蔽时间回调，避免seek中进度条异常跳转
+     *
+     * @param seekStart true: 屏蔽回调
+     */
+    public void seekStart(boolean seekStart) {
+        n_wlPlayer_setSeekStart(seekStart);
+        removeMessages(WL_PLAYER_HANDEL_MSG__TIME_INFO_CB);
+    }
+
+    /**
+     * 是否 seek 开始了
+     *
+     * @return
+     */
+    public boolean isSeekStart() {
+        return n_wlPlayer_isSeekStart();
+    }
+
+    /**
+     * 获取时长
+     *
+     * @return
+     */
+    public double getDuration() {
+        return n_wlPlayer_getDuration();
+    }
+
+    /**
+     * 获取当前时间
+     *
+     * @return
+     */
+    public double getCurrentTime() {
+        return n_wlPlayer_getCurrentTime();
+    }
+
+    /**
+     * 获取缓存时间
+     *
+     * @return
+     */
+    public double getBufferTime() {
+        return n_wlPlayer_getBufferTime();
+    }
+
+    /**
+     * 设置解码类型
+     *
+     * @param codecType 自动、软解
+     */
+    public void setCodecType(WlCodecType codecType) {
+        n_wlPlayer_setCodecType(codecType.getValue());
+    }
+
+    /**
+     * 获取解码类型
+     *
+     * @return
+     */
+    public WlCodecType getCodecType() {
+        int type = n_wlPlayer_getCodecType();
+        return WlCodecType.find(type);
+    }
+
+    /**
+     * 设置时间回调间隔，默认 1s/次
+     *
+     * @param seconds [0.01 ~ 5]
+     */
+    public void setTimeInfoInterval(double seconds) {
+        n_wlPlayer_setTimeInterval(seconds);
+    }
+
+    /**
+     * 获取时间回调间隔
+     *
+     * @return
      */
     public double getTimeInfoInterval() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_TIME_INTERVAL.getValue());
+        return n_wlPlayer_getTimeInterval();
+    }
+
+    /**
+     * 设置播放模式
+     *
+     * @param playModel 音频视频同时播放，只播放音频，只播放视频
+     */
+    public void setPlayModel(WlPlayModel playModel) {
+        n_wlPlayer_setPlayModel(playModel.getValue());
+    }
+
+    /**
+     * 获取视频播放模式
+     *
+     * @return
+     */
+    public WlPlayModel getPlayModel() {
+        int type = n_wlPlayer_getPlayModel();
+        return WlPlayModel.find(type);
+    }
+
+    /**
+     * 设置 OpenGL 渲染最大像素，大于这个像素，就不会使用OpenGL
+     *
+     * @param width  > 0
+     * @param height > 0
+     */
+    public void setRenderDefaultSize(int width, int height) {
+        n_wlPlayer_setRenderDefaultSize(width, height);
+    }
+
+    /**
+     * 获取 OpenGL 渲染最大宽度
+     *
+     * @return
+     */
+    public int getRenderDefaultWidth() {
+        return n_wlPlayer_getRenderDefaultWidth();
+    }
+
+    /**
+     * 获取 OpenGL 渲染最大高度
+     *
+     * @return
+     */
+    public int getRenderDefaultHeight() {
+        return n_wlPlayer_getRenderDefaultHeight();
+    }
+
+    /**
+     * 设置视频缩放宽高比例
+     *
+     * @param uniqueNum
+     * @param scaleType
+     */
+    public void setVideoScale(long uniqueNum, WlScaleType scaleType) {
+        setVideoScale(uniqueNum, scaleType.getScaleWidth(), scaleType.getScaleHeight());
+    }
+
+    /**
+     * 设置视频缩放宽高比例
+     *
+     * @param uniqueNum
+     * @param scaleWidth  > 0
+     * @param scaleHeight > 0
+     */
+    public void setVideoScale(long uniqueNum, int scaleWidth, int scaleHeight) {
+        n_wlPlayer_setVideoScale(scaleWidth, scaleHeight, uniqueNum);
+    }
+
+    /**
+     * 获取视频缩放比例 宽
+     *
+     * @return
+     */
+    public int getVideoScaleWidth(long uniqueNum) {
+        return n_wlPlayer_getVideoScaleWidth(uniqueNum);
+    }
+
+    /**
+     * 获取视频缩放比例 高
+     *
+     * @return
+     */
+    public int getVideoScaleHeight(long uniqueNum) {
+        return n_wlPlayer_getVideoScaleHeight(uniqueNum);
+    }
+
+    /**
+     * 设置旋转角度
+     *
+     * @param rotateType
+     */
+    public void setVideoRotate(long uniqueNum, WlRotateType rotateType) {
+        n_wlPlayer_setVideoRotate(rotateType.getValue(), uniqueNum);
+    }
+
+    /**
+     * 获取旋转角度
+     *
+     * @return
+     */
+    public int getVideoRotate(long uniqueNum) {
+        return n_wlPlayer_getVideoRotate(uniqueNum);
+    }
+
+    /**
+     * 设置镜像
+     *
+     * @param mirrorType
+     */
+    public void setVideoMirror(long uniqueNum, WlMirrorType mirrorType) {
+        n_wlPlayer_setVideoMirror(mirrorType.getValue(), uniqueNum);
+    }
+
+    /**
+     * 获取镜像
+     *
+     * @return
+     */
+    public int getVideoMirror(long uniqueNum) {
+        return n_wlPlayer_getVideoMirror(uniqueNum);
+    }
+
+    /**
+     * 设置解码 timeBase
+     *
+     * @param timeBase [250000 ~ 1000000]
+     */
+    public void setCodecTimeBase(long timeBase) {
+        n_wlPlayer_setCodecTimeBase(timeBase);
+    }
+
+    /**
+     * 获取解码 timeBase
+     *
+     * @return
+     */
+    public long getCodecTimeBase() {
+        return n_wlPlayer_getCodecTimeBase();
+    }
+
+    /**
+     * 设置 option
+     *
+     * @param key
+     * @param value
+     */
+    public void setOptions(String key, String value) {
+        n_wlPlayer_setOptions(key, value);
+    }
+
+    /**
+     * 清除所有 option
+     */
+    public void clearOptions() {
+        n_wlPlayer_clearOptions();
+    }
+
+    /**
+     * 设置播放速度
+     *
+     * @param speed [0.25 ~ 4]
+     */
+    public void setSpeed(double speed) {
+        n_wlPlayer_setSpeed(speed);
+    }
+
+    /**
+     * 获取播放速度
+     *
+     * @return
+     */
+    public double getSpeed() {
+        return n_wlPlayer_getSpeed();
+    }
+
+    /**
+     * 设置音调
+     *
+     * @param pitch [0.25 ~ 4]
+     */
+    public void setPitch(double pitch) {
+        setPitch(pitch, WlPitchType.WL_PITCH_NORMAL);
+    }
+
+    /**
+     * 设置音调
+     *
+     * @param pitch
+     * @param pitchType
+     */
+    public void setPitch(double pitch, WlPitchType pitchType) {
+        n_wlPlayer_setPitch(pitch, pitchType.getValue());
+    }
+
+    /**
+     * 获取音调
+     *
+     * @return
+     */
+    public double getPitch() {
+        return n_wlPlayer_getPitch();
+    }
+
+    /**
+     * 获取音调类型
+     *
+     * @return
+     */
+    public WlPitchType getPitchType() {
+        int pitchType = n_wlPlayer_getPitchType();
+        return WlPitchType.find(pitchType);
+    }
+
+    /**
+     * 设置视频播放完（或停止）时是否清屏
+     *
+     * @param uniqueNum
+     * @param clear
+     */
+    public void setClearLastVideoFrame(long uniqueNum, boolean clear) {
+        n_wlPlayer_setClearLastVideoFrame(clear, uniqueNum);
+    }
+
+    /**
+     * 是否视频播放完成（或停止）时清屏
+     *
+     * @param uniqueNum
+     * @return
+     */
+    public boolean isClearLastVideoFrame(long uniqueNum) {
+        return n_wlPlayer_isClearLastVideoFrame(uniqueNum);
+    }
+
+    /**
+     * 设置透明视频类型
+     *
+     * @param alphaVideoType
+     */
+    public void setAlphaVideoType(WlAlphaVideoType alphaVideoType) {
+        n_wlPlayer_setAlphaVideoType(alphaVideoType.getValue());
+    }
+
+    /**
+     * 获取透明视频类型
+     *
+     * @return
+     */
+    public WlAlphaVideoType getAlphaVideoType() {
+        int type = n_wlPlayer_getAlphaVideoType();
+        return WlAlphaVideoType.find(type);
+    }
+
+    /**
+     * 设置缓冲大小 单位 秒（s) maxBufferWaitToPlay >= minBufferToPlay >= 0
+     *
+     * @param minBufferToPlay     最小播放缓存，达到此缓存时才能播放
+     * @param maxBufferWaitToPlay 最大播放缓存，达到此缓存后就会等待
+     */
+    public void setBufferSize(double minBufferToPlay, double maxBufferWaitToPlay) {
+        n_wlPlayer_setBufferSize(minBufferToPlay, maxBufferWaitToPlay);
+    }
+
+    /**
+     * 获取最小缓存大小
+     *
+     * @return
+     */
+    public double getMinBufferToPlay() {
+        return n_wlPlayer_getMinBufferToPlay();
+    }
+
+    /**
+     * 获取最大缓存大小
+     *
+     * @return
+     */
+    public double getMaxBufferWaitToPlay() {
+        return n_wlPlayer_getMaxBufferWaitToPlay();
+    }
+
+    /**
+     * 设置 音视频同步 偏移
+     *
+     * @param syncOffset > 0, 视频快于音频；< 0, 视频慢于音频 [-1, 1]
+     */
+    public void setSyncOffset(double syncOffset) {
+        n_wlPlayer_setSyncOffset(syncOffset);
+    }
+
+    /**
+     * 获取 音视频同步 偏移
+     *
+     * @return
+     */
+    public double getSyncOffset() {
+        return n_wlPlayer_getSyncOffset();
+    }
+
+    /**
+     * 设置视频渲染帧率
+     *
+     * @param frameRate (20 ~ 60)
+     */
+    public void setRenderFrameRate(int frameRate) {
+        n_wlPlayer_setRenderFrameRate(frameRate);
+    }
+
+    /**
+     * 获取视频渲染帧率
+     *
+     * @return
+     */
+    public int getRenderFrameRate() {
+        return n_wlPlayer_getRenderFrameRate();
+    }
+
+    /**
+     * 设置循环播放
+     *
+     * @param loop
+     */
+    public void setLoopPlay(boolean loop) {
+        n_wlPlayer_setLoopPlay(loop);
+    }
+
+    /**
+     * 是否循环播放
+     *
+     * @return
+     */
+    public boolean isLoopPlay() {
+        return n_wlPlayer_isLoopPlay();
+    }
+
+    /**
+     * 设置超时时间
+     *
+     * @param timeOut 单位：秒（s)
+     */
+    public void setTimeOut(double timeOut) {
+        n_wlPlayer_setTimeOut(timeOut);
+    }
+
+    /**
+     * 获取超时时间
+     *
+     * @return
+     */
+    public double getTimeOut() {
+        return n_wlPlayer_getTimeOut();
+    }
+
+    /**
+     * 设置是否开启buffer帧解码模式
+     *
+     * @param enable
+     */
+    public void setBufferDeEncrypt(boolean enable) {
+        n_wlPlayer_setBufferDeEncrypt(enable);
+    }
+
+    /**
+     * 获取是否开启buffer解码模式
+     *
+     * @return
+     */
+    public boolean isBufferDeEncrypt() {
+        return n_wlPlayer_isBufferDeEncrypt();
+    }
+
+    /**
+     * 获取 audioSessionId
+     *
+     * @return
+     */
+    public int getAudioSessionId() {
+        return n_wlPlayer_getAudioSessionId();
+    }
+
+    /**
+     * 如果触发丢帧，表示连续丢帧次数
+     *
+     * @param count 0：不丢帧
+     */
+    public void setDropFrameCount(int count) {
+        n_wlPlayer_setDropFrameCount(count);
+    }
+
+    /**
+     * 获取连续丢帧次数
+     *
+     * @return
+     */
+    public int getDropFrameCount() {
+        return n_wlPlayer_getDropFrameCount();
+    }
+
+    /**
+     * 设置自动播放
+     *
+     * @param autoPlay
+     */
+    public void setAutoPlay(boolean autoPlay) {
+        n_wlPlayer_setAutoPlay(autoPlay);
+    }
+
+    /**
+     * 获取是否自动播放
+     *
+     * @return
+     */
+    public boolean isAutoPlay() {
+        return n_wlPlayer_isAutoPlay();
+    }
+
+    /**
+     * 截图
+     */
+    public void takePicture() {
+        n_wlPlayer_takePicture();
+    }
+
+    /**
+     * 初始化外部渲染环境
+     *
+     * @param name
+     * @param type
+     * @param version
+     */
+    public void initOutRenderEnv(String name, int type, int version) {
+        n_wlPlayer_initOutRenderEnv(name, type, version);
+    }
+
+    /**
+     * 设置音量
+     *
+     * @param percent
+     */
+    public void setVolume(int percent) {
+        setVolume(percent, false);
+    }
+
+    /**
+     * 设置音量
+     *
+     * @param percent
+     * @param changePcm 是否改变音频值改变音量
+     */
+    public void setVolume(int percent, boolean changePcm) {
+        n_wlPlayer_setVolume(percent, changePcm);
+    }
+
+    /**
+     * 获取音量值
+     *
+     * @return
+     */
+    public int getVolume() {
+        return n_wlPlayer_getVolume();
+    }
+
+    /**
+     * 设置声道类型
+     *
+     * @param audioChannelType 立体声 单左声道 单右声道 双左声道 双右声道
+     */
+    public void setAudioChannelType(WlAudioChannelType audioChannelType) {
+        n_wlPlayer_setAudioChannelType(audioChannelType.getValue());
+    }
+
+    /**
+     * 获取声道类型
+     *
+     * @return
+     */
+    public WlAudioChannelType getAudioChannelType() {
+        int type = n_wlPlayer_getAudioChannelType();
+        return WlAudioChannelType.find(type);
+    }
+
+    /**
+     * 设置实时回调pcm数据
+     * 注：数据返回是在子线程
+     *
+     * @param enable true: 开启 false: 关闭
+     */
+    public void setPcmCallbackEnable(boolean enable) {
+        n_wlPlayer_setPcmCallbackEnabled(enable);
+    }
+
+    /**
+     * 是否实时回调pcm数据
+     *
+     * @return
+     */
+    public boolean isPcmCallbackEnable() {
+        return n_wlPlayer_isPcmCallbackEnable();
     }
 
     /**
@@ -169,535 +898,10 @@ public class WlPlayer {
     }
 
     /**
-     * 停止播放
-     */
-    public void stop() {
-        n_wlPlayer_stop();
-    }
-
-    /**
-     * 销毁资源
-     */
-    public void release() {
-        n_wlPlayer_release();
-    }
-
-    /**
-     * 在异步准备完成后，正式开始播放
+     * 开始播放
      */
     public void start() {
         n_wlPlayer_start();
-    }
-
-    /**
-     * 获取时长
-     *
-     * @return 返回时长
-     */
-    public double getDuration() {
-        return n_wlPlayer_getDuration();
-    }
-
-    /**
-     * 暂停
-     */
-    public void pause() {
-        n_wlPlayer_setBool(WlParamType.WL_PARAM_BOOL_PAUSE_RESUME.getValue(), true);
-    }
-
-    /**
-     * 获取是否暂停
-     *
-     * @return
-     */
-    public boolean isPause() {
-        return n_wlPlayer_getBool(WlParamType.WL_PARAM_BOOL_PAUSE_RESUME.getValue());
-    }
-
-    /**
-     * 播放（相对暂停）
-     */
-    public void resume() {
-        n_wlPlayer_setBool(WlParamType.WL_PARAM_BOOL_PAUSE_RESUME.getValue(), false);
-    }
-
-    /**
-     * seek 开始
-     */
-    public void seekStart() {
-        n_wlPlayer_setBool(WlParamType.WL_PARAM_BOOL_SEEK_START.getValue(), true);
-    }
-
-    /**
-     * 是否开始seek了
-     *
-     * @return
-     */
-    private boolean isSeekStart() {
-        return n_wlPlayer_getBool(WlParamType.WL_PARAM_BOOL_SEEK_START.getValue());
-    }
-
-    /**
-     * seek
-     *
-     * @param seekTime 跳转时间，默认快速模式
-     */
-    public void seek(double seekTime) {
-        seek(seekTime, WlSeekType.WL_SEEK_FAST);
-    }
-
-    /**
-     * seek
-     *
-     * @param seekTime 跳转时间
-     * @param seekType seek模式
-     */
-    public void seek(double seekTime, WlSeekType seekType) {
-        n_wlPlayer_seek(seekTime, seekType.getValue());
-    }
-
-    /**
-     * 设置渲染surface
-     *
-     * @param surface      Surface画布（SurfaceView、TextureView）
-     * @param rgba         清屏颜色如：#FF0000 or #FF000000
-     * @param serialNumber surface唯一序列号
-     */
-    public void setSurface(Surface surface, String rgba, int serialNumber) {
-        n_wlPlayer_updateSurface(surface, rgba, serialNumber);
-    }
-
-    /**
-     * 设置 播放模式
-     *
-     * @param playModel 只播放音频
-     *                  只播放视频
-     *                  同时播放音视频
-     */
-    public void setPlayModel(WlPlayModel playModel) {
-        n_wlPlayer_setInt(WlParamType.WL_PARAM_INT_PLAY_MODEL.getValue(), playModel.getValue());
-    }
-
-    /**
-     * 获取当前播放模式
-     *
-     * @return
-     */
-    public WlPlayModel getPlayModel() {
-        int playModel = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_PLAY_MODEL.getValue());
-        return WlPlayModel.find(playModel);
-    }
-
-    /**
-     * 设置解码模式（硬解码 软解码）
-     *
-     * @param codecType
-     */
-    public void setCodecType(WlCodecType codecType) {
-        n_wlPlayer_setInt(WlParamType.WL_PARAM_INT_CODEC_TYPE.getValue(), codecType.getValue());
-    }
-
-    /**
-     * 获取解码模式
-     *
-     * @return
-     */
-    public WlCodecType getCodecType() {
-        int codecType = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_CODEC_TYPE.getValue());
-        return WlCodecType.find(codecType);
-    }
-
-    /**
-     * 设置音频采样率
-     *
-     * @param sampleRate
-     */
-    public void setSampleRate(WlSampleRate sampleRate) {
-        n_wlPlayer_setInt(WlParamType.WL_PARAM_INT_SAMPLE_RATE.getValue(), sampleRate.getValue());
-    }
-
-    /**
-     * 获取音频采样率
-     *
-     * @return
-     */
-    public WlSampleRate getSampleRate() {
-        int sampleRate = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_SAMPLE_RATE.getValue());
-        return WlSampleRate.find(sampleRate);
-    }
-
-    /**
-     * 设置画面渲染帧率
-     *
-     * @param fps
-     */
-    public void setRenderFPS(int fps) {
-        n_wlPlayer_setInt(WlParamType.WL_PARAM_INT_RENDER_FPS.getValue(), fps);
-    }
-
-    /**
-     * 获取最大渲染fps
-     *
-     * @return
-     */
-    public int getRenderFPS() {
-        return n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_RENDER_FPS.getValue());
-    }
-
-    /**
-     * 设置播放速度
-     *
-     * @param speed [0.5, 4]
-     */
-    public void setSpeed(double speed) {
-        n_wlPlayer_setDouble(WlParamType.WL_PARAM_DOUBLE_SPEED.getValue(), speed);
-    }
-
-    /**
-     * 获取播放速度
-     *
-     * @return
-     */
-    public double getSpeed() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_SPEED.getValue());
-    }
-
-    /**
-     * 设置音调，默认模式
-     *
-     * @param pitch
-     */
-    public void setPitch(double pitch) {
-        setPitch(WlPitchType.WL_PITCH_NORMAL, pitch);
-    }
-
-    /**
-     * 设置音调
-     *
-     * @param pitchType 音调模式
-     * @param pitch
-     */
-    public void setPitch(WlPitchType pitchType, double pitch) {
-        if (pitchType == WlPitchType.WL_PITCH_OCTAVES) {
-            n_wlPlayer_setDouble(WlParamType.WL_PARAM_DOUBLE_PITCH_OCTAVES.getValue(), pitch);
-        } else if (pitchType == WlPitchType.WL_PITCH_SEMITONES) {
-            n_wlPlayer_setDouble(WlParamType.WL_PARAM_DOUBLE_PITCH_SEMITONES.getValue(), pitch);
-        } else {
-            n_wlPlayer_setDouble(WlParamType.WL_PARAM_DOUBLE_PITCH_NORMAL.getValue(), pitch);
-        }
-    }
-
-    /**
-     * 获取 音调类型
-     *
-     * @return
-     */
-    public WlPitchType getPitchType() {
-        int pitchType = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_PITCH_TYPE.getValue());
-        return WlPitchType.find(pitchType);
-    }
-
-    /**
-     * 获取 音调值
-     *
-     * @return
-     */
-    public double getPitch() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_PITCH.getValue());
-    }
-
-    /**
-     * 设置视频比例
-     *
-     * @param scaleType
-     */
-    public void scaleVideo(WlScaleType scaleType) {
-        scaleVideo(scaleType.getScaleWidth(), scaleType.getScaleHeight());
-    }
-
-    /**
-     * 设置视频显示比例
-     *
-     * @param scaleWidth
-     * @param scaleHeight
-     */
-    public void scaleVideo(int scaleWidth, int scaleHeight) {
-        n_wlPlayer_scaleVideo(scaleWidth, scaleHeight);
-    }
-
-    /**
-     * 获取缩放比例：宽
-     *
-     * @return
-     */
-    public int getScaleWidth() {
-        return n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_SCALE_WIDTH.getValue());
-    }
-
-    /**
-     * 获取缩放比例：高
-     *
-     * @return
-     */
-    public int getScaleHeight() {
-        return n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_SCALE_HEIGHT.getValue());
-    }
-
-    /**
-     * 设置视频旋转角度
-     *
-     * @param rotateType
-     */
-    public void rotateVideo(WlRotateType rotateType) {
-        n_wlPlayer_rotateVideo(rotateType.getValue());
-    }
-
-    /**
-     * 获取视频旋转角度
-     *
-     * @return
-     */
-    public WlRotateType getVideoRotate() {
-        int rotate = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_VIDEO_ROTATE.getValue());
-        return WlRotateType.find(rotate);
-    }
-
-    /**
-     * 设置视频镜像
-     *
-     * @param wlMirrorType
-     */
-    public void mirrorVideo(WlMirrorType wlMirrorType) {
-        n_wlPlayer_mirrorVideo(wlMirrorType.getValue());
-    }
-
-    /**
-     * 获取镜像类型
-     *
-     * @return
-     */
-    public WlMirrorType getVideoMirror() {
-        int mirror = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_VIDEO_MIRROR.getValue());
-        return WlMirrorType.find(mirror);
-    }
-
-    /**
-     * 设置视频是否清除视频最后一帧
-     *
-     * @param clear
-     */
-    public void setClearLastVideoFrame(boolean clear) {
-        n_wlPlayer_setBool(WlParamType.WL_PARAM_BOOL_CLEAR_LAST_FRAME.getValue(), clear);
-    }
-
-    /**
-     * 是否清除最后一帧
-     *
-     * @return
-     */
-    public boolean isClearLastVideoFrame() {
-        return n_wlPlayer_getBool(WlParamType.WL_PARAM_BOOL_CLEAR_LAST_FRAME.getValue());
-    }
-
-    /**
-     * 设置超时时间，单位秒（s）
-     *
-     * @param timeOut
-     */
-    public void setTimeOut(double timeOut) {
-        n_wlPlayer_setDouble(WlParamType.WL_PARAM_DOUBLE_TIME_OUT.getValue(), timeOut);
-    }
-
-    /**
-     * 获取超时时间
-     *
-     * @return
-     */
-    public double getTimeOut() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_TIME_OUT.getValue());
-    }
-
-    /**
-     * 设置循环播放
-     *
-     * @param loopPlay true:循环播放 且 正常oef的情况才会开始循环播放
-     */
-    public void setLoopPlay(boolean loopPlay) {
-        n_wlPlayer_setBool(WlParamType.WL_PARAM_BOOL_LOOP_PLAY.getValue(), loopPlay);
-    }
-
-    /**
-     * 是否循环播放
-     *
-     * @return
-     */
-    public boolean isLoopPlay() {
-        return n_wlPlayer_getBool(WlParamType.WL_PARAM_BOOL_LOOP_PLAY.getValue());
-    }
-
-    /**
-     * 准备好后自动播放
-     *
-     * @param autoPlay
-     */
-    public void setAutoPlay(boolean autoPlay) {
-        n_wlPlayer_setBool(WlParamType.WL_PARAM_BOOL_AUTO_PLAY.getValue(), autoPlay);
-    }
-
-    /**
-     * 是否自动播放
-     *
-     * @return
-     */
-    public boolean isAutoPlay() {
-        return n_wlPlayer_getBool(WlParamType.WL_PARAM_BOOL_AUTO_PLAY.getValue());
-    }
-
-    /**
-     * 获取对应的 track 信息
-     *
-     * @param trackType
-     * @return
-     */
-    private WlTrackInfoBean[] getMediaTracks(WlTrackType trackType) {
-        return n_wlPlayer_getMediaTracks(trackType.getValue());
-    }
-
-    /**
-     * 获取当前播放的 track 信息
-     *
-     * @param trackType
-     * @return
-     */
-    private WlTrackInfoBean getCurrentMediaTrack(WlTrackType trackType) {
-        int trackIndex = n_wlPlayer_getCurrentMediaTrackIndex(trackType.getValue());
-        WlTrackInfoBean[] tracks = getMediaTracks(trackType);
-        if (tracks != null) {
-            if (trackIndex >= 0 && trackIndex < tracks.length) {
-                return tracks[trackIndex];
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 获取音频 track 信息
-     *
-     * @return
-     */
-    public WlTrackInfoBean[] getAudioTracks() {
-        return getMediaTracks(WlTrackType.WL_TRACK_AUDIO);
-    }
-
-    /**
-     * 获取当前音频 track 信息
-     *
-     * @return
-     */
-    public WlTrackInfoBean getCurrentAudioTrack() {
-        return getCurrentMediaTrack(WlTrackType.WL_TRACK_AUDIO);
-    }
-
-    /**
-     * 获取视频 track 信息
-     *
-     * @return
-     */
-    public WlTrackInfoBean[] getVideoTracks() {
-        return getMediaTracks(WlTrackType.WL_TRACK_VIDEO);
-    }
-
-    /**
-     * 获取当前视频 track 信息
-     *
-     * @return
-     */
-    public WlTrackInfoBean getCurrentVideoTrack() {
-        return getCurrentMediaTrack(WlTrackType.WL_TRACK_VIDEO);
-    }
-
-    /**
-     * 获取字幕 track 信息
-     *
-     * @return
-     */
-    public WlTrackInfoBean[] getSubtitleTracks() {
-        return getMediaTracks(WlTrackType.WL_TRACK_SUBTITLE);
-    }
-
-    /**
-     * 获取当前字幕 track 信息
-     *
-     * @return
-     */
-    public WlTrackInfoBean getCurrentSubtitleTrack() {
-        return getCurrentMediaTrack(WlTrackType.WL_TRACK_SUBTITLE);
-    }
-
-    /**
-     * 设置音频track
-     *
-     * @param audioTrackIndex
-     */
-    public void setAudioPlayTrack(int audioTrackIndex) {
-        setMediaPlayTrack(audioTrackIndex, -1, -1);
-    }
-
-    /**
-     * 设置视频track
-     *
-     * @param videoTrackIndex
-     */
-    public void setVideoPlayTrack(int videoTrackIndex) {
-        setMediaPlayTrack(-1, videoTrackIndex, -1);
-    }
-
-    /**
-     * 设置字幕track
-     *
-     * @param subtitleTrackIndex
-     */
-    public void setSubtitlePlayTrack(int subtitleTrackIndex) {
-        setMediaPlayTrack(-1, -1, subtitleTrackIndex);
-    }
-
-    /**
-     * 设置播放（音频、视频、字幕）track
-     *
-     * @param audioTrackIndex
-     * @param videoTrackIndex
-     * @param subtitleTrackIndex
-     */
-    public void setMediaPlayTrack(int audioTrackIndex, int videoTrackIndex, int subtitleTrackIndex) {
-        n_wlPlayer_setMediaPlayTrack(audioTrackIndex, videoTrackIndex, subtitleTrackIndex);
-    }
-
-    /**
-     * 设置音量
-     *
-     * @param percent （0 ~ 200）
-     */
-    public void setVolume(int percent) {
-        setVolume(percent, false);
-    }
-
-    /**
-     * 设置音量
-     *
-     * @param percent   （0 ~ 200）
-     * @param changePcm 是否改变pcm数据
-     */
-    public void setVolume(int percent, boolean changePcm) {
-        n_wlPlayer_setVolume(percent, changePcm);
-    }
-
-    /**
-     * 获取音量
-     *
-     * @return
-     */
-    public int getVolume() {
-        return n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_VOLUME.getValue());
     }
 
     /**
@@ -706,356 +910,304 @@ public class WlPlayer {
      * @return
      */
     public boolean isPlaying() {
-        return n_wlPlayer_getBool(WlParamType.WL_PARAM_BOOL_IS_PLAYING.getValue());
+        return n_wlPlayer_isPlaying();
     }
 
     /**
-     * 获取当前播放时间
+     * 暂停
+     */
+    public void pause() {
+        n_wlPlayer_pause();
+    }
+
+    /**
+     * 是否暂停
      *
      * @return
      */
-    public double getCurrentTime() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_GET_CURRENT_TIME.getValue());
+    public boolean isPause() {
+        return n_wlPlayer_isPause();
     }
 
     /**
-     * 获取当前缓存时间
+     * 继续播放
+     */
+    public void resume() {
+        n_wlPlayer_resume();
+    }
+
+    /**
+     * 停止
+     */
+    public void stop() {
+        n_wlPlayer_stop();
+    }
+
+    /**
+     * 销毁
+     */
+    public void release() {
+        n_wlPlayer_release();
+    }
+
+    /**
+     * 获取版本号
      *
      * @return
      */
-    public double getBufferTime() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_GET_BUFFER_TIME.getValue());
-    }
-
-    /**
-     * 设置渲染默认大小
-     *
-     * @param width
-     * @param height
-     */
-    public void setRenderDefaultSize(int width, int height) {
-        n_wlPlayer_setRenderDefaultSize(width, height);
-    }
-
-    /**
-     * 设置缓存大小 (参数单位：s)
-     *
-     * @param minBufferToPlay     开始播放时，最小缓存
-     * @param maxBufferWaitToPlay 最大缓存
-     */
-    public void setBufferSize(double minBufferToPlay, double maxBufferWaitToPlay) {
-        n_wlPlayer_setBufferSize(minBufferToPlay, maxBufferWaitToPlay);
-    }
-
-    /**
-     * 获取最小缓冲达到播放阈值（单位秒）
-     *
-     * @return
-     */
-    public double getMinBufferToPlay() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_GET_MIN_BUFFER_TO_PLAY.getValue());
-    }
-
-    /**
-     * 获取缓冲时到达播放阈值的最大值（单位秒）
-     *
-     * @return
-     */
-    public double getMaxBufferWaitToPlay() {
-        return n_wlPlayer_getDouble(WlParamType.WL_PARAM_DOUBLE_GET_MAX_BUFFER_WAIT_TO_PLAY.getValue());
-    }
-
-    /**
-     * 设置 options (key - value)
-     *
-     * @param key
-     * @param value
-     */
-    public void setOptions(String key, String value) {
-        n_wlPlayer_setStringKV(WlParamType.WL_PARAM_STRING_KV_OPTION.getValue(), key, value);
-    }
-
-    /**
-     * 清空 optings
-     */
-    public void clearOptions() {
-        n_wlPlayer_clearStringKV(WlParamType.WL_PARAM_STRING_KV_OPTION.getValue());
-    }
-
-    /**
-     * 设置渲染方式
-     *
-     * @param alphaVideoType
-     */
-    public void setAlphaVideoType(WlAlphaVideoType alphaVideoType) {
-        n_wlPlayer_setAlphaVideoType(alphaVideoType.getValue());
-    }
-
-    /**
-     * 视频截图
-     */
-    public void takePicture() {
-        n_wlPlayer_takePicture();
-    }
-
-    /**
-     * 设置音频播放声道类型
-     *
-     * @param audioChannelType
-     */
-    public void setAudioChannelType(WlAudioChannelType audioChannelType) {
-        n_wlPlayer_setInt(WlParamType.WL_PARAM_INT_AUDIO_CHANNEL.getValue(), audioChannelType.getValue());
-    }
-
-    /**
-     * 获取声道类型
-     *
-     * @return
-     */
-    public WlAudioChannelType getAudioChannelType() {
-        int type = n_wlPlayer_getInt(WlParamType.WL_PARAM_INT_AUDIO_CHANNEL.getValue());
-        return WlAudioChannelType.find(type);
-    }
-
-    /**
-     * 外部渲染初始化
-     *
-     * @param name
-     * @param version
-     */
-    public void initOutRenderEnv(String name, int type, int version) {
-        n_wlPlayer_initOutRenderEnv(name, type, version);
-    }
-
-    /**
-     * 取消外部渲染初始化
-     *
-     * @param name
-     */
-    public void unInitOutRenderEnv(String name) {
-        n_wlPlayer_unInitOutRenderEnv(name);
-    }
-
-    /**
-     * 设置是否回调pcm数据
-     * @param callBackPcmData
-     */
-    public void setCallBackPcmData(boolean callBackPcmData) {
-        n_wlPlayer_setBool(WL_PARAM_BOOL_CALL_BACK_PCM.getValue(), callBackPcmData);
+    public static synchronized String getVersion() {
+        if (!isLibraryLoaded) {
+            loadLibrary();
+        }
+        return n_wlPlayer_getVersion();
     }
 
     /**
      * -------------------- native callback -------------------------
      */
+    private void nCallPrepared(WlMediaInfoBean mediaInfoBean) {
+        sendMessage(WL_PLAYER_HANDEL_MSG__PREPARED_CB, mediaInfoBean);
+    }
+
+    private void nCallTimeInfo(long currentTime, long bufferTime) {
+        sendMessage(WL_PLAYER_HANDEL_MSG__TIME_INFO_CB, (int) currentTime, (int) bufferTime);
+    }
+
     private void nCallComplete(int type, String msg) {
-        sendMessage(WL_MSG_COMPLETE_CB, type, msg);
-    }
-
-    private void nCallPrepared(double costTime) {
-        sendMessage(WL_MSG_PREPARED_CB);
-    }
-
-    private void nCallTimeInfo(int currentTime, int bufferTime) {
-        sendMessage(WL_MSG_TIME_INFO_CB, currentTime, bufferTime);
+        sendMessage(WL_PLAYER_HANDEL_MSG__COMPLETE_CB, type, msg);
     }
 
     private void nCallLoadingStatus(int type, int progress, long speed) {
-        sendMessage(WL_MSG_LOADING_CB, type, progress, speed);
+        sendMessage(WL_PLAYER_HANDEL_MSG__LOADING_CB, type, progress, speed);
     }
 
-    private void nCallDealBuffer(int type, int size, byte[] data, long position) {
-        byte[] buffer = null;
-        if (type == WlSourceType.WL_SOURCE_ENCRYPT_FILE.getValue()) {
-            buffer = onMediaInfoListener.decryptBuffer(data, position);
-        } else {
-            buffer = onMediaInfoListener.readBuffer(size);
+    private void nCallIOBufferInit() {
+        long length = -1;
+        if (onBufferDataListener != null) {
+            length = onBufferDataListener.onBufferByteLength();
         }
-        n_wlPlayer_pushBufferData(buffer);
+        n_wlPlayer_sendBufferByteLength(length);
     }
 
-    private void nCallAutoPlay() {
-        sendMessage(WL_MSG_AUTO_PLAY_CB);
-    }
-
-    private void nCallFirstFrameRendered() {
-        sendMessage(WL_MSG_FIRST_FRAME_RENDERED_CB);
+    private void nCallIOBufferRead(long position, int bufferSize) {
+        byte[] buffer = null;
+        if (onBufferDataListener != null) {
+            buffer = onBufferDataListener.onBufferByteData(position, bufferSize);
+        }
+        n_wlPlayer_sendBufferByteRead(buffer);
     }
 
     private void nCallSeekFinish() {
-        sendMessage(WL_MSG_SEEK_FINISH_CB);
+        sendMessage(WL_PLAYER_HANDEL_MSG__SEEK_FINISH_CB);
+    }
+
+    private void nCallFirstFrameRendered() {
+        sendMessage(WL_PLAYER_HANDEL_MSG__FIRST_FRAME_RENDERED_CB);
+    }
+
+    private void nCallBufferDeEncrypt(int mediaType, byte[] data) {
+        byte[] deEncryptBuffer = null;
+        if (onMediaInfoListener != null) {
+            deEncryptBuffer = onMediaInfoListener.onDeEncryptData(WlTrackType.find(mediaType), data);
+        }
+        n_wlPlayer_sendBufferDeEncrypt(mediaType, deEncryptBuffer);
+    }
+
+    private void nCallOutRenderTexture(int textureId, int videoWidth, int videoHeight, int videoRotate) {
+        WlOutRenderTextureBean outRenderTextureBean = new WlOutRenderTextureBean();
+        outRenderTextureBean.setTextureId(textureId);
+        outRenderTextureBean.setVideoWidth(videoWidth);
+        outRenderTextureBean.setVideoHeight(videoHeight);
+        outRenderTextureBean.setVideoRotate(videoRotate);
+        sendMessage(WL_PLAYER_HANDEL_MSG__OUT_RENDER_TEXTURE_CB, outRenderTextureBean);
+    }
+
+    private void nCallAutoPlay(WlMediaInfoBean mediaInfoBean) {
+        sendMessage(WL_PLAYER_HANDEL_MSG__AUTO_PLAY_CB, mediaInfoBean);
     }
 
     private void nCallTakePicture(Bitmap bitmap) {
-        sendMessage(WL_MSG_TAKE_PICTURE_CB, bitmap);
+        sendMessage(WL_PLAYER_HANDEL_MSG__TAKE_PICTURE_CB, bitmap);
     }
 
-    private void nCallOutRender(int id, int w, int h, int r) {
-        WlOutRenderBean outRenderBean = new WlOutRenderBean(id, w, h, r);
-        sendMessage(WL_MSG_OUT_RENDER_CB, outRenderBean);
-    }
-
-    /**
-     * pcm 属性回调
-     *
-     * @param bit
-     * @param channel
-     * @param samplerate
-     */
-    private void nCallPcmInfo(int bit, int channel, int samplerate) {
-        if (onPcmDataListener != null) {
-            onPcmDataListener.onPcmInfo(bit, channel, samplerate);
+    private void nCallOutPcmInitInfo(int bit, int channel, int sampleRate) {
+        if (onOutPcmDataListener != null) {
+            onOutPcmDataListener.onOutPcmInfo(bit, channel, sampleRate);
         }
     }
 
-    /**
-     * pcm 音频数据回调
-     * （注：如果在此回调中是比较耗时的操作，可使用队列临时缓存数据，以避免播放线程阻塞！）
-     *
-     * @param size
-     * @param data
-     */
-    private void nCallPcmData(int size, byte[] data, double db) {
-        if (onPcmDataListener != null) {
-            onPcmDataListener.onPcmData(size, data, db);
+    private void nCallOutPcmBufferInfo(int size, byte[] buffers, double db) {
+        if (onOutPcmDataListener != null) {
+            onOutPcmDataListener.onOutPcmBuffer(size, buffers, db);
         }
     }
 
-    /**
-     * ---------------------- native methods --------------------------
-     */
+    // native
     private native int n_wlPlayer_init();
 
-    private native int n_wlPlayer_setString(int type, String value);
+    private native int n_wlPlayer_updateSurface(Surface surface, String rgba, long uniqueNum);
 
-    private native String n_wlPlayer_getString(int type);
+    private native int n_wlPlayer_setSource(String source);
 
-    private native int n_wlPlayer_setBool(int type, boolean value);
+    private native String n_wlPlayer_getSource();
 
-    private native boolean n_wlPlayer_getBool(int type);
+    private native int n_wlPlayer_setSourceType(int type);
 
-    private native int n_wlPlayer_setDouble(int type, double value);
+    private native int n_wlPlayer_getSourceType();
 
-    private native double n_wlPlayer_getDouble(int type);
+    private native int n_wlPlayer_setMediaTrackIndex(int audioTrackIndex, int videoTrackIndex, int subtitleTrackIndex);
 
-    private native int n_wlPlayer_setInt(int type, int value);
+    private native int n_wlPlayer_getMediaTrackIndex(int mediaType);
 
-    private native int n_wlPlayer_getInt(int type);
+    private native int n_wlPlayer_setAudioSampleRate(int sampleRate);
+
+    private native int n_wlPlayer_getAudioSampleRate();
+
+    private native int n_wlPlayer_seek(double time, int type);
+
+    private native int n_wlPlayer_setSeekStart(boolean seekStart);
+
+    private native boolean n_wlPlayer_isSeekStart();
+
+    private native int n_wlPlayer_setTimeInterval(double timeInterval);
+
+    private native double n_wlPlayer_getTimeInterval();
+
+    private native double n_wlPlayer_getDuration();
+
+    private native double n_wlPlayer_getCurrentTime();
+
+    private native double n_wlPlayer_getBufferTime();
+
+    private native int n_wlPlayer_setCodecType(int type);
+
+    private native int n_wlPlayer_getCodecType();
+
+    private native int n_wlPlayer_setPlayModel(int type);
+
+    private native int n_wlPlayer_getPlayModel();
+
+    private native int n_wlPlayer_setRenderDefaultSize(int width, int height);
+
+    private native int n_wlPlayer_getRenderDefaultWidth();
+
+    private native int n_wlPlayer_getRenderDefaultHeight();
+
+    private native int n_wlPlayer_setVideoScale(int width, int height, long uniqueNum);
+
+    private native int n_wlPlayer_getVideoScaleWidth(long uniqueNum);
+
+    private native int n_wlPlayer_getVideoScaleHeight(long uniqueNum);
+
+    private native int n_wlPlayer_setVideoRotate(int rotate, long uniqueNum);
+
+    private native int n_wlPlayer_getVideoRotate(long uniqueNum);
+
+    private native int n_wlPlayer_setVideoMirror(int mirror, long uniqueNum);
+
+    private native int n_wlPlayer_getVideoMirror(long uniqueNum);
+
+    private native int n_wlPlayer_setCodecTimeBase(long timeBase);
+
+    private native long n_wlPlayer_getCodecTimeBase();
+
+    private native int n_wlPlayer_setOptions(String key, String value);
+
+    private native int n_wlPlayer_clearOptions();
+
+    private native int n_wlPlayer_setSpeed(double speed);
+
+    private native double n_wlPlayer_getSpeed();
+
+    private native int n_wlPlayer_setPitch(double pitch, int type);
+
+    private native double n_wlPlayer_getPitch();
+
+    private native int n_wlPlayer_getPitchType();
+
+    private native int n_wlPlayer_setClearLastVideoFrame(boolean clear, long uniqueNum);
+
+    private native boolean n_wlPlayer_isClearLastVideoFrame(long uniqueNum);
+
+    private native int n_wlPlayer_setAlphaVideoType(int type);
+
+    private native int n_wlPlayer_getAlphaVideoType();
+
+    public native int n_wlPlayer_setBufferSize(double minBufferToPlay, double maxBufferWaitToPlay);
+
+    private native double n_wlPlayer_getMinBufferToPlay();
+
+    private native double n_wlPlayer_getMaxBufferWaitToPlay();
+
+    private native int n_wlPlayer_setSyncOffset(double syncOffset);
+
+    private native double n_wlPlayer_getSyncOffset();
+
+    private native int n_wlPlayer_sendBufferByteLength(long length);
+
+    private native int n_wlPlayer_sendBufferByteRead(byte[] buffer);
+
+    private native int n_wlPlayer_setRenderFrameRate(int frameRate);
+
+    private native int n_wlPlayer_getRenderFrameRate();
+
+    private native int n_wlPlayer_setLoopPlay(boolean loop);
+
+    private native boolean n_wlPlayer_isLoopPlay();
+
+    private native int n_wlPlayer_setTimeOut(double timeOut);
+
+    private native double n_wlPlayer_getTimeOut();
+
+    private native int n_wlPlayer_sendBufferDeEncrypt(int type, byte[] buffer);
+
+    private native int n_wlPlayer_setBufferDeEncrypt(boolean enable);
+
+    private native int n_wlPlayer_getAudioSessionId();
+
+    private native boolean n_wlPlayer_isBufferDeEncrypt();
+
+    private native int n_wlPlayer_setDropFrameCount(int count);
+
+    private native int n_wlPlayer_getDropFrameCount();
+
+    private native int n_wlPlayer_setAutoPlay(boolean autoPlay);
+
+    private native boolean n_wlPlayer_isAutoPlay();
+
+    private native int n_wlPlayer_takePicture();
+
+    private native int n_wlPlayer_initOutRenderEnv(String name, int renderType, int version);
+
+    private native int n_wlPlayer_setVolume(int percent, boolean changePcm);
+
+    private native int n_wlPlayer_getVolume();
+
+    private native int n_wlPlayer_setAudioChannelType(int type);
+
+    private native int n_wlPlayer_getAudioChannelType();
+
+    private native int n_wlPlayer_setPcmCallbackEnabled(boolean enabled);
+
+    private native boolean n_wlPlayer_isPcmCallbackEnable();
 
     private native int n_wlPlayer_prepare();
+
+    private native int n_wlPlayer_start();
+
+    private native boolean n_wlPlayer_isPlaying();
+
+    private native int n_wlPlayer_pause();
+
+    private native boolean n_wlPlayer_isPause();
+
+    private native int n_wlPlayer_resume();
 
     private native int n_wlPlayer_stop();
 
     private native int n_wlPlayer_release();
 
-    private native int n_wlPlayer_start();
-
-    private native double n_wlPlayer_getDuration();
-
-    private native int n_wlPlayer_seek(double seekTime, int seekType);
-
-    private native int n_wlPlayer_updateSurface(Surface surface, String rgba, int serialNumber);
-
-    private native int n_wlPlayer_scaleVideo(int scaleWidth, int scaleHeight);
-
-    private native int n_wlPlayer_rotateVideo(int rotate);
-
-    private native int n_wlPlayer_mirrorVideo(int mirror);
-
-    private native WlTrackInfoBean[] n_wlPlayer_getMediaTracks(int trackType);
-
-    private native int n_wlPlayer_getCurrentMediaTrackIndex(int trackType);
-
-    private native int n_wlPlayer_setMediaPlayTrack(int audioTrackIndex, int videoTrackIndex, int subtitleTrackIndex);
-
-    public native int n_wlPlayer_setVolume(int percent, boolean changePcm);
-
-    public native int n_wlPlayer_setRenderDefaultSize(int width, int height);
-
-    public native int n_wlPlayer_setBufferSize(double minBufferToPlay, double maxBufferWaitToPlay);
-
-    private native int n_wlPlayer_setStringKV(int type, String key, String value);
-
-    private native int n_wlPlayer_clearStringKV(int type);
-
-    private native int n_wlPlayer_setAlphaVideoType(int type);
-
-    private native int n_wlPlayer_pushBufferData(byte[] buffer);
-
-    private native int n_wlPlayer_takePicture();
-
-    private native int n_wlPlayer_initOutRenderEnv(String name, int type, int version);
-
-    private native int n_wlPlayer_unInitOutRenderEnv(String name);
-
-    private static class WlPlayerHandler extends Handler {
-        private WeakReference<WlPlayer> reference;
-
-        public WlPlayerHandler(WlPlayer player) {
-            super(Looper.getMainLooper());
-            reference = new WeakReference(player);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            WlPlayer wlPlayer = reference.get();
-            if (wlPlayer == null) {
-                return;
-            }
-            switch (msg.what) {
-                case WL_MSG_COMPLETE_CB:
-                    int type = msg.arg1;
-                    String completeMsg = (String) msg.obj;
-                    WlCompleteType wlCompleteType = WlCompleteType.find(type);
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        wlPlayer.onMediaInfoListener.onComplete(wlCompleteType, completeMsg);
-                    }
-                    break;
-                case WL_MSG_PREPARED_CB:
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        wlPlayer.onMediaInfoListener.onPrepared();
-                    }
-                    break;
-                case WL_MSG_TIME_INFO_CB:
-                    if (wlPlayer.onMediaInfoListener != null && !wlPlayer.isSeekStart()) {
-                        wlPlayer.onMediaInfoListener.onTimeInfo(msg.arg1 / 1000.0, msg.arg2 / 1000.0);
-                    }
-                    break;
-                case WL_MSG_LOADING_CB:
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        wlPlayer.onMediaInfoListener.onLoad(WlLoadStatus.find(msg.arg1), msg.arg2, (long) msg.obj);
-                    }
-                    break;
-                case WL_MSG_AUTO_PLAY_CB:
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        wlPlayer.onMediaInfoListener.onAutoPlay();
-                    }
-                    break;
-                case WL_MSG_FIRST_FRAME_RENDERED_CB:
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        wlPlayer.onMediaInfoListener.onFirstFrameRendered();
-                    }
-                    break;
-                case WL_MSG_SEEK_FINISH_CB:
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        wlPlayer.onMediaInfoListener.onSeekFinish();
-                    }
-                    break;
-                case WL_MSG_TAKE_PICTURE_CB:
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        Bitmap bitmap = (Bitmap) msg.obj;
-                        wlPlayer.onMediaInfoListener.onTakePicture(bitmap);
-                    }
-                    break;
-                case WL_MSG_OUT_RENDER_CB:
-                    if (wlPlayer.onMediaInfoListener != null) {
-                        WlOutRenderBean outRenderBean = (WlOutRenderBean) msg.obj;
-                        wlPlayer.onMediaInfoListener.onOutRenderInfo(outRenderBean);
-                    }
-                    break;
-            }
-        }
-    }
+    private native static String n_wlPlayer_getVersion();
 
     /**
      * ---------------------- handle messages --------------------------
@@ -1093,11 +1245,97 @@ public class WlPlayer {
         playerHandler.removeMessages(what);
     }
 
+    private static class WlPlayerHandler extends Handler {
+        private WeakReference<WlPlayer> reference;
+
+        public WlPlayerHandler(WlPlayer player) {
+            super(Looper.getMainLooper());
+            reference = new WeakReference(player);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            WlPlayer player = reference.get();
+            if (player == null) {
+                return;
+            }
+            switch (msg.what) {
+                case WL_PLAYER_HANDEL_MSG__PREPARED_CB:
+                    player.mediaInfoBean = (WlMediaInfoBean) msg.obj;
+                    if (player.onMediaInfoListener != null) {
+                        player.onMediaInfoListener.onPrepared();
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__TIME_INFO_CB:
+                    int currentTime = msg.arg1;
+                    int bufferTime = msg.arg2;
+                    if (player.onMediaInfoListener != null && !player.isSeekStart()) {
+                        player.onMediaInfoListener.onTimeInfo(currentTime / 1000.0, bufferTime / 1000.0);
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__COMPLETE_CB:
+                    int type = msg.arg1;
+                    String completeMsg = (String) msg.obj;
+                    WlCompleteType wlCompleteType = WlCompleteType.find(type);
+                    if (wlCompleteType != WlCompleteType.WL_COMPLETE_EOF) {
+                        player.mediaInfoBean = null;
+                    }
+                    if (player.onMediaInfoListener != null) {
+                        player.onMediaInfoListener.onComplete(wlCompleteType, completeMsg);
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__LOADING_CB:
+                    if (player.onMediaInfoListener != null) {
+                        player.onMediaInfoListener.onLoad(WlLoadStatus.find(msg.arg1), msg.arg2, (long) msg.obj);
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__SEEK_FINISH_CB:
+                    if (player.onMediaInfoListener != null) {
+                        player.onMediaInfoListener.onSeekFinish();
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__FIRST_FRAME_RENDERED_CB:
+                    if (player.onMediaInfoListener != null) {
+                        player.onMediaInfoListener.onFirstFrameRendered();
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__OUT_RENDER_TEXTURE_CB:
+                    if (player.onMediaInfoListener != null) {
+                        WlOutRenderTextureBean outRenderTextureBean = (WlOutRenderTextureBean) msg.obj;
+                        if (outRenderTextureBean != null) {
+                            player.onMediaInfoListener.onOutRenderTexture(outRenderTextureBean.getTextureId(), outRenderTextureBean.getVideoWidth(), outRenderTextureBean.getVideoHeight(), outRenderTextureBean.getVideoRotate());
+                        }
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__AUTO_PLAY_CB:
+                    player.mediaInfoBean = (WlMediaInfoBean) msg.obj;
+                    if (player.onMediaInfoListener != null) {
+                        player.onMediaInfoListener.onAutoPlay();
+                    }
+                    break;
+                case WL_PLAYER_HANDEL_MSG__TAKE_PICTURE_CB:
+                    if (player.onMediaInfoListener != null) {
+                        Bitmap bitmap = (Bitmap) msg.obj;
+                        player.onMediaInfoListener.onTakePicture(bitmap);
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 加载动态库
+     */
+    private static boolean isLibraryLoaded = false;
+
     private static synchronized void loadLibrary() {
         try {
             System.loadLibrary("wlplayer");
+            isLibraryLoaded = true;
         } catch (UnsatisfiedLinkError e) {
             e.printStackTrace();
+            isLibraryLoaded = false;
         }
     }
 

@@ -1,5 +1,5 @@
 ## WlPlayer API
-WlPlayer 是播放器SDK，用于音视频播放，其用法如下：
+WlPlayer 是一款Android平台的功能丰富的播放器SDK，可以非常方便快捷的实现音视频播放，其用法如下：
 ### 一 构造函数
 `WlPlayer` 构造函数不依赖上下文，很方便创建使用，当创建了 `WlPlayer` 实例后，都需要调用 `release` 释放资源。
 #### 1.1 无参构造函数
@@ -98,11 +98,11 @@ public void surfaceChanged(SurfaceHolder holder, int format, int width, int heig
 ```
 
 ### 三 设置回调
-#### 3.1 播放回调
+#### 3.1 播放信息回调
 ```java
 public void setOnMediaInfoListener(WlOnMediaInfoListener onMediaInfoListener)
 ```
-#### 3.2 回调函数方法解释
+##### 3.1.1 回调函数方法解释
 ```java
 public interface WlOnMediaInfoListener {
 
@@ -167,16 +167,6 @@ public interface WlOnMediaInfoListener {
     }
 
     /**
-     * 播放byte[]类型数据入口 （子线程）
-     *
-     * @param read_size 播放器需要buffer大小单位byte
-     * @return 返回待播放数据
-     */
-    default byte[] readBuffer(int read_size) {
-        return null;
-    }
-
-    /**
      * 截图回调
      *
      * @param bitmap
@@ -185,13 +175,65 @@ public interface WlOnMediaInfoListener {
     }
 
     /**
-     * 外部渲染信息回调
+     * 外部渲染信息回调（OpenGL）
      * 
-     * @param outRenderBean 外部渲染初始化信息，如unity中渲染。
+     * @param textureId OpenGL纹理，可用于Unity，cocos等显示视频
+     * @param videoWidth 视频宽
+     * @param videoHeight 视频高
+     * @param videoRotate 视频旋转角度
      */
-    default void onOutRenderInfo(WlOutRenderBean outRenderBean) {
+    default void onOutRenderInfo(int textureId, int videoWidth, int videoHeight, int videoRotate) {
     }
 }
+```
+#### 3.2 byte[]类型播放回调
+```java
+public void setOnBufferDataListener(WlOnBufferDataListener onBufferDataListener)
+```
+##### 3.2.1 回调函数方法解释
+```java
+/**
+ * 返回buffer总长度（子线程）
+ * 
+ * @return 
+ *        如果是实时场景，可以返回0
+ *        如果是视频文件，返回文件长度
+*/
+long onBufferByteLength();
+
+/**
+ * 根据position返回buffersize长度的数据 （子线程）
+ * 
+ * @param position 当前读取数据起始位置
+ * @param bufferSize 从position位置开始，需要读取的数据大小，如果不足，则返回实际数据大小的byte[]
+ * 
+ * @return 返回对应的buffer数据
+*/
+byte[] onBufferByteData(long position, long bufferSize);
+```
+#### 3.3 音频PCM实时数据回调
+```java
+public void setOnOutPcmDataListener(WlOnOutPcmDataListener onOutPcmDataListener)
+```
+##### 3.3.1 回调函数方法解释
+```java
+/**
+ * 音频基本信息（子线程）
+ * 
+ * @param bit 音频位深
+ * @param channel 音频声道数
+ * @param sampleRate 音频采样率
+ */
+void onOutPcmInfo(int bit, int channel, int sampleRate);
+
+/**
+ * 音频PCM实时数据（子线程）
+ * 
+ * @param size PCM数据大小
+ * @param buffers PCM数据
+ * @param db 音频音量分贝[0~96]
+*/
+void onOutPcmBuffer(int size, byte[] buffers, double db);
 ```
 
 ### 四 常用方法
@@ -211,14 +253,12 @@ public String getSource()
 数据源类型，表示当前播放器采用的数据源模式，枚举值如下：
 ```java
 public enum WlSourceType {
-    WL_SOURCE_NORMAL("WL_SOURCE_NORMAL", 0, "normal source type eg: file or net address"),//常规播放
-    WL_SOURCE_BUFFER("WL_SOURCE_BUFFER", 1, "play buffer with byte[]"),//播放byte[]
-    WL_SOURCE_ENCRYPT_FILE("WL_SOURCE_ENCRYPT_FILE", 2, "play encrypted files with byte[]");//播放加密文件
+    WL_SOURCE_NORMAL("WL_SOURCE_NORMAL", 0, "normal source type eg: file or internet url"),//常规播放
+    WL_SOURCE_BUFFER("WL_SOURCE_BUFFER", 1, "play buffer with byte[]");//播放byte[]
 }
 ```
 - WL_SOURCE_NORMAL：常规播放，根据传入的 source 进行自动识别播放。
 - WL_SOURCE_BUFFER：播放 buffer 类型的数据，数据通过 readBuffer 方法返回。
-- WL_SOURCE_ENCRYPT_FILE：播放加密视频，数据通过 decryptBuffer 返回业务解密后再返回给播放器播放。
 ##### 4.2.1 设置数据源类型
 ```java
 public void setSourceType(WlSourceType sourceType)
@@ -345,11 +385,11 @@ public WlPlayModel getPlayModel()
 解码模式支持2中，硬解码优先和使用软解码，只针对视频解码有效，枚举值如下：
 ```java
 public enum WlCodecType {
-    WL_CODEC_HARD_FIRST("WL_CODEC_HARD_FIRST", 0, "try use hard codec first, if not work, then use soft codec"),
+    WL_CODEC_AUTO("WL_CODEC_AUTO", 0, "try use hard codec first, if not work, then use soft codec"),
     WL_CODEC_SOFT("WL_CODEC_SOFT", 1, "only use soft codec");
 }
 ```
-- WL_CODEC_HARD_FIRST：硬解码优先，会自动检测是否支持硬解码，当不支持硬解码时，会使用软解码。
+- WL_CODEC_AUTO：硬解码优先，会自动检测是否支持硬解码，当不支持硬解码时，会使用软解码。
 - WL_CODEC_SOFT：只使用软解码。
 ##### 4.16.1 设置视频解码模式
 ```java
@@ -439,16 +479,19 @@ public enum WlScaleType {
 - WL_SCALE_MATCH：宽高比为拉伸填充整个Surface。
 ##### 4.20.1 设置视频缩放模式
 ```java
-public void scaleVideo(WlScaleType scaleType)
+/**
+ * uniqueNum 为surface对应的唯一值，可分别对每个surface设置缩放
+*/
+public void setVideoScale(long uniqueNum, WlScaleType scaleType)
 ```
 ##### 4.20.2 自定义视频缩放比例
 ```java
-public void scaleVideo(int scaleWidth, int scaleHeight)
+public void setVideoScale(long uniqueNum, int scaleWidth, int scaleHeight)
 ```
 ##### 4.20.3 获取缩放比例宽和高
 ```java
-public int getScaleWidth()
-public int getScaleHeight()
+public int getVideoScaleWidth(long uniqueNum)
+public int getVideoScaleHeight(long uniqueNum)
 ```
 
 #### 4.21 指定视频旋转角度
@@ -469,11 +512,14 @@ public enum WlRotateType {
 - WL_ROTATE_270：顺时针旋转 270 度。
 ##### 4.21.1 设置视频旋转角度
 ```java
-public void rotateVideo(WlRotateType rotateType)
+/**
+ * uniqueNum 为surface对应的唯一值，可分别对每个surface设置旋转角度
+*/
+public void setVideoRotate(long uniqueNum, WlRotateType rotateType)
 ```
 ##### 4.21.2 获取视频旋转角度
 ```java
-public WlRotateType getVideoRotate()
+public WlRotateType getVideoRotate(long uniqueNum)
 ```
 
 #### 4.22 指定视频镜像模式
@@ -492,22 +538,28 @@ public enum WlMirrorType {
 - WL_MIRROR_TOP_BOTTOM_LEFT_RIGHT：上下左右同时镜像。
 ##### 4.22.1 设置镜像模式
 ```java
-public void mirrorVideo(WlMirrorType wlMirrorType)
+/**
+ * uniqueNum 为surface对应的唯一值，可分别对每个surface设置镜像
+*/
+public void setVideoMirror(long uniqueNum, WlMirrorType wlMirrorType)
 ```
 ##### 4.22.2 获取镜像模式
 ```java
-public WlMirrorType getVideoMirror()
+public WlMirrorType getVideoMirror(long uniqueNum, )
 ```
 
 #### 4.23 设置播放完是否清屏
 当设置清屏后，视频不会停留在最后一帧，可在视频还没有播放完成时调用。
 ##### 4.23.1 设置清屏
 ```java
-public void setClearLastVideoFrame(boolean clear)
+/**
+ * uniqueNum 为surface对应的唯一值，可分别对每个surface设置是否清屏
+*/
+public void setClearLastVideoFrame(long uniqueNum, boolean clear)
 ```
 ##### 4.23.2 获取是否清屏
 ```java
-public boolean isClearLastVideoFrame()
+public boolean isClearLastVideoFrame(long uniqueNum)
 ```
 
 #### 4.24 设置网络资源访问超时时长
@@ -633,26 +685,26 @@ public WlTrackInfoBean[] getSubtitleTracks()
 当播放含有多音轨的视频会多字幕的视频时，可以选择需要播放的音频或显示的字幕类型。
 ##### 4.34.1 设置播放音轨
 ```java
-public void setAudioPlayTrack(int audioTrackIndex)
+public void setAudioTrackIndex(int audioTrackIndex)
 ```
 ##### 4.34.2 设置显示字幕
 ```java
-public void setSubtitlePlayTrack(int subtitleTrackIndex)
+public void setSubtitleTrackIndex(int subtitleTrackIndex)
 ```
 
 #### 4.35 获取当前播放的音频、视频和字幕流信息
 获取当前播放流信息，就可以方便做一些业务操作。
 ##### 4.35.1 获取当前播放音频流信息
 ```java
-public WlTrackInfoBean getCurrentAudioTrack()
+public WlTrackInfoBean getAudioTrackIndex()
 ```
 ##### 4.35.2 获取当前播放视频流信息
 ```java
-public WlTrackInfoBean getCurrentVideoTrack()
+public WlTrackInfoBean getVideoTrackIndex()
 ```
 ##### 4.35.3 获取当前播放字幕流信息
 ```java
-public WlTrackInfoBean getCurrentSubtitleTrack()
+public WlTrackInfoBean getSubtitleTrackIndex()
 ```
 
 #### 4.36 设置最大渲染分辨率
@@ -703,4 +755,62 @@ public void setAudioChannelType(WlAudioChannelType audioChannelType)
 ##### 4.40.2 获取声道类型
 ```java
 public WlAudioChannelType getAudioChannelType()
+```
+#### 4.41 设置音视频同步偏移
+```java
+/**
+ * 设置 音视频同步 偏移
+ *
+ * @param syncOffset > 0, 视频快于音频；< 0, 视频慢于音频 [-1, 1]
+ */
+public void setSyncOffset(double syncOffset)
+```
+
+#### 4.42 设置帧解码模式
+```java
+/**
+ * 设置是否开启buffer帧解码模式
+ *
+ * @param enable
+ */
+public void setBufferDeEncrypt(boolean enable)
+```
+
+#### 4.43 获取 audioSessionId
+```java
+/**
+ * 获取 audioSessionId
+ *
+ * @return
+ */
+public int getAudioSessionId()
+```
+
+#### 4.44 连续丢帧帧数设置
+```java
+/**
+ * 如果触发丢帧，表示连续丢帧次数
+ *
+ * @param count 0：不丢帧
+ */
+public void setDropFrameCount(int count) 
+```
+#### 4.45 设置实时回调pcm数据
+```java
+/**
+ * 设置实时回调pcm数据
+ * 注：数据返回是在子线程
+ *
+ * @param enable true: 开启 false: 关闭
+ */
+public void setPcmCallbackEnable(boolean enable)
+```
+#### 4.46 设置解码时间基准
+```java
+/**
+ * 设置解码 timeBase
+ *
+ * @param timeBase [250000 ~ 1000000]
+ */
+public void setCodecTimeBase(long timeBase)
 ```

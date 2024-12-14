@@ -36,6 +36,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         wlSurfaceView1.setWlPlayer(wlPlayer1);
         wlSurfaceView2.setWlPlayer(wlPlayer2);
+        wlSurfaceView1.setClearLastVideoFrame(false);
+        wlSurfaceView2.setClearLastVideoFrame(true);
 
         wlPlayer1.setSource(getFilesDir().getAbsolutePath() + "/testvideos/yfx.mp4");
         wlPlayer1.prepare();
@@ -63,6 +65,16 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
             @Override
             public void onLoad(WlLoadStatus wlLoadStatus, int i, long l) {
+
+            }
+
+            @Override
+            public void onSeekFinish() {
+
+            }
+
+            @Override
+            public void onFirstFrameRendered() {
 
             }
         });
