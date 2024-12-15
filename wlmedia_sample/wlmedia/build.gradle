@@ -39,5 +39,18 @@ android {
 
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.ywl5320'
+                artifactId = 'wlmedia'
+                version = '4.0.0'
+            }
+        }
+    }
+}
+
 dependencies {
 }
