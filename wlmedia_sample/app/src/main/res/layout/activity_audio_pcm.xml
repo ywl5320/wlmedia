@@ -4,25 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="260dp">
-        <com.ywl5320.wlmedia.widget.WlTextureView
-            android:id="@+id/wltextureview"
-            android:layout_width="match_parent"
-            android:layout_height="260dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="音频封面图"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
-            android:textColor="@color/white"
-            android:background="#99000000"/>
-    </RelativeLayout>
-
     <com.ywl5320.wlmedia.widget.WlSeekBar
         android:id="@+id/wlseekbar"
         android:layout_width="match_parent"
@@ -53,5 +34,26 @@
         android:layout_height="wrap_content"
         android:onClick="onClickStop"
         android:text="停止播放" />
+
+    <TextView
+        android:id="@+id/tv_pcm_info"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:textColor="#333333"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/tv_pcm_data"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:textColor="#333333"
+        android:textSize="12sp" />
 
 </LinearLayout>

@@ -42,7 +42,7 @@
 - [x] 支持设置音视频同步偏移
 - [x] 支持外部OpenGL渲染（如：Unity、Cocos2d等视频播放）
 ## 二 集成使用
-### 2.1 gradle [![](https://jitpack.io/v/wanliyang1990/wlmedia.svg)](https://jitpack.io/#wanliyang1990/wlmedia)
+### 2.1 gradle [![](https://jitpack.io/v/ywl5320/wlmedia.svg)](https://jitpack.io/#ywl5320/wlmedia)
 ```gradle
 allprojects {
     repositories {
@@ -52,7 +52,7 @@ allprojects {
 }
 	
 dependencies {
-        implementation 'com.github.ywl5320:wlmedia:3.0.1'
+        implementation 'com.github.ywl5320:wlmedia:4.0.0'
 }
  ```
  ### 2.2 常用权限
@@ -100,7 +100,7 @@ dependencies {
     }
 
     @Override
-    public void onTimeInfo(double v, double v1) {
+    public void onTimeInfo(double currentTime, double bufferTime) {
         // 时间进度回调 
     }
 
@@ -123,7 +123,7 @@ dependencies {
     }
 
     @Override
-    public void onLoad(WlLoadStatus wlLoadStatus, int i, long l) {
+    public void onLoad(WlLoadStatus loadStatus, int progress, long speed) {
         // 加载状态回调
         if (wlLoadStatus == WlLoadStatus.WL_LOADING_STATUS_START) {
             // 开始加载

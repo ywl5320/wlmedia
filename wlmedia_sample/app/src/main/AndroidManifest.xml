@@ -36,6 +36,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Play" />
         <activity
+            android:name="com.ywl5320.wlmedia.example.AudioPcmDataActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
             android:name="com.ywl5320.wlmedia.example.AlphaVideoActivity"
             android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
             android:screenOrientation="portrait"

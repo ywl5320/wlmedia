@@ -13,32 +13,32 @@ import com.ywl5320.wlmedia.enums.WlCompleteType;
 import com.ywl5320.wlmedia.enums.WlLoadStatus;
 import com.ywl5320.wlmedia.enums.WlPlayModel;
 import com.ywl5320.wlmedia.listener.WlOnMediaInfoListener;
+import com.ywl5320.wlmedia.listener.WlOnOutPcmDataListener;
 import com.ywl5320.wlmedia.util.WlTimeUtil;
 import com.ywl5320.wlmedia.widget.WlSeekBar;
-import com.ywl5320.wlmedia.widget.WlTextureView;
 
 /**
  * author : ywl5320
  * e-mail : ywl5320@163.com
  * desc   : wlmedia
- * date   : 2024/5/12
+ * date   : 2024/12/15
  */
-public class AudioPlayActivity extends AppCompatActivity {
+public class AudioPcmDataActivity extends AppCompatActivity {
 
     private WlPlayer wlPlayer;
     private WlSeekBar wlSeekBar;
-    private TextView tvTime;
-    private WlTextureView wltextureview;
+    private TextView tvTime, tvPcmInfo, tvPcmData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_audio);
+        setContentView(R.layout.activity_audio_pcm);
 
         wlSeekBar = findViewById(R.id.wlseekbar);
         tvTime = findViewById(R.id.tv_time);
-        wltextureview = findViewById(R.id.wltextureview);
+        tvPcmInfo = findViewById(R.id.tv_pcm_info);
+        tvPcmData = findViewById(R.id.tv_pcm_data);
 
         wlPlayer = new WlPlayer();
         wlPlayer.setOnMediaInfoListener(new WlOnMediaInfoListener() {
@@ -80,6 +80,27 @@ public class AudioPlayActivity extends AppCompatActivity {
 
             }
         });
+        wlPlayer.setOnOutPcmDataListener(new WlOnOutPcmDataListener() {
+            @Override
+            public void onOutPcmInfo(int bit, int channel, int sampleRate) {
+                tvPcmInfo.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvPcmInfo.setText("pcm info: bit=" + bit + " channel=" + channel + " sampleRate=" + sampleRate);
+                    }
+                });
+            }
+
+            @Override
+            public void onOutPcmBuffer(int size, byte[] bytes, double db) {
+                tvPcmData.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvPcmData.setText("pcm size:" + size + ", db:" + db);
+                    }
+                });
+            }
+        });
         wlSeekBar.setOnWlSeekBarChangeListener(new WlSeekBar.OnWlSeekBarChangeListener() {
             @Override
             public void onStart(double v) {
@@ -101,14 +122,13 @@ public class AudioPlayActivity extends AppCompatActivity {
                 }
             }
         });
-        wltextureview.setWlPlayer(wlPlayer);
-        wlPlayer.setLoopPlay(true);
-        wlPlayer.setSource(getFilesDir().getAbsolutePath() + "/testvideos/fhcq-whcyygyd.mp3");
+        wlPlayer.setPcmCallbackEnable(true);
+        wlPlayer.setSource(getFilesDir().getAbsolutePath() + "/testvideos/mydream.m4a");
+        wlPlayer.setPlayModel(WlPlayModel.WL_PLAY_MODEL_ONLY_AUDIO);
         wlPlayer.prepare();
     }
 
     public void onClickPlay(View view) {
-//        wlPlayer.setSource("");
         wlPlayer.prepare();
     }
 

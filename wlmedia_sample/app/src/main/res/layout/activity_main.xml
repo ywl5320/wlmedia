@@ -46,6 +46,12 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onClickPcmData"
+        android:text="音频PCM实时数据获取" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:onClick="onClickByteData"
         android:text="帧加密播放" />
 

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         WlLog.setDebug(true);
         WlLog.d("WlPlayer version is :" + WlPlayer.getVersion());
         videoPaths = getFilesDir().getAbsolutePath();
-        if(!isFileExists()){
+        if (!isFileExists()) {
             copyFiles();
         }
     }
@@ -62,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, BufferDataPlayActivity.class));
     }
 
+    public void onClickPcmData(View view) {
+        startActivity(new Intent(this, AudioPcmDataActivity.class));
+    }
+
     public void onClickByteData(View view) {
         startActivity(new Intent(this, EncryptFilePlayActivity.class));
     }
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, WlMediaUtilActivity.class));
     }
 
-    public void onClickCustomView(View view){
+    public void onClickCustomView(View view) {
         startActivity(new Intent(this, WlCustomViewActivity.class));
     }
 
@@ -102,13 +106,14 @@ public class MainActivity extends AppCompatActivity {
                 videoPaths + "/testvideos/alpha_left5.mp4",
                 videoPaths + "/testvideos/mydream.m4a",
                 videoPaths + "/testvideos/qyn2.mkv",
+                videoPaths + "/testvideos/fhcq-whcyygyd.mp3",
                 videoPaths + "/testvideos/yfx.mp4"
         };
         return Util.isFilesExists(files);
     }
 
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -118,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(progressDialog != null){
-            if(progressDialog.isShowing()){
+        if (progressDialog != null) {
+            if (progressDialog.isShowing()) {
                 progressDialog.hide();
                 return;
             }
