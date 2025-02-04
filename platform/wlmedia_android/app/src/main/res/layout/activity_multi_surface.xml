@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.ywl5320.wlmedia.widget.WlSurfaceView
+            android:id="@+id/wlsurfaceview1"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"/>
+        <com.ywl5320.wlmedia.widget.WlSurfaceView
+            android:id="@+id/wlsurfaceview2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+        <com.ywl5320.wlmedia.widget.WlSurfaceView
+            android:id="@+id/wlsurfaceview3"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"/>
+        <com.ywl5320.wlmedia.widget.WlSurfaceView
+            android:id="@+id/wlsurfaceview4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <com.ywl5320.wlmedia.widget.WlCircleLoadView
+        android:id="@+id/loadview"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

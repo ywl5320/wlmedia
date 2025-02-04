@@ -1,0 +1,18 @@
+/**
+ * author : ywl5320
+ * e-mail : ywl5320@163.com
+ * desc   : wlmedia
+ * date   : 2025/1/8
+ */
+export enum WlSampleRate {
+  SAMPLE_RATE_NONE = 0,
+  SAMPLE_RATE_8000 = 8000,
+  SAMPLE_RATE_11025 = 11025,
+  SAMPLE_RATE_12000 = 12000,
+  SAMPLE_RATE_16000 = 16000,
+  SAMPLE_RATE_22050 = 22050,
+  SAMPLE_RATE_24000 = 24000,
+  SAMPLE_RATE_32000 = 32000,
+  SAMPLE_RATE_44100 = 44100,
+  SAMPLE_RATE_48000 = 48000,
+}

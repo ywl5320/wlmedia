@@ -1,0 +1,9 @@
+{
+  "name": "@ywl5320/libwlmedia",
+  "version": "4.0.1",
+  "description": "an audio and video player SDK for hmos: https://github.com/ywl5320/wlmedia",
+  "main": "Index.ets",
+  "author": "ywl5320",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

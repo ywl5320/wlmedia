@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "libwlmedia",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet",
+      "2in1",
+      "car"
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ywl5320.wlmedia.example">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Wlmedia_sample"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name="com.ywl5320.wlmedia.example.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ywl5320.wlmedia.example.NormalPlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.AudioPlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.AudioPcmDataActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.AlphaVideoActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.MultiSurfaceActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.MultiPlayerActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.EncryptFilePlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.BufferDataPlayActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.ShowFirstFrameActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.WlMediaUtilActivity"
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+        <activity
+            android:name="com.ywl5320.wlmedia.example.WlCustomViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Play" />
+    </application>
+
+</manifest>
