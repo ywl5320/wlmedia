@@ -165,7 +165,7 @@ dependencies {
  wlPlayer.setSource(url);
  wlPlayer.prepare();
  ```
-#### [更多](doc/android/android.md)
+### [更多使用方式](doc/android/android.md)
 ### 3.2 HarmonyOS
 #### 3.2.1 导入SDK
 ```
@@ -273,7 +273,7 @@ struct Index{
 }
 
 ```
-#### [更多](doc/ohos/harmonyos.md)
+### [更多使用方式](doc/ohos/harmonyos.md)
 
 ## 四 免费和增值服务
 `WlMedia` 是按应用根据 `包名` 定制的，分免费版和付费定制版
