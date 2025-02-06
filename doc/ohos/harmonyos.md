@@ -40,11 +40,8 @@
 - [x] 支持外部OpenGL渲染（如：Unity、Cocos2d等视频播放）
 ## 二 集成使用
 ### 2.1 导入SDK
-```json5
-#模块 oh-package.json5
-"dependencies": {
-  "libwlmedia": "./../libwlmedia"
-}
+```
+ohpm i @ywl5320/libwlmedia
 ```
 ### 2.2 常用权限
 ```json5
