@@ -1,5 +1,5 @@
 ## &#x1F680;wlmedia&#x1F680;
-#### Android / HarmonyOS 音视频播放SDK，几句代码即可实现音视频播放功能~
+#### Android&HarmonyOS 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 使用简单，功能丰富，支持手机、车机系统、电视、电视盒子、手表等智能设备
 ## 一 功能&特点
 - [x] 基本信息获取（音频：采样率、声道数、时长等，视频：宽、高、fps、时长等）
@@ -34,9 +34,22 @@
 - [x] 支持实时获取音频PCM数据 
 - [x] 支持设置音视频同步偏移
 - [x] 支持外部OpenGL渲染（如：Unity、Cocos2d等视频播放）
-## 二 集成使用
-### 2.1 Android
-#### 2.1.1 gradle [![](https://jitpack.io/v/ywl5320/wlmedia.svg)](https://jitpack.io/#ywl5320/wlmedia)
+
+
+## 二 效果展示
+### Android
+|  常规播放  |  透明视频  |  多Surface渲染  | 多实例播放  | 播放音频 | 音量分贝  |
+| :----: | :----: | :----: | :----: |:----:| ------ |
+| <img src="doc/android/imgs/normal.gif" width="320" height="693"> | <img src="doc/android/imgs/alpha.gif" width="320" height="693"> | <img src="doc/android/imgs/multisurface.gif" width="320" height="693"> | <img src="doc/android/imgs/multiplayer.gif" width="320" height="693"> | <img src="doc/android/imgs/audio.gif" width="320" height="693"> | <img src="doc/android/imgs/pcmdb.gif" width="320" height="693"> |
+
+### HarmonyOS
+|  常规播放  |  透明视频  |  多Surface渲染  | 多实例播放  | 播放音频 | 音量分贝  |
+| :----: | :----: | :----: | :----: |:----:| ------ |
+| <img src="doc/ohos/imgs/normal.gif" width="320" height="693"> | <img src="doc/ohos/imgs/alpha.gif" width="320" height="693"> | <img src="doc/ohos/imgs/multisurface.gif" width="320" height="693"> | <img src="doc/ohos/imgs/multiplayer.gif" width="320" height="693"> | <img src="doc/ohos/imgs/audio.gif" width="320" height="693"> | <img src="doc/ohos/imgs/pcmdb.gif" width="320" height="693"> |
+
+## 三 集成使用
+### 3.1 Android
+#### 3.1.1 gradle [![](https://jitpack.io/v/ywl5320/wlmedia.svg)](https://jitpack.io/#ywl5320/wlmedia)
 ```gradle
 allprojects {
     repositories {
@@ -49,13 +62,13 @@ dependencies {
         implementation 'com.github.ywl5320:wlmedia:4.0.1'
 }
  ```
- #### 2.1.2 常用权限
+ #### 3.1.2 常用权限
  ```xml
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.INTERNET"/>
  ```
 
- #### 2.1.3 配置NDK编译平台
+ #### 3.1.3 配置NDK编译平台
  ```gradle
  defaultConfig {
     ...
@@ -68,7 +81,7 @@ dependencies {
 ...
 }
  ```
- #### 2.1.4 设置Surface
+ #### 3.1.4 设置Surface
  ```xml
  <-- WlSurfaceView 一般播放使用 -->
  <com.ywl5320.wlmedia.widget.WlSurfaceView
@@ -82,7 +95,7 @@ dependencies {
      android:layout_width="match_parent"
      android:layout_height="match_parent" />
  ```
- #### 2.1.5 基础调用代码（更多功能见Demo）
+ #### 3.1.5 基础调用代码（更多功能见Demo）
  ```java
  // 1.创建播放器
  WlPlayer wlPlayer = new WlPlayer();
@@ -153,12 +166,12 @@ dependencies {
  wlPlayer.prepare();
  ```
 #### [更多](doc/android/android.md)
-### 2.2 HarmonyOS
-#### 2.2.1 导入SDK
+### 3.2 HarmonyOS
+#### 3.2.1 导入SDK
 ```
 ohpm i @ywl5320/libwlmedia
 ```
-#### 2.2.2 常用权限
+#### 3.2.2 常用权限
 ```json5
 #module.json5
 "requestPermissions": [
@@ -168,7 +181,7 @@ ohpm i @ywl5320/libwlmedia
 ]
 ```
 
-#### 2.2.3 设置XComponentController
+#### 3.2.3 设置XComponentController
 ```typescript
 let wlPlayer: WlPlayer = new WlPlayer();
 let wlComponentController: WlComponentController = new WlComponentController(this.wlPlayer);
@@ -181,7 +194,7 @@ XComponent({
     .height('100%')
 ...
 ```
-#### 2.2.4 基础调用代码（更多功能见Demo）
+#### 3.2.4 基础调用代码（更多功能见Demo）
 ```typescript
 @Entry
 @Component
@@ -261,17 +274,6 @@ struct Index{
 
 ```
 #### [更多](doc/ohos/harmonyos.md)
-
-## 三 效果展示
-### Android
-|  常规播放  |  透明视频  |  多Surface渲染  | 多实例播放  | 播放音频 | 音量分贝  |
-| :----: | :----: | :----: | :----: |:----:| ------ |
-| <img src="doc/android/imgs/normal.gif" width="320" height="693"> | <img src="doc/android/imgs/alpha.gif" width="320" height="693"> | <img src="doc/android/imgs/multisurface.gif" width="320" height="693"> | <img src="doc/android/imgs/multiplayer.gif" width="320" height="693"> | <img src="doc/android/imgs/audio.gif" width="320" height="693"> | <img src="doc/android/imgs/pcmdb.gif" width="320" height="693"> |
-
-### HarmonyOS
-|  常规播放  |  透明视频  |  多Surface渲染  | 多实例播放  | 播放音频 | 音量分贝  |
-| :----: | :----: | :----: | :----: |:----:| ------ |
-| <img src="doc/ohos/imgs/normal.gif" width="320" height="693"> | <img src="doc/ohos/imgs/alpha.gif" width="320" height="693"> | <img src="doc/ohos/imgs/multisurface.gif" width="320" height="693"> | <img src="doc/ohos/imgs/multiplayer.gif" width="320" height="693"> | <img src="doc/ohos/imgs/audio.gif" width="320" height="693"> | <img src="doc/ohos/imgs/pcmdb.gif" width="320" height="693"> |
 
 ## 四 免费和增值服务
 `WlMedia` 是按应用根据 `包名` 定制的，分免费版和付费定制版
