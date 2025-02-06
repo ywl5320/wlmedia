@@ -49,7 +49,7 @@ allprojects {
 }
     
 dependencies {
-        implementation 'com.github.ywl5320:wlmedia:4.0.0'
+        implementation 'com.github.ywl5320:wlmedia:4.0.1'
 }
  ```
  ### 2.2 常用权限
