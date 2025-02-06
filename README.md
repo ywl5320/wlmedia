@@ -37,7 +37,7 @@
 - [x] 支持外部OpenGL渲染（如：Unity、Cocos2d等视频播放）
 ## 二 集成使用
 ### [Android](doc/android/android.md)
-### [HarmonyOS](doc/android/android.md)
+### [HarmonyOS](doc/ohos/harmonyos.md)
 ## 三 效果展示
 ### Android
 |  常规播放  |  透明视频  |  多Surface渲染  | 多实例播放  | 播放音频 | 音量分贝  |
