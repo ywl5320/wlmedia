@@ -1,6 +1,7 @@
 import {
   WlAudioInterruptHint,
   WlAudioInterruptType,
+  WlCodecType,
   WlCompleteType,
   WlComponentController,
   WlLoadStatus,
@@ -114,6 +115,8 @@ struct Index {
     this.wlPlayer.setBufferSize(1, 15);
     this.wlComponentController = new WlComponentController(this.wlPlayer);
     this.wlPlayer.setClearLastVideoFrame(this.wlComponentController.getUniqueNum(), false);
+
+    this.wlPlayer.setCodecType(WlCodecType.WL_CODEC_SOFT);
   }
 
   onBackPress(): boolean | void {
@@ -129,6 +132,8 @@ struct Index {
         })
           .onLoad((event) => {
             this.wlPlayer?.setSource(this.filesDir + "/big_buck_bunny_cut.mp4");
+            this.wlPlayer?.setSource("http://live2.rxip.sc96655.com/live/CCTV-xw_4000.m3u8?E=1705162627&U=c5a4625e-9f5b-43e7-b772-67bcf550aabe&A=1&K=14&P=011&S=")
+            this.wlPlayer?.setCodecType(WlCodecType.WL_CODEC_SOFT);
             this.wlPlayer?.prepare();
             WlLog.d(`is auto play : ${this.wlPlayer?.isAutoPlay()}`)
           })

@@ -15,6 +15,7 @@ export class WlTrackInfoBean {
   bitrate: number;
   variantBitrate: number;
   language: string;
+  codecName: String;
   videoWidth: number;
   videoHeight: number;
   videoScaleWidth: number;
@@ -38,6 +39,7 @@ export class WlTrackInfoBean {
       - Bitrate: ${this.bitrate}
       - Variant Bitrate: ${this.variantBitrate}
       - Language: ${this.language}
+      - codecName: ${this.codecName}
       - Video Width: ${this.videoWidth}
       - Video Height: ${this.videoHeight}
       - Video Scale Width: ${this.videoScaleWidth}
@@ -60,6 +62,7 @@ export class WlTrackInfoBean {
       - Bitrate: ${this.bitrate}
       - Variant Bitrate: ${this.variantBitrate}
       - Language: ${this.language}
+      - codecName: ${this.codecName}
       - Video Width: ${this.videoWidth}
       - Video Height: ${this.videoHeight}
       - Video Scale Width: ${this.videoScaleWidth}

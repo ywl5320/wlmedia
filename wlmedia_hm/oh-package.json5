@@ -1,8 +1,7 @@
 {
-  "modelVersion": "5.0.2",
+  "modelVersion": "5.0.0",
   "description": "Please describe the basic information.",
   "dependencies": {
-    "@ywl5320/libwlmedia": "^4.0.1"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.21",

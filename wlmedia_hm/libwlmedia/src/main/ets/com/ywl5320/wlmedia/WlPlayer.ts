@@ -774,6 +774,17 @@ export class WlPlayer {
     return this.wlPlayerNapi.n_wlPlayer_getBufferTime();
   }
 
+  /**
+   * 获取解码类型
+   *
+   * @return -1 未设置
+   *          1 软解
+   *          2 硬解
+   */
+  public getVideoCodecRealType(): number {
+    return this.wlPlayerNapi.n_wlPlayer_getVideoCodecRealType();
+  }
+
   private initListenersInner() {
 
     this.wlPlayerNapi.n_wlPlayer_setOnPreparedListener((mediaInfo: object) => {
