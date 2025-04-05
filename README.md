@@ -47,6 +47,13 @@
 | :----: | :----: | :----: | :----: |:----:| ------ |
 | <img src="doc/ohos/imgs/normal.gif" width="320" height="693"> | <img src="doc/ohos/imgs/alpha.gif" width="320" height="693"> | <img src="doc/ohos/imgs/multisurface.gif" width="320" height="693"> | <img src="doc/ohos/imgs/multiplayer.gif" width="320" height="693"> | <img src="doc/ohos/imgs/audio.gif" width="320" height="693"> | <img src="doc/ohos/imgs/pcmdb.gif" width="320" height="693"> |
 
+## 三 性能对比
+### Android
+#### VS exoplayer
+|  exoplayer  |  wlplayer(no opengl)  |  wlplayer(use opengl)  | wlplayer 实时|
+| :----: | :----: | :----: | :----: |
+| <img src="doc/android/imgs/exoplayer.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_no_opengl.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_use_opengl.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_profiler.png" width="320" height="240"> |
+
 ## 三 集成使用
 ### 3.1 Android
 #### 3.1.1 gradle [![](https://jitpack.io/v/ywl5320/wlmedia.svg)](https://jitpack.io/#ywl5320/wlmedia)

@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
+
 /**
  * author : ywl5320
  * e-mail : ywl5320@163.com
@@ -16,14 +18,21 @@ import android.view.View;
  */
 public class WlCircleLoadView extends View {
 
-    private Paint paint;
+    private static final int FRAME_DELAY = 16; // 约60 FPS
+    private static final float BASE_RADIUS_DP = 1.0f;
+    private static final float RADIUS_STEP_DP = 0.3f;
+    private static final int CIRCLE_COUNT = 9;
+    private static final float OFFSET_DP = 10f;
+
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Handler handler = new Handler();
+    private final float[] radiusArray = new float[CIRCLE_COUNT];
 
     private float centerX;
     private float centerY;
-    private float minLen;
-    private int count = 0;
-    private boolean exit = false;
-
+    private float offsetX;
+    private int count;
+    private boolean exit;
 
     public WlCircleLoadView(Context context) {
         this(context, null);
@@ -35,33 +44,46 @@ public class WlCircleLoadView extends View {
 
     public WlCircleLoadView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        paint = new Paint();
+        initView();
+    }
+
+    private void initView() {
         paint.setColor(Color.WHITE);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        centerX = getMeasuredWidth() / 2;
-        centerY = getMeasuredHeight() / 2;
-        minLen = centerX < centerY ? centerX : centerY;
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        centerX = w / 2f;
+        centerY = h / 2f;
+        float minLen = Math.min(centerX, centerY);
+
+        // 预计算所有尺寸
+        offsetX = minLen - dip2px(OFFSET_DP);
+        for (int i = 0; i < CIRCLE_COUNT; i++) {
+            radiusArray[i] = dip2px(BASE_RADIUS_DP + RADIUS_STEP_DP * i);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.save();
         canvas.rotate(count, centerX, centerY);
-        for (int i = 0; i < 9; i++) {
-            canvas.drawCircle(centerX + minLen - dip2px(getContext(), 9 + 1), centerY, dip2px(getContext(), 1.0f + 0.3f * i), paint);
+
+        for (int i = 0; i < CIRCLE_COUNT; i++) {
+            canvas.drawCircle(centerX + offsetX, centerY, radiusArray[i], paint);
             canvas.rotate(40, centerX, centerY);
         }
+
+        canvas.restore();
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         exit = false;
-        startAnimal();
+        startAnimation();
     }
 
     @Override
@@ -71,34 +93,33 @@ public class WlCircleLoadView extends View {
         handler.removeCallbacksAndMessages(null);
     }
 
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (exit) {
-                return;
-            }
-            count += 5;
-            if (count >= 360) {
-                count = 0;
-            }
-            invalidate();
-            handler.postDelayed(runnable, 10);
-        }
-    };
-
-    public void startAnimal() {
-        handler.postDelayed(runnable, 0);
-    }
-
-    public static int dip2px(Context context, float dipValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
+    private void startAnimation() {
+        handler.post(new AnimationRunnable(this));
     }
 
     public void setColor(int color) {
-        if (paint != null) {
-            paint.setColor(getResources().getColor(color));
+        paint.setColor(color);
+    }
+
+    private int dip2px(float dpValue) {
+        return (int) (dpValue * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    private static class AnimationRunnable implements Runnable {
+        private final WeakReference<WlCircleLoadView> viewRef;
+
+        AnimationRunnable(WlCircleLoadView view) {
+            this.viewRef = new WeakReference<>(view);
+        }
+
+        @Override
+        public void run() {
+            WlCircleLoadView view = viewRef.get();
+            if (view == null || view.exit) return;
+
+            view.count = (view.count + 5) % 360;
+            view.invalidate();
+            view.handler.postDelayed(this, FRAME_DELAY);
         }
     }
 }

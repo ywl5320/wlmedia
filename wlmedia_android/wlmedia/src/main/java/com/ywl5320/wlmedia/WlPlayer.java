@@ -125,7 +125,7 @@ public class WlPlayer {
     }
 
     /**
-     * 得到数据源
+     * 获取数据源
      *
      * @return
      */
@@ -654,7 +654,7 @@ public class WlPlayer {
     }
 
     /**
-     * 获取最小缓存大小
+     * 获取设置最小缓存大小
      *
      * @return
      */
@@ -663,7 +663,7 @@ public class WlPlayer {
     }
 
     /**
-     * 获取最大缓存大小
+     * 获取设最大缓存大小
      *
      * @return
      */
@@ -827,7 +827,7 @@ public class WlPlayer {
     /**
      * 设置音量
      *
-     * @param percent
+     * @param percent [0, 200]
      */
     public void setVolume(int percent) {
         setVolume(percent, false);
@@ -888,6 +888,17 @@ public class WlPlayer {
      */
     public boolean isPcmCallbackEnable() {
         return n_wlPlayer_isPcmCallbackEnable();
+    }
+
+    /**
+     * 获取解码类型
+     *
+     * @return -1 未设置
+     *          1 软解
+     *          2 硬解
+     */
+    public int getVideoCodecRealType() {
+        return n_wlPlayer_getVideoCodecRealType();
     }
 
     /**
@@ -1190,6 +1201,8 @@ public class WlPlayer {
     private native int n_wlPlayer_setPcmCallbackEnabled(boolean enabled);
 
     private native boolean n_wlPlayer_isPcmCallbackEnable();
+
+    private native int n_wlPlayer_getVideoCodecRealType();
 
     private native int n_wlPlayer_prepare();
 

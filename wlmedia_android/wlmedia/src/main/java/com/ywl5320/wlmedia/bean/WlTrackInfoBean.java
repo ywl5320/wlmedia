@@ -17,6 +17,7 @@ public class WlTrackInfoBean {
     private long bitrate;
     private long variantBitrate;
     private String language;
+    private String codecName;
     private int videoWidth;
     private int videoHeight;
     private int videoScaleWidth;
@@ -59,6 +60,10 @@ public class WlTrackInfoBean {
 
     public String getLanguage() {
         return language;
+    }
+
+    public String getCodecName() {
+        return codecName;
     }
 
     public int getVideoWidth() {
@@ -104,6 +109,7 @@ public class WlTrackInfoBean {
                 ", bitrate=" + bitrate +
                 ", variantBitrate=" + variantBitrate +
                 ", language='" + language + '\'' +
+                ", codecName='" + codecName + '\'' +
                 ", videoWidth=" + videoWidth +
                 ", videoHeight=" + videoHeight +
                 ", videoScaleWidth=" + videoScaleWidth +

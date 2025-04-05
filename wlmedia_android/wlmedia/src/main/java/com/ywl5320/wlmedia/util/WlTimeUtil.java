@@ -10,17 +10,18 @@ public class WlTimeUtil {
 
     /**
      * format times
-     *
      * @param second
      * @return
      */
     public static String secondToTimeFormat(double second) {
         StringBuilder time = new StringBuilder();
-        if (second < 0) {
+        if(second < 0)
+        {
             second = 0;
         }
 
-        if (time.length() > 0) {
+        if(time.length() > 0)
+        {
             time.delete(0, time.length());
         }
 
@@ -28,7 +29,8 @@ public class WlTimeUtil {
         long minutes = (long) ((second % (3600)) / (60));
         long seconds = (long) (second % (60));
 
-        if (hours > 0) {
+        if(hours > 0)
+        {
             time.append((hours >= 10) ? hours : "0" + hours);
             time.append(":");
         }
@@ -40,17 +42,18 @@ public class WlTimeUtil {
 
     /**
      * format times
-     *
      * @param second
      * @return
      */
     public static String secondToTimeFormat3(double second) {
         StringBuilder time = new StringBuilder();
-        if (second < 0) {
+        if(second < 0)
+        {
             second = 0;
         }
 
-        if (time.length() > 0) {
+        if(time.length() > 0)
+        {
             time.delete(0, time.length());
         }
 

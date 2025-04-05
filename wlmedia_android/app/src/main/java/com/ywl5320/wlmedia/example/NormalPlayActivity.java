@@ -150,6 +150,7 @@ public class NormalPlayActivity extends AppCompatActivity {
                 tvTrackInfo.setText(stringBuffer.toString());
 
                 wlPlayer.start();
+                WlLog.d("track info:\n" + stringBuffer.toString());
                 WlLog.d("2 info:" + Util.getPlayerInfo(wlPlayer));
             }
 
