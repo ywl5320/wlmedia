@@ -50,6 +50,9 @@
 ## 三 性能对比
 ### Android
 #### VS exoplayer
+- 设备：Xiaomi Redmi Note 7
+- 资源：big_buck_bunny_cut.mp4
+
 |  exoplayer  |  wlplayer(no opengl)  |  wlplayer(use opengl)  | wlplayer 实时|
 | :----: | :----: | :----: | :----: |
 | <img src="doc/android/imgs/exoplayer.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_no_opengl.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_use_opengl.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_profiler.png" width="320" height="240"> |
