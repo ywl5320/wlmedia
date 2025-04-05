@@ -54,9 +54,9 @@
 | :----: | :----: | :----: | :----: |
 | <img src="doc/android/imgs/exoplayer.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_no_opengl.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_use_opengl.png" width="320" height="240"> | <img src="doc/android/imgs/wlplayer_profiler.png" width="320" height="240"> |
 
-## 三 集成使用
-### 3.1 Android
-#### 3.1.1 gradle [![](https://jitpack.io/v/ywl5320/wlmedia.svg)](https://jitpack.io/#ywl5320/wlmedia)
+## 四 集成使用
+### 4.1 Android
+#### 4.1.1 gradle [![](https://jitpack.io/v/ywl5320/wlmedia.svg)](https://jitpack.io/#ywl5320/wlmedia)
 ```gradle
 allprojects {
     repositories {
@@ -66,16 +66,16 @@ allprojects {
 }
     
 dependencies {
-        implementation 'com.github.ywl5320:wlmedia:4.0.1'
+        implementation 'com.github.ywl5320:wlmedia:4.2.0'
 }
  ```
- #### 3.1.2 常用权限
+ #### 4.1.2 常用权限
  ```xml
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.INTERNET"/>
  ```
 
- #### 3.1.3 配置NDK编译平台
+ #### 4.1.3 配置NDK编译平台
  ```gradle
  defaultConfig {
     ...
@@ -88,7 +88,7 @@ dependencies {
 ...
 }
  ```
- #### 3.1.4 设置Surface
+ #### 4.1.4 设置Surface
  ```xml
  <-- WlSurfaceView 一般播放使用 -->
  <com.ywl5320.wlmedia.widget.WlSurfaceView
@@ -102,7 +102,7 @@ dependencies {
      android:layout_width="match_parent"
      android:layout_height="match_parent" />
  ```
- #### 3.1.5 基础调用代码（更多功能见Demo）
+ #### 4.1.5 基础调用代码（更多功能见Demo）
  ```java
  // 1.创建播放器
  WlPlayer wlPlayer = new WlPlayer();
@@ -173,12 +173,12 @@ dependencies {
  wlPlayer.prepare();
  ```
 ### [更多使用方式](doc/android/android.md)
-### 3.2 HarmonyOS
-#### 3.2.1 导入SDK
+### 4.2 HarmonyOS
+#### 4.2.1 导入SDK
 ```
 ohpm i @ywl5320/libwlmedia
 ```
-#### 3.2.2 常用权限
+#### 4.2.2 常用权限
 ```json5
 #module.json5
 "requestPermissions": [
@@ -188,7 +188,7 @@ ohpm i @ywl5320/libwlmedia
 ]
 ```
 
-#### 3.2.3 设置XComponentController
+#### 4.2.3 设置XComponentController
 ```typescript
 let wlPlayer: WlPlayer = new WlPlayer();
 let wlComponentController: WlComponentController = new WlComponentController(this.wlPlayer);
@@ -201,7 +201,7 @@ XComponent({
     .height('100%')
 ...
 ```
-#### 3.2.4 基础调用代码（更多功能见Demo）
+#### 4.2.4 基础调用代码（更多功能见Demo）
 ```typescript
 @Entry
 @Component
@@ -282,7 +282,7 @@ struct Index{
 ```
 ### [更多使用方式](doc/ohos/harmonyos.md)
 
-## 四 免费和增值服务
+## 五 免费和增值服务
 `WlMedia` 是按应用根据 `包名` 定制的，分免费版和付费定制版
 ### 免费版
 - 仅`视频画面`带有`wlmedia`水印，其余功能无限制
@@ -291,14 +291,14 @@ struct Index{
 - 如要定制去水印，可付费根据包名定制打包，具体费用和规则请邮件联系：
   - 邮箱：[ywl5320@163.com](mailto:ywl5320@163.com)
 
-## 五 讨论群（1085618246）
+## 六 讨论群（1085618246）
 ![QQ](doc/imgs/qq_ercode.png)
 
-## 六 核心三方库
+## 七 核心三方库
 - [ffmpeg](http://ffmpeg.org/)
 - [openssL](https://github.com/openssl/openssl)
 - [soundtouch](http://www.surina.net/soundtouch/)
 - [dav1d](https://code.videolan.org/videolan/dav1d)
 
-#### Update By：ywl5320 2025-02-04
+#### Update By：ywl5320 2025-04-05
 #### Create By：ywl5320 2019-12-16
