@@ -174,7 +174,7 @@ dependencies {
  ```
 ### [更多使用方式](doc/android/android.md)
 ### 4.2 HarmonyOS
-#### 4.2.1 导入SDK
+#### 4.2.1 导入SDK [仓库地址](https://ohpm.openharmony.cn/#/cn/detail/@ywl5320%2Flibwlmedia)
 ```
 ohpm i @ywl5320/libwlmedia
 ```

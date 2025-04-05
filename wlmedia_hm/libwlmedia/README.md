@@ -1,5 +1,5 @@
 ## &#x1F680;wlmedia&#x1F680;
-#### HarmonyOS 音视频播放SDK，几句代码即可实现音视频播放功能~
+#### HarmonyOS & Android 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 使用简单，功能丰富，支持手机、车机系统、电视、电视盒子、手表等智能设备
 
 ## 一 功能&特点
@@ -10,7 +10,7 @@
 - 支持AV1解码
 - 可选音频、视频、音视频播放模式
 - 软解硬解设置
-- 无缝切换surface（也可自定义surfaceview、textureview）
+- 无缝切换XComponent
 - 支持多实例播放
 - 支持播放完成（EOF）后，再次seek又继续播放
 - 支持媒体自由切换
@@ -171,5 +171,5 @@ struct Index{
 - [soundtouch](http://www.surina.net/soundtouch/)
 - [dav1d](https://code.videolan.org/videolan/dav1d)
 
-#### Update By：ywl5320 2025-02-06
+#### Update By：ywl5320 2025-04-05
 #### Create By：ywl5320 2025-02-06
