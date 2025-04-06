@@ -4,9 +4,7 @@
     "type": "feature",
     "deviceTypes": [
       "default",
-      "tablet",
-      "2in1",
-      "car"
+      "tablet"
     ],
     "deliveryWithInstall": true,
     "installationFree": false
