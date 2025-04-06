@@ -1,4 +1,4 @@
-## &#x1F680;wlmedia&#x1F680;
+## &#x1F680;wlmedia&#x1F680; [English](README_EN.md) [中文](README.md)
 #### Android&HarmonyOS 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 使用简单，功能丰富，支持手机、车机系统、电视、电视盒子、手表等智能设备
 ## 一 功能&特点
