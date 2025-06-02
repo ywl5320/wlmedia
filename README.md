@@ -1,6 +1,7 @@
 ## &#x1F680;wlmedia&#x1F680; [English](README_EN.md) [中文](README.md)
-#### Android&HarmonyOS 音视频播放SDK，几句代码即可实现音视频播放功能~
+#### Android&HarmonyOS Next 音视频播放SDK，几句代码即可实现音视频播放功能~
 #### 使用简单，功能丰富，支持手机、车机系统、电视、电视盒子、手表等智能设备
+#### 源码可售，有意请联系：[ywl5320@163.com](mailto:ywl5320@163.com)
 ## 一 功能&特点
 - [x] 基本信息获取（音频：采样率、声道数、时长等，视频：宽、高、fps、时长等）
 - [x] 支持file、http、https、udp、rtmp、rtp、rtsp、byte[]等几乎所有协议
