@@ -59,7 +59,7 @@
 
 ## 四 集成使用
 ### 4.1 Android
-#### 4.1.1 gradle [![](https://jitpack.io/v/ywl5320/week.svg)](https://jitpack.io/#ywl5320/wlmedia)
+#### 4.1.1 gradle [![](https://jitpack.io/v/ywl5320/wlmedia.svg)](https://jitpack.io/#ywl5320/wlmedia)
 ```gradle
 allprojects {
     repositories {
