@@ -3,8 +3,9 @@
 #### 使用简单，功能丰富，支持手机、车机系统、电视、电视盒子、手表等智能设备
 
 ## 一 功能&特点
+- 完全免费，功能无限制
 - 支持系统：5.0.0(12)
-- 支持架构：arm64-v8a
+- 支持架构：arm64-v8a, x86_64
 - 基本信息获取（音频：采样率、声道数、时长等，视频：宽、高、fps、时长等）
 - 支持file、http、https、udp、rtmp、rtp、rtsp、byte[]等几乎所有协议
 - 支持AV1解码
@@ -153,14 +154,7 @@ struct Index{
 | :----: | :----: | :----: | :----: |:----:| ------ |
 | <img src="https://gitee.com/ywl5320/wlmedia/blob/master/doc/ohos/imgs/normal.gif" width="320" height="693"> | <img src="https://gitee.com/ywl5320/wlmedia/blob/master/doc/ohos/imgs/alpha.gif" width="320" height="693"> | <img src="https://gitee.com/ywl5320/wlmedia/blob/master/doc/ohos/imgs/multisurface.gif" width="320" height="693"> | <img src="https://gitee.com/ywl5320/wlmedia/blob/master/doc/ohos/imgs/multiplayer.gif" width="320" height="693"> | <img src="https://gitee.com/ywl5320/wlmedia/blob/master/doc/ohos/imgs/audio.gif" width="320" height="693"> | <img src="https://gitee.com/ywl5320/wlmedia/blob/master/doc/ohos/imgs/pcmdb.gif" width="320" height="693"> |
 
-## 五 免费和增值服务
-`WlMedia` 是按应用根据 `包名` 定制的，分免费版和付费定制版
-### 免费版
-- 仅`视频画面`带有`wlmedia`水印，其余功能无限制
-
-### 增值版
-- 如要定制去水印，可付费根据包名定制打包，具体费用和规则请邮件联系：
-    - 邮箱：[ywl5320@163.com](mailto:ywl5320@163.com)
+## 五 完全免费
 
 ## 六 讨论群（1085618246）
 ![QQ](https://gitee.com/ywl5320/wlmedia/blob/master/doc/imgs/qq_ercode.png)
